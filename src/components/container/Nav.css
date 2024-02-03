@@ -1,0 +1,51 @@
+body {
+  background-color: #E6EBEE;
+}
+
+#sidebar_aktif {
+  left: 0px;
+  z-index: 10000;
+  animation: animateSidebar_aktif .4s; 
+  animation-timing-function: ease-in-out;
+}
+
+#sidebar_non {
+  left: -500px;
+  z-index: 10000;
+  animation: animateSidebar_non .4s; 
+  animation-timing-function: ease-in-out;
+}
+
+.group:hover .absolute {
+  display: block;
+}
+
+@keyframes animateSidebar_aktif {
+  0% {
+    left: -500px;
+  }
+  100% {
+    left: 0;
+  }
+}
+@keyframes animateSidebar_non {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -500px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #sidebar_aktif {
+    left: 0px;
+  }
+  
+  #sidebar_non {
+    left: 0px;
+  }
+}
+
+
+
