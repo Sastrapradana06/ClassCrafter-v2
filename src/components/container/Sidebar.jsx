@@ -73,10 +73,10 @@ export default function Sidebar({ idSidebar }) {
       <div className="flex flex-col gap-3 w-full h-[400px] lg:mt-4 lg:pl-4">
         {listLink.map((item, i) => {
           return (
-            <div className="" key={i}>
-              <div className="flex items-center w-[90%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2 w-[150px] lg:w-[90%]" onClick={() => showDropdown(item.nama_link)}>
-                <div className="flex gap-2">
-                  <PiStudentFill size={18}/>
+            <div className="w-full flex flex-col " key={i}>
+              <div className="flex items-center w-[70%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2  lg:w-[60%]" onClick={() => showDropdown(item.nama_link)}>
+                <div className="flex gap-4 items-center">
+                  <PiStudentFill size={20}/>
                   <p className='font-semibold'>{item.nama_link}</p>
                 </div>
                 <div className="">

@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import NavContainer from './NavContainer';
+import Footer from '../footer/Footer';
 
-function Container({children}) {
+function Container({ children }) {
   return (
-    <div className="w-full min-h-[100vh] max-h-max relative bg-[#E6EBEE] text-black">
+    <div className="w-full min-h-[100vh] max-h-max relative bg-[#E6EBEE] text-black ">
       <NavContainer />
       {children}
+      <Footer />
     </div>
   )
 }

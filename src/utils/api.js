@@ -1,5 +1,7 @@
-export async function getProductsApi(data) {
-  const response = await fetch('http://localhost:3000/api/products', {
+const url = 'http://localhost:3000'
+
+export async function addSiswa(data) {
+  const response = await fetch(`${url}/siswa/add`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -7,8 +9,14 @@ export async function getProductsApi(data) {
     body: JSON.stringify(data)
   })
 
-  const { message, products } = await response.json()
-  return {message, products}
+  const {status, message} = await response.json()
+  return {status, message}
+}
+
+export async function getAllSiswa() {
+  const response = await fetch(`${url}/siswa/get`)
+  const {status, data} = await response.json()
+  return {status, data}
 }
 
 
