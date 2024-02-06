@@ -1,14 +1,17 @@
 import Container from "../../components/container/Container";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import { handleToast } from "../../utils/function";
 import { addSiswa } from "../../utils/api";
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
+import { useParams } from "react-router-dom";
+import { getSiswaById } from '../../utils/api';
 
 export default function TambahSiswa() {
   const [isLoading, setIsLoading] = useState(false)
+  const [idUbah, setIdUbah] = useState(undefined)
   const [imgUser, setImgUser] = useState('')
   const [userData, setUserData] = useState({
     image: '',
@@ -20,6 +23,20 @@ export default function TambahSiswa() {
     nama_ortu: '',
     alamat: '',
   })
+
+  const {id} = useParams()
+
+  const editSiswa = async (id) => {
+    const {data} = await getSiswaById(id)
+    setUserData(data)
+    setIdUbah(data.id)
+  }
+
+  useEffect(() => {
+    if(id) {
+      editSiswa(id)
+    }
+  }, [])
 
   const [getDataSiswa] = useAppStore(
     useShallow((state) => [ state.getDataSiswa])
@@ -36,6 +53,7 @@ export default function TambahSiswa() {
       nama_ortu: '',
       alamat: '',
     });
+    setIdUbah(undefined)
     setImgUser('')
   };
 
@@ -64,8 +82,9 @@ export default function TambahSiswa() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true)
+    const data = {idUbah, ...userData}
     try {
-      const {status, message} = await addSiswa(userData)
+      const {status, message} = await addSiswa(data)
       if(status) {
         handleToast(message, 'success')
         getDataSiswa()
@@ -190,9 +209,15 @@ export default function TambahSiswa() {
                 />
               </div>
               <div className="w-full">
-                <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
-                  {isLoading ? 'Loading...' : 'Simpan'}
-                </button>
+                {idUbah ? (
+                  <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
+                    {isLoading ? 'Loading...' : 'Ubah'}
+                  </button>
+                ) : (
+                  <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
+                    {isLoading ? 'Loading...' : 'Simpan'}
+                  </button>
+                )} 
               </div>
             </div>
           </form>

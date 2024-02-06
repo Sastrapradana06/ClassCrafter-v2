@@ -7,18 +7,19 @@ import { PiStudentFill } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLocation  } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
 
 export default function Sidebar({ idSidebar }) {
   const navigate = useNavigate()
-  const {pathname} = useLocation ();
+  const { pathname } = useLocation();
 
   const [setSidebar] = useAppStore(
     useShallow((state) => [state.setSidebar])
   )
+
 
   const [dropdownStates, setDropdownStates] = useState({
     Siswa: 'hidden',
@@ -74,7 +75,7 @@ export default function Sidebar({ idSidebar }) {
     <div className="top-[50px] h-[100vh] fixed w-[65%] lg:top-0 lg:h-[100vh] lg:w-[20%] p-4 bg-[#4D44B5] text-[#BDB9E3] flex flex-col gap-3" id={idSidebar}>
       <div className="flex items-center gap-2 lg:justify-center lg:gap-4 lg:mt-1">
         <h2 className="text-lg font-semibold lg:hidden capitalize">{pathname.replace(/[/-]/g, ' ')}</h2>
-        <img src={image2} alt=""  width={30} className='hidden lg:block'/>
+        <img src={image2} alt="" width={30} className='hidden lg:block' />
         <h2 className="text-lg font-semibold hidden lg:block  lg:text-[1.5rem] text-white">ClassCrafter</h2>
       </div>
       <div className="flex flex-col gap-3 w-full h-[400px] lg:mt-4 lg:pl-4">
@@ -83,19 +84,19 @@ export default function Sidebar({ idSidebar }) {
             <div className="w-full flex flex-col " key={i}>
               <div className="flex items-center w-[70%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2  lg:w-[60%]" onClick={() => showDropdown(item.nama_link)}>
                 <div className="flex gap-4 items-center">
-                  <PiStudentFill size={20}/>
+                  <PiStudentFill size={20} />
                   <p className='font-semibold'>{item.nama_link}</p>
                 </div>
                 <div className="">
                   <button className='ml-[30px] group'>
-                    <IoIosArrowDown size={16}/>
+                    <IoIosArrowDown size={16} />
                   </button>
                 </div>
               </div>
               <div className={`${dropdownStates[item.nama_link]} pl-8 text-[.8rem] pt-2 flex flex-col gap-3  lg:text-[.9rem]`}>
                 {item.parent_link.map((items, index) => {
                   return (
-                    <button className=' w-max hover:text-white  transition-all' key={index} onClick={() => {navigate(items.url); setSidebar()}}>{items.nama_link}</button>
+                    <button className=' w-max hover:text-white  transition-all' key={index} onClick={() => { navigate(items.url); setSidebar() }}>{items.nama_link}</button>
                   )
                 })}
               </div>

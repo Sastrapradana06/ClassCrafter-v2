@@ -28,6 +28,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "/tambah-siswa/:id",
+    element: <TambahSiswa />,
+    errorElement: <ErrorPage />,
+  },
+  {
     path: "/tambah-siswa",
     element: <TambahSiswa />,
     errorElement: <ErrorPage />,

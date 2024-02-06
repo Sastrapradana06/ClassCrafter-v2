@@ -40,10 +40,14 @@ body {
 @media (min-width: 1024px) {
   #sidebar_aktif {
     left: 0px;
+    animation: none; 
+    animation-timing-function: none;
   }
   
   #sidebar_non {
     left: 0px;
+    animation: none; 
+    animation-timing-function: none;
   }
 }
 

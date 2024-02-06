@@ -32,3 +32,14 @@ export async function handleLoginSiswa(email) {
 }
 
 
+export async function getSiswaById(id) {
+  const response = await fetch(`${url}/siswa/get-siswa/${id}`)
+  const data = await response.json()
+  return data
+}
+
+export async function deleteSiswaById(id) {
+  const response = await fetch(`${url}/siswa/delete/${id}`)
+  const data = await response.json()
+  return data
+}
