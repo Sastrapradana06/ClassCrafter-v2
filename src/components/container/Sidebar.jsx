@@ -9,9 +9,16 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocation  } from 'react-router-dom';
 
+import { useShallow } from 'zustand/react/shallow'
+import useAppStore from '../../store/store';
+
 export default function Sidebar({ idSidebar }) {
   const navigate = useNavigate()
   const {pathname} = useLocation ();
+
+  const [setSidebar] = useAppStore(
+    useShallow((state) => [state.setSidebar])
+  )
 
   const [dropdownStates, setDropdownStates] = useState({
     Siswa: 'hidden',
@@ -88,7 +95,7 @@ export default function Sidebar({ idSidebar }) {
               <div className={`${dropdownStates[item.nama_link]} pl-8 text-[.8rem] pt-2 flex flex-col gap-3  lg:text-[.9rem]`}>
                 {item.parent_link.map((items, index) => {
                   return (
-                    <button className=' w-max hover:text-white  transition-all' key={index} onClick={() => navigate(items.url)}>{items.nama_link}</button>
+                    <button className=' w-max hover:text-white  transition-all' key={index} onClick={() => {navigate(items.url); setSidebar()}}>{items.nama_link}</button>
                   )
                 })}
               </div>

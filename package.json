@@ -18,7 +18,8 @@
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.21.3",
     "react-table": "^7.8.0",
-    "react-toastify": "^10.0.4"
+    "react-toastify": "^10.0.4",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

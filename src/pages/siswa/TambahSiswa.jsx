@@ -4,6 +4,9 @@ import { ToastContainer } from 'react-toastify';
 import { handleToast } from "../../utils/function";
 import { addSiswa } from "../../utils/api";
 
+import { useShallow } from 'zustand/react/shallow'
+import useAppStore from '../../store/store';
+
 export default function TambahSiswa() {
   const [isLoading, setIsLoading] = useState(false)
   const [imgUser, setImgUser] = useState('')
@@ -18,6 +21,10 @@ export default function TambahSiswa() {
     alamat: '',
   })
 
+  const [getDataSiswa] = useAppStore(
+    useShallow((state) => [ state.getDataSiswa])
+  )
+
   const resetUserData = () => {
     setUserData({
       image: '',
@@ -29,6 +36,7 @@ export default function TambahSiswa() {
       nama_ortu: '',
       alamat: '',
     });
+    setImgUser('')
   };
 
   const handleInputChange = (e) => {
@@ -60,6 +68,7 @@ export default function TambahSiswa() {
       const {status, message} = await addSiswa(userData)
       if(status) {
         handleToast(message, 'success')
+        getDataSiswa()
       } else {
         handleToast(message, 'error')
       }

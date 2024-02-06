@@ -7,12 +7,19 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer } from 'react-toastify';
 import { handleToast } from './utils/function';
+import { handleLoginSiswa } from './utils/api';
+
+import { useShallow } from 'zustand/react/shallow'
+import useAppStore from './store/store';
 
 
 function App() {
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  const [user, setUser] = useAppStore(
+    useShallow((state) => [state.user, state.setUser])
+  )
 
   const navigate = useNavigate();
 
@@ -20,21 +27,13 @@ function App() {
     e.preventDefault()
     setIsLoading(true)
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', 
-        },
-        body: JSON.stringify({email, password})
-      })
-
-      if(res.ok) {
-        const {message, token} = await res.json()
+      const { status, message, token, data } = await handleLoginSiswa(email)
+      if (status) {
         handleToast(message, 'success')
-        Cookies.set('token', token, {expires: 1});
+        Cookies.set('token', token, { expires: 1 });
+        setUser(data)
         navigate('/dashboard')
       } else {
-        const {message} = await res.json()
         setIsLoading(false)
         handleToast(message, 'warning')
       }
@@ -44,6 +43,8 @@ function App() {
       handleToast('Maaf, Terjadi Kesalahan Teknis', 'error')
       setIsLoading(false)
     }
+    setEmail('')
+    console.log({ user });
   }
 
   return (
@@ -52,7 +53,7 @@ function App() {
       <div className="w-full h-max">
         <div className="flex flex-col justify-center items-center gap-2">
           <div className="flex justify-center items-center gap-2 w-full text-orange-400">
-            <img src={image2} alt=""  width={50} />
+            <img src={image2} alt="" width={50} />
             <p>ClassCrafter.com</p>
           </div>
           <form action="" className='w-[90%] rounded-lg p-2 h-max border flex flex-col gap-3 bg-[#ecebeb] text-black lg:w-[40%] lg:gap-5' onSubmit={handleLogin}>
@@ -60,21 +61,11 @@ function App() {
               <h1 className='text-[1.3rem] font-medium text-center'>Login to account</h1>
             </div>
             <div className="flex flex-col gap-2 w-full">
-              <input 
-                type="email" 
-                placeholder='Email Adress' 
+              <input
+                type="email"
+                placeholder='Email Adress'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
-                className='w-[100%] py-2 px-3 rounded-sm bg-slate-200 outline-none border border-black'
-              />
-            </div>
-            <div className="flex flex-col gap-2 w-full">
-              <input 
-                type="password" 
-                placeholder='Password' 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
                 required
                 className='w-[100%] py-2 px-3 rounded-sm bg-slate-200 outline-none border border-black'
               />

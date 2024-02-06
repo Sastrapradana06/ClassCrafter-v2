@@ -1,34 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { getAllSiswa } from '../../utils/api';
 import admin from '/admin.jfif'
 
+import { useShallow } from 'zustand/react/shallow'
+import useAppStore from '../../store/store';
+
 export default function TabelSiswa() {
-  const [data, setData] = useState([])
+  const [dataSiswa, getDataSiswa] = useAppStore(
+    useShallow((state) => [state.dataSiswa, state.getDataSiswa])
+  )
 
   useEffect(() => {
-    const getSiswa = async () => {
-      const data = await getAllSiswa()
-      setData(data.data)
-      return data
+    if (dataSiswa == undefined) {
+      getDataSiswa()
     }
-
-    getSiswa()
   }, [])
 
   const deleteSiswa = async (id) => {
-    console.log({id});
+    console.log({ id });
   }
-
 
   const columns = [
     {
-      name: 'Id',
-      selector: row => row.id,
-      maxWidth: '0px',
-      style: {
-        textAlign: 'center',
+      name: 'No',
+      minWidth: '50px',
+      selector: (row, index) => {
+        return <div className='text-center font-semibold m-auto  w-[20px]'>{index + 1}</div>;
       },
+    },
+    {
+      name: 'Id Siswa',
+      selector: row => <div className='text-center font-medium m-auto  w-[50px]'>{row.id}</div>,
     },
     {
       name: 'Nama',
@@ -42,7 +44,7 @@ export default function TabelSiswa() {
       name: 'Image',
       selector: row => (
         <img
-          src={admin}
+          src={row.image == '' ? admin : row.image}
           alt="User Avatar"
           className='w-[35px] h-[35px] border border-black rounded-full object-cover mx-auto'
         />
@@ -108,9 +110,6 @@ export default function TabelSiswa() {
           <button className='bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500' >Edit</button>
           <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' onClick={() => deleteSiswa(row.id)}>Hapus</button>
         </div>,
-      style: {
-        textAlign: 'left',
-      },
     },
   ];
 
@@ -123,12 +122,12 @@ export default function TabelSiswa() {
   };
 
   return (
-    <div>
+    <div className='pb-[21%] lg:pb-[10%]'>
       <DataTable
         title="Data Siswa"
         columns={columns}
         customStyles={customStyles}
-        data={data}
+        data={dataSiswa}
         pagination
         className="rounded-lg w-[100%]"
       />
