@@ -9,8 +9,8 @@ export async function addSiswa(data) {
     body: JSON.stringify(data)
   })
 
-  const {status, message} = await response.json()
-  return {status, message}
+  const dataSiswa = await response.json()
+  return dataSiswa
 }
 
 export async function getAllSiswa() {

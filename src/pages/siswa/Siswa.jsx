@@ -6,13 +6,13 @@ export default function Siswa() {
   return (
     <Container>
       <div className="w-full h-[100vh] pt-[80px] flex  justify-center lg:pl-[20%]">
-        <div className="w-[90%] h-[100vh] flex flex-col gap-10">
+        <div className="w-[90%] h-[100vh] flex flex-col gap-4">
           <div className="w-full h-max flex flex-col bg-[#ffff] items-center py-3 gap-2">
-            <div className="w-[90%] h-[50px] rounded-md  flex border border-gray flex items-center p-2 gap-2">
-              <IoIosSearch size={25} fill="#4D44B5"/>
-              <input 
+            <div className="w-[90%] h-[50px] rounded-md  flex border border-gray  items-center p-2 gap-2">
+              <IoIosSearch size={25} fill="#4D44B5" />
+              <input
                 type="text"
-                placeholder="Cari di sini..." 
+                placeholder="Cari di sini..."
                 className="w-full outline-none"
               />
             </div>

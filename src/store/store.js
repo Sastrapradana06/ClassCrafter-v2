@@ -9,6 +9,7 @@ const useAppStore = create((set) => ({
   
   user: undefined,
   setUser: (newUser) => set({ user: newUser }),
+  deleteUser: () => set({ user: undefined }),
 
   dataSiswa: undefined,
   setDataSiswa: (data) => set({ dataSiswa: data }),
@@ -19,7 +20,9 @@ const useAppStore = create((set) => ({
     } catch (error) {
       console.log(error);
     }
-  }
+  },
+
+  resetState: () => set({user: undefined, dataSiswa: undefined})
 
 }))
 

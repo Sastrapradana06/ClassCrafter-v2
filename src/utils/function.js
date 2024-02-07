@@ -1,6 +1,7 @@
 import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 export const handleFileChange = (e) => {
   const file = e.target.files[0];
@@ -77,4 +78,13 @@ export const handleToast = (message, status) => {
     });
   }
 
+}
+
+export const hapusTokenCookies = () => {
+  Cookies.remove('token')
+}
+
+export const getToken = () => {
+  const token = Cookies.get('token')
+  return token
 }

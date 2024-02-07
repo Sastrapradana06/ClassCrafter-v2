@@ -4,14 +4,14 @@ body {
 
 #sidebar_aktif {
   left: 0px;
-  z-index: 10000;
+  z-index: 10;
   animation: animateSidebar_aktif .4s; 
   animation-timing-function: ease-in-out;
 }
 
 #sidebar_non {
   left: -500px;
-  z-index: 10000;
+  z-index: 10;
   animation: animateSidebar_non .4s; 
   animation-timing-function: ease-in-out;
 }
