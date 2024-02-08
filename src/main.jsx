@@ -10,6 +10,8 @@ import ErrorPage from './components/error/Error.jsx';
 import Home from './pages/home/Home.jsx';
 import Siswa from './pages/siswa/Siswa.jsx';
 import TambahSiswa from './pages/siswa/TambahSiswa.jsx';
+import AuthPage from './middleware/AuthPage.jsx';
+
 
 const router = createBrowserRouter([
   {
@@ -19,22 +21,34 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Home />,
+    element: 
+      <AuthPage>
+        <Home />
+      </AuthPage>,
     errorElement: <ErrorPage />,
   },
   {
     path: "/siswa",
-    element: <Siswa />,
+    element: 
+      <AuthPage>
+        <Siswa />
+      </AuthPage>,
     errorElement: <ErrorPage />,
   },
   {
     path: "/tambah-siswa/:id",
-    element: <TambahSiswa />,
+    element: 
+      <AuthPage>
+        <TambahSiswa />
+      </AuthPage>,
     errorElement: <ErrorPage />,
   },
   {
     path: "/tambah-siswa",
-    element: <TambahSiswa />,
+    element: 
+    <AuthPage>
+      <TambahSiswa />
+    </AuthPage>,
     errorElement: <ErrorPage />,
   },
 ]);

@@ -52,10 +52,12 @@ export default function Sidebar({ idSidebar }) {
           nama_link: 'Daftar Siswa',
           url: '/siswa'
         },
-        user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
-          nama_link: 'Tambah Siswa',
-          url: '/tambah-siswa'
-        } : null,
+        user ?
+          user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
+            nama_link: 'Tambah Siswa',
+            url: '/tambah-siswa'
+          } : null
+        : null
       ].filter(link => link)
     },
     {
@@ -66,10 +68,12 @@ export default function Sidebar({ idSidebar }) {
           nama_link: 'Daftar Guru',
           url: '/'
         },
-        user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
-          nama_link: 'Tambah Guru',
-          url: '/'
-        } : null,
+        user ?
+          user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
+            nama_link: 'Tambah Guru',
+            url: '/'
+          } : null
+        :null,
       ].filter(link => link)
     },
   ]
