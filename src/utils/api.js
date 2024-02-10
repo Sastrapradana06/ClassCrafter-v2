@@ -1,3 +1,5 @@
+import { getToken } from "./function"
+
 const url = 'http://localhost:3000'
 
 export async function addSiswa(data) {
@@ -41,5 +43,12 @@ export async function getSiswaById(id) {
 export async function deleteSiswaById(id) {
   const response = await fetch(`${url}/siswa/delete/${id}`)
   const data = await response.json()
+  return data
+}
+
+export async function getUserLogin() {
+  const id = getToken('idUser')
+  const res = await fetch(`${url}/auth/get-user/${id}`)
+  const data = await res.json()
   return data
 }

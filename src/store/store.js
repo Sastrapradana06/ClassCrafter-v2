@@ -1,5 +1,5 @@
 
-import { getAllSiswa } from '../utils/api'
+import { getAllSiswa, getUserLogin } from '../utils/api'
 import { create } from 'zustand'
 
 const useAppStore = create((set) => ({
@@ -8,7 +8,15 @@ const useAppStore = create((set) => ({
   setSidebar: () => set((state) => ({ sidebar: state.sidebar === 'sidebar_aktif' ? 'sidebar_non' : 'sidebar_aktif' })),
   
   user: undefined,
-  setUser: (newUser) => set({ user: newUser }),
+  updateUser: (data) => set({ user: data }),
+  setUser: async () => {
+    try {
+      const {data} = await getUserLogin()
+      set({user: data})
+    } catch (error) {
+      console.log(error);
+    }
+  },
   deleteUser: () => set({ user: undefined }),
 
   dataSiswa: undefined,

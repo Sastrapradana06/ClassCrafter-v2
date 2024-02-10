@@ -4,20 +4,28 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getToken } from '../utils/function';
 
-export default function AuthPage({children }) {
-  const [user] = useAppStore(
-    useShallow((state) => [state.user])
+export default function AuthPage({ children }) {
+  const [user, setUser] = useAppStore(
+    useShallow((state) => [state.user, state.setUser])
   )
 
   const navigate = useNavigate()
-  const token = getToken()
+  const token = getToken('token')
+  const idUser = getToken('idUser')
+
+  console.log({token, idUser});
 
   useEffect(() => {
 
-    if(!token || !user) {
+    if (!token || !idUser) {
       navigate('/')
     }
-  }, [token, user])
 
-  return children 
+    if (!user) {
+      setUser()
+    }
+
+
+  }, [token, idUser])
+  return children
 }

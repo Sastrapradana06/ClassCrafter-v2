@@ -80,11 +80,19 @@ export const handleToast = (message, status) => {
 
 }
 
-export const hapusTokenCookies = () => {
-  Cookies.remove('token')
+export const setCookies = (name, data) => {
+  let now = new Date()
+  now.setTime(now.getTime() + 2 * 60 * 60 * 1000)
+
+  Cookies.set(name, data, {expires: now})
 }
 
-export const getToken = () => {
-  const token = Cookies.get('token')
-  return token
+export const deleteCookies = () => {
+  Cookies.remove('token')
+  Cookies.remove('idUser')
+}
+
+export const getToken = (name) => {
+  const cookies = Cookies.get(name)
+  return cookies
 }

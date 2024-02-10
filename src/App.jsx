@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import './App.css'
-import Cookies from 'js-cookie';
 
 import image2 from '/student2.svg'
 import { useNavigate } from "react-router-dom";
 
 import { ToastContainer } from 'react-toastify';
-import { handleToast } from './utils/function';
+import { handleToast, setCookies } from './utils/function';
 import { handleLoginSiswa } from './utils/api';
 
 import { useShallow } from 'zustand/react/shallow'
@@ -17,8 +16,8 @@ function App() {
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const [user, setUser] = useAppStore(
-    useShallow((state) => [state.user, state.setUser])
+  const [updateUser] = useAppStore(
+    useShallow((state) => [state.updateUser])
   )
 
   const navigate = useNavigate();
@@ -30,8 +29,9 @@ function App() {
       const { status, message, token, data } = await handleLoginSiswa(email)
       if (status) {
         handleToast(message, 'success')
-        Cookies.set('token', token, { expires: 1 });
-        setUser(data)
+        setCookies('token', token)
+        setCookies('idUser', data.id)
+        updateUser(data)
         navigate('/dashboard')
       } else {
         setIsLoading(false)
@@ -44,7 +44,6 @@ function App() {
       setIsLoading(false)
     }
     setEmail('')
-    console.log({ user });
   }
 
   return (

@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
-import { hapusTokenCookies } from "../../utils/function";
+import { deleteCookies } from "../../utils/function";
 import ShowModal from "../modal/ShowModal";
 import { useState } from "react";
 
@@ -24,7 +24,7 @@ export default function NavContainer() {
   )
 
   const logoutUser = () => {
-    hapusTokenCookies()
+    deleteCookies()
     resetState()
     navigate('/')
   }
