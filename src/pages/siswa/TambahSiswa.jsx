@@ -94,7 +94,6 @@ export default function TambahSiswa() {
     e.preventDefault();
     setIsLoading(true)
     const dataSiswa = { idUbah, ...userData }
-    console.log({ dataSiswa });
     try {
       const { status, message, data } = await addSiswa(dataSiswa)
       if (status) {
@@ -119,7 +118,7 @@ export default function TambahSiswa() {
       <div className="w-full h-max pt-[80px] flex flex-col items-center gap-2 justify-center lg:pl-[20%]  pb-[100px]">
         <div className="w-[90%] h-max rounded-md bg-[#ffff]">
           <div className="w-[100%] m-auto h-[60px] border-b border-gray-300 flex items-center p-4">
-            <p className=" text-[#4D44B5] font-medium">{id ? 'Edit Siswa' :'Tambah Siswa'}</p>
+            <p className=" text-[#4D44B5] font-medium">{id ? 'Edit Siswa' : 'Tambah Siswa'}</p>
           </div>
           <form action="" className="w-full h-max  flex flex-col gap-3 p-4 lg:flex-row lg:justify-center lg:gap-0 " onSubmit={handleSubmit}>
             <div className="w-full h-[200px]  flex flex-col gap-2 lg:w-[40%]">

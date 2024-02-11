@@ -1,6 +1,6 @@
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../store/store';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { getToken } from '../utils/function';
 
@@ -9,16 +9,21 @@ export default function AuthPage({ children }) {
     useShallow((state) => [state.user, state.setUser])
   )
 
+  const { pathname } = useLocation()
   const navigate = useNavigate()
   const token = getToken('token')
   const idUser = getToken('idUser')
 
-  console.log({token, idUser});
+  const protectedRoutes = ['/tambah-siswa']
 
   useEffect(() => {
 
     if (!token || !idUser) {
-      navigate('/')
+      return navigate('/')
+    }
+
+    if (!user && protectedRoutes.includes(pathname)) {
+      return navigate('/dashboard')
     }
 
     if (!user) {
@@ -26,6 +31,6 @@ export default function AuthPage({ children }) {
     }
 
 
-  }, [token, idUser])
+  }, [token, idUser, pathname])
   return children
 }
