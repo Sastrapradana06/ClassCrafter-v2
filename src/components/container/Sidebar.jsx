@@ -52,12 +52,16 @@ export default function Sidebar({ idSidebar }) {
           nama_link: 'Daftar Siswa',
           url: '/siswa'
         },
+        {
+          nama_link: 'Detail Siswa',
+          url: '/detail-siswa'
+        },
         user ?
           user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
             nama_link: 'Tambah Siswa',
             url: '/tambah-siswa'
           } : null
-        : null
+          : null
       ].filter(link => link)
     },
     {
@@ -73,7 +77,7 @@ export default function Sidebar({ idSidebar }) {
             nama_link: 'Tambah Guru',
             url: '/'
           } : null
-        :null,
+          : null,
       ].filter(link => link)
     },
   ]

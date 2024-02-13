@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import women_user from '/women.jfif'
-import men_user from '/men-user.jfif'
+import { FaRegEye } from "react-icons/fa";
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
@@ -91,13 +90,14 @@ export default function TabelSiswa() {
       name: 'FOTO',
       selector: row => (
         <img
-          src={
-            row.image == ''
-              ? row.jekel == 'laki-laki' ? men_user : (row.jekel == 'perempuan' ? women_user : '')
-              : row.image
-          }
+          src={row.image}
           alt="User Avatar"
           className='w-[35px] h-[35px] border border-black rounded-full object-cover mx-auto'
+        // src={
+        //   row.image == ''
+        //     ? row.jekel == 'laki-laki' ? men_user : (row.jekel == 'perempuan' ? women_user : '')
+        //     : row.image
+        // }
         />
       ),
       style: {
@@ -120,7 +120,7 @@ export default function TabelSiswa() {
     {
       name: 'EMAIL',
       selector: row => row.email,
-      minWidth: '250px',
+      minWidth: '200px',
       style: {
         textAlign: 'left',
       },
@@ -179,7 +179,7 @@ export default function TabelSiswa() {
     // + AKSI
     {
       name: 'AKSI',
-      minWidth: '180px',
+      minWidth: '220px',
       selector: row => {
         return user ? (
           user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris' ? (
@@ -190,6 +190,9 @@ export default function TabelSiswa() {
               <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' onClick={() => showModal(row.id, row.username)} disabled={user.jabatan === 'member'} title='delete'>
                 <MdDeleteSweep size={20} />
               </button>
+              <button className='bg-[#dca714] py-1 px-4 rounded-md hover:bg-[#af8936] cursor-pointer' title='detail' onClick={() => navigate(`/detail-siswa/${row.id}`)}>
+                <FaRegEye size={20} />
+              </button>
             </div>
           ) : (
             <div className="flex gap-2 text-white">
@@ -198,6 +201,9 @@ export default function TabelSiswa() {
               </button>
               <button className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50" disabled title='delete'>
                 <MdDeleteSweep size={20} />
+              </button>
+              <button className='bg-[#dca714] py-1 px-4 rounded-md hover:bg-[#af8936] cursor-pointer' title='detail' onClick={() => navigate(`/detail-siswa/${row.id}`)}>
+                <FaRegEye size={20} />
               </button>
             </div>
           )
