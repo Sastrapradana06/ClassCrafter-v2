@@ -65,15 +65,15 @@ export default function NavContainer() {
             </button>
             <button>
               {user ? (
-                <img 
+                <img
                   src={
-                    user.image == '' 
-                    ? user.jekel == 'laki-laki' ? men_user : (user.jekel == 'perempuan' ? women_user : '')
-                    : user.image
-                  } 
-                  alt="" 
+                    user.image == ''
+                      ? user.jekel == 'laki-laki' ? men_user : (user.jekel == 'perempuan' ? women_user : '')
+                      : user.image
+                  }
+                  alt=""
                   className=" w-[30px] h-[30px] rounded-md object-cover lg:w-[45px] lg:h-[45px]" />
-              ): null}
+              ) : null}
             </button>
           </div>
         </div>

@@ -93,11 +93,6 @@ export default function TabelSiswa() {
           src={row.image}
           alt="User Avatar"
           className='w-[35px] h-[35px] border border-black rounded-full object-cover mx-auto'
-        // src={
-        //   row.image == ''
-        //     ? row.jekel == 'laki-laki' ? men_user : (row.jekel == 'perempuan' ? women_user : '')
-        //     : row.image
-        // }
         />
       ),
       style: {

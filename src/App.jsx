@@ -14,6 +14,7 @@ import useAppStore from './store/store';
 
 function App() {
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const [updateUser] = useAppStore(
@@ -26,7 +27,7 @@ function App() {
     e.preventDefault()
     setIsLoading(true)
     try {
-      const { status, message, token, data } = await handleLoginSiswa(email)
+      const { status, message, token, data } = await handleLoginSiswa(email, password)
       if (status) {
         handleToast(message, 'success')
         setCookies('token', token)
@@ -34,16 +35,15 @@ function App() {
         updateUser(data)
         navigate('/dashboard')
       } else {
-        setIsLoading(false)
         handleToast(message, 'warning')
       }
-      setIsLoading(false)
     } catch (error) {
       console.log(error);
       handleToast('Maaf, Terjadi Kesalahan Teknis', 'error')
-      setIsLoading(false)
     }
     setEmail('')
+    setPassword('')
+    setIsLoading(false)
   }
 
   return (
@@ -62,9 +62,20 @@ function App() {
             <div className="flex flex-col gap-2 w-full">
               <input
                 type="email"
+                name='email'
                 placeholder='Email Adress'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
+                className='w-[100%] py-2 px-3 rounded-sm bg-slate-200 outline-none border border-black'
+              />
+            </div>
+            <div className="flex flex-col gap-2 w-full">
+              <input
+                type="password"
+                placeholder='Password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 className='w-[100%] py-2 px-3 rounded-sm bg-slate-200 outline-none border border-black'
               />

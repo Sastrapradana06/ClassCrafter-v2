@@ -21,18 +21,17 @@ export async function getAllSiswa() {
   return {status, data}
 }
 
-export async function handleLoginSiswa(email) {
+export async function handleLoginSiswa(email, password) {
   const res = await fetch('http://localhost:3000/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json', 
     },
-    body: JSON.stringify({email})
+    body: JSON.stringify({email, password})
   })
   const data = await res.json()
   return data
 }
-
 
 export async function getSiswaById(id) {
   const response = await fetch(`${url}/siswa/get-siswa/${id}`)
@@ -51,4 +50,23 @@ export async function getUserLogin() {
   const res = await fetch(`${url}/auth/get-user/${id}`)
   const data = await res.json()
   return data
+}
+
+
+export async function getAuthUser() {
+  const res = await fetch(`${url}/auth/get-auth`)
+  const data = await res.json()
+  return data
+}
+
+export async function setAuth(data) {
+  const res = await fetch(`${url}/auth/set-auth`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  const dataRes = await res.json()
+  return dataRes
 }

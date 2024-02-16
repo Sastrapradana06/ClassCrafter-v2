@@ -6,6 +6,7 @@ import { PiStudentFill } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
 import { TiHome } from "react-icons/ti";
 import { FaChalkboardTeacher } from "react-icons/fa";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -23,7 +24,8 @@ export default function Sidebar({ idSidebar }) {
   const [dropdownStates, setDropdownStates] = useState({
     Home: 'hidden',
     Siswa: 'hidden',
-    Guru: 'hidden'
+    Guru: 'hidden',
+    Setting: 'hidden'
   });
 
   const showDropdown = (nama) => {
@@ -32,6 +34,69 @@ export default function Sidebar({ idSidebar }) {
       [nama]: prev[nama] === 'hidden' ? 'block' : 'hidden',
     }));
   };
+
+  // const listLink = [
+  //   {
+  //     nama_link: 'Home',
+  //     icons: <TiHome size={20} />,
+  //     parent_link: [
+  //       {
+  //         nama_link: 'Dashboard',
+  //         url: '/dashboard'
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     nama_link: 'Siswa',
+  //     icons: <PiStudentFill size={20} />,
+  //     parent_link: [
+  //       {
+  //         nama_link: 'Daftar Siswa',
+  //         url: '/siswa'
+  //       },
+  //       {
+  //         nama_link: 'Detail Siswa',
+  //         url: '/detail-siswa'
+  //       },
+  //       user ?
+  //         user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
+  //           nama_link: 'Tambah Siswa',
+  //           url: '/tambah-siswa'
+  //         } : null
+  //         : null
+  //     ].filter(link => link)
+  //   },
+  //   {
+  //     nama_link: 'Guru',
+  //     icons: <FaChalkboardTeacher size={20} />,
+  //     parent_link: [
+  //       {
+  //         nama_link: 'Daftar Guru',
+  //         url: '/'
+  //       },
+  //       user ?
+  //         user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
+  //           nama_link: 'Tambah Guru',
+  //           url: '/'
+  //         } : null
+  //         : null,
+  //     ].filter(link => link)
+  //   },
+  //   user ? (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') && {
+  //     nama_link: 'Setting',
+  //     icons: <RiLockPasswordLine size={20} />,
+  //     parent_link: [
+  //       {
+  //         nama_link: 'Authentication',
+  //         url: '/auth'
+  //       },
+  //       {
+  //         nama_link: 'Tambah Authentication',
+  //         url: '/tambah-auth'
+  //       },
+  //     ]
+  //   } : null,
+  // ]
 
   const listLink = [
     {
@@ -56,13 +121,11 @@ export default function Sidebar({ idSidebar }) {
           nama_link: 'Detail Siswa',
           url: '/detail-siswa'
         },
-        user ?
-          user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
-            nama_link: 'Tambah Siswa',
-            url: '/tambah-siswa'
-          } : null
-          : null
-      ].filter(link => link)
+        ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
+          nama_link: 'Tambah Siswa',
+          url: '/tambah-siswa'
+        }] : [])
+      ]
     },
     {
       nama_link: 'Guru',
@@ -72,15 +135,28 @@ export default function Sidebar({ idSidebar }) {
           nama_link: 'Daftar Guru',
           url: '/'
         },
-        user ?
-          user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
-            nama_link: 'Tambah Guru',
-            url: '/'
-          } : null
-          : null,
-      ].filter(link => link)
+        ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
+          nama_link: 'Tambah Guru',
+          url: '/'
+        }] : []),
+      ]
     },
-  ]
+    ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
+      nama_link: 'Setting',
+      icons: <RiLockPasswordLine size={20} />,
+      parent_link: [
+        {
+          nama_link: 'Authentication',
+          url: '/auth'
+        },
+        {
+          nama_link: 'Tambah Authentication',
+          url: '/tambah-auth'
+        },
+      ]
+    }] : [])
+  ];
+
 
   return (
     <div className="top-[50px] h-[100vh] fixed w-[60%] lg:top-0 lg:h-[100vh] lg:w-[20%] p-4 bg-[#4D44B5] text-[#BDB9E3] flex flex-col gap-3" id={idSidebar}>

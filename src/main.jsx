@@ -12,6 +12,7 @@ import Siswa from './pages/siswa/Siswa.jsx';
 import TambahSiswa from './pages/siswa/TambahSiswa.jsx';
 import AuthPage from './middleware/AuthPage.jsx';
 import DetailSiswa from './pages/siswa/DetailSiswa.jsx';
+import Authentication from './pages/authentication/Authentication.jsx';
 
 
 const router = createBrowserRouter([
@@ -65,6 +66,14 @@ const router = createBrowserRouter([
     element:
       <AuthPage>
         <TambahSiswa />
+      </AuthPage>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/auth",
+    element:
+      <AuthPage>
+        <Authentication />
       </AuthPage>,
     errorElement: <ErrorPage />,
   },
