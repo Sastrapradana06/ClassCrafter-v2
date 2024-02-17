@@ -50,12 +50,12 @@ export default function NavContainer() {
           </ShowModal>
         ) : null}
         <div className="w-[95%] h-max p-2 flex justify-between items-center gap-3">
-          <div className="flex justify-center items-center gap-2 ">
+          <div className="flex justify-center items-center gap-2 w-max">
             <button onClick={() => setSidebar()} className='lg:hidden '>
               <CgMenuGridO size={28} />
             </button>
             <div className="flex flex-col justify-center">
-              <h1 className=' text-[#303972] font-bold text-[1.2rem] tracking-[1px] capitalize lg:text-[1.5rem]'>{user ? user.username : null}</h1>
+              <h1 className=' text-[#303972] font-bold text-[1.1rem] tracking-[1px] capitalize lg:text-[1.5rem]'>{user ? user.username : null}</h1>
               <p className="-mt-2 text-[.8rem] capitalize text-slate-500">{user ? user.jabatan : null}</p>
             </div>
           </div>

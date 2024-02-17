@@ -133,7 +133,7 @@ export default function Sidebar({ idSidebar }) {
       parent_link: [
         {
           nama_link: 'Daftar Guru',
-          url: '/'
+          url: '/guru'
         },
         ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
           nama_link: 'Tambah Guru',
@@ -148,10 +148,6 @@ export default function Sidebar({ idSidebar }) {
         {
           nama_link: 'Authentication',
           url: '/auth'
-        },
-        {
-          nama_link: 'Tambah Authentication',
-          url: '/tambah-auth'
         },
       ]
     }] : [])

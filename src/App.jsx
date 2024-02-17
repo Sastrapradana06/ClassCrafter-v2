@@ -10,6 +10,7 @@ import { handleLoginSiswa } from './utils/api';
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from './store/store';
+import Loading from './components/loading/Loading';
 
 
 function App() {
@@ -47,13 +48,16 @@ function App() {
   }
 
   return (
-    <div className="w-full h-[100vh] flex items-center justify-center gap-3 bg-black" >
+    <div className="w-full h-[100vh] flex items-center justify-center gap-3 bg-zinc-900" >
       <ToastContainer />
+      {isLoading ? (
+        <Loading />
+      ) : null}
       <div className="w-full h-max">
         <div className="flex flex-col justify-center items-center gap-2">
-          <div className="flex justify-center items-center gap-2 w-full text-orange-400">
+          <div className="flex justify-center items-center gap-2 w-full text-indigo-400">
             <img src={image2} alt="" width={50} />
-            <p>ClassCrafter.com</p>
+            <p className='font-medium'>ClassCrafter.com</p>
           </div>
           <form action="" className='w-[90%] rounded-lg p-2 h-max border flex flex-col gap-3 bg-[#ecebeb] text-black lg:w-[40%] lg:gap-5' onSubmit={handleLogin}>
             <div className="">
@@ -81,8 +85,8 @@ function App() {
               />
             </div>
             <div className="">
-              <button type='submit' className='bg-orange-400 py-1 px-6 rounded-sm tracking-[2px] text-white hover:bg-[#e8af47] transition-all duration-200' disabled={isLoading}>
-                {isLoading ? 'Loading...' : 'Login'}
+              <button type='submit' className='bg-indigo-600 py-2 px-7 rounded-sm tracking-[2px] text-white hover:bg-indigo-800 transition-all duration-200' disabled={isLoading}>
+                Login
               </button>
             </div>
           </form>

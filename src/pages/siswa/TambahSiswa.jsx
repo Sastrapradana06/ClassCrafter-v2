@@ -8,6 +8,7 @@ import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
 import { useNavigate, useParams } from "react-router-dom";
 import { getSiswaById } from '../../utils/api';
+import Loading from "../../components/loading/Loading";
 
 export default function TambahSiswa() {
   const [isLoading, setIsLoading] = useState(false)
@@ -115,6 +116,9 @@ export default function TambahSiswa() {
   return (
     <Container>
       <ToastContainer />
+      {isLoading ? (
+        <Loading />
+      ) : null}
       <div className="w-full h-max pt-[80px] flex flex-col items-center gap-2 justify-center lg:pl-[20%]  pb-[100px]">
         <div className="w-[90%] h-max rounded-md bg-[#ffff]">
           <div className="w-[100%] m-auto h-[60px] border-b border-gray-300 flex items-center p-4">
@@ -148,7 +152,7 @@ export default function TambahSiswa() {
                   name='username'
                   value={userData.username}
                   onChange={handleInputChange}
-                  placeholder="Samuel"
+                  placeholder="Lorem Ipsum"
                   className="w-full border p-3 outline-[#4D44B5] rounded-lg"
                 />
               </div>
@@ -239,7 +243,7 @@ export default function TambahSiswa() {
                 {idUbah ? (
                   <>
                     <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
-                      {isLoading ? 'Loading...' : 'Ubah'}
+                      Ubah
                     </button>
                     <button className="ml-2 py-[6px] px-4 text-[.8rem] bg-[#dc143cd5] text-white rounded-lg hover:bg-[crimson]" onClick={() => navigate('/siswa')}>
                       Batal
@@ -247,7 +251,7 @@ export default function TambahSiswa() {
                   </>
                 ) : (
                   <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
-                    {isLoading ? 'Loading...' : 'Simpan'}
+                    Simpan
                   </button>
                 )}
               </div>

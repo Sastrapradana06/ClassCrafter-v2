@@ -9,7 +9,7 @@ import Kalender from "./Kalender";
 export default function Home() {
   return (
     <Container>
-      <div className="w-full h-[100vh] pt-[50px] flex justify-center lg:pl-[20%] ">
+      <div className="w-full h-[100vh] pt-[65px] flex justify-center lg:pl-[20%] ">
         <div className="w-[90%] h-[200px]  flex flex-col gap-6 lg:mt-6 lg:w-[95%]">
           <div className="w-full h-[150px] rounded-md flex justify-between flex-wrap bg-[#FFFFFF] lg:flex-nowrap lg:h-max lg:items-center">
             <div className="w-[50%] h-[50%] flex p-3 items-center gap-2 ">
@@ -21,7 +21,7 @@ export default function Home() {
                 <p className="text-[#4D44B5] font-semibold text-[1.2rem]">923</p>
               </div>
             </div>
-            <div className="w-[50%] h-[50%] flex p-3 items-center gap-2 ">`
+            <div className="w-[50%] h-[50%] flex p-3 items-center gap-2  ">
               <div className="p-4 bg-[#e65e39] rounded-full">
                 <GiTeacher fill="white" className="size-5" />
               </div>
