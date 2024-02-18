@@ -14,6 +14,7 @@ import AuthPage from './middleware/AuthPage.jsx';
 import DetailSiswa from './pages/siswa/DetailSiswa.jsx';
 import Authentication from './pages/authentication/Authentication.jsx';
 import Guru from './pages/guru/Guru.jsx';
+import TambahGuru from './pages/guru/TambahGuru.jsx';
 
 
 const router = createBrowserRouter([
@@ -87,6 +88,14 @@ const router = createBrowserRouter([
     element:
       <AuthPage>
         <Guru />
+      </AuthPage>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/tambah-guru",
+    element:
+      <AuthPage>
+        <TambahGuru />
       </AuthPage>,
     errorElement: <ErrorPage />,
   },

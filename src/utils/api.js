@@ -2,6 +2,27 @@ import { getToken } from "./function"
 
 const url = 'http://localhost:3000'
 
+// + AUTH
+export async function getAuthUser() {
+  const res = await fetch(`${url}/auth/get-auth`)
+  const data = await res.json()
+  return data
+}
+
+export async function setAuth(data) {
+  const res = await fetch(`${url}/auth/set-auth`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  const dataRes = await res.json()
+  return dataRes
+}
+
+
+// + SISWA
 export async function addSiswa(data) {
   const response = await fetch(`${url}/siswa/add`, {
     method: 'POST',
@@ -52,21 +73,16 @@ export async function getUserLogin() {
   return data
 }
 
-
-export async function getAuthUser() {
-  const res = await fetch(`${url}/auth/get-auth`)
-  const data = await res.json()
-  return data
-}
-
-export async function setAuth(data) {
-  const res = await fetch(`${url}/auth/set-auth`, {
+// + GURU
+export async function addGuru(data) {
+  const response = await fetch(`${url}/guru/add-guru`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
-  const dataRes = await res.json()
-  return dataRes
+
+  const dataGuru = await response.json()
+  return dataGuru
 }

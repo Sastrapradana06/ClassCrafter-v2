@@ -137,7 +137,7 @@ export default function Sidebar({ idSidebar }) {
         },
         ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
           nama_link: 'Tambah Guru',
-          url: '/'
+          url: '/tambah-guru'
         }] : []),
       ]
     },
