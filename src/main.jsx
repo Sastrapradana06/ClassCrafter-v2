@@ -99,6 +99,14 @@ const router = createBrowserRouter([
       </AuthPage>,
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/edit-guru/:id",
+    element:
+      <AuthPage>
+        <TambahGuru />
+      </AuthPage>,
+    errorElement: <ErrorPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

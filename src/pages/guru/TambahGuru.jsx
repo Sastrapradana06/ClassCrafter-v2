@@ -1,10 +1,18 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Container from "../../components/container/Container";
-import { addGuru } from "../../utils/api";
+import { addGuru, getGuruById } from "../../utils/api";
 import { ToastContainer } from 'react-toastify';
 import { handleToast } from "../../utils/function";
 
+import { useShallow } from 'zustand/react/shallow'
+import useAppStore from '../../store/store';
+import { useNavigate, useParams } from "react-router-dom";
+import Loading from "../../components/loading/Loading";
+
+
 export default function TambahGuru() {
+  const [idUbah, setIdUbah] = useState(undefined)
+  const [isLoading, setIsLoading] = useState(false)
   const [imgGuru, setImgGuru] = useState('')
   const [dataGuru, setDataGuru] = useState({
     image: '',
@@ -14,7 +22,26 @@ export default function TambahGuru() {
     jadwal: ''
   })
 
+  const [updateDataGuru] = useAppStore(
+    useShallow((state) => [state.updateDataGuru])
+  )
+
+  const { id } = useParams()
+  const navigate = useNavigate()
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (id) {
+      editGuru(id)
+    }
+  }, [])
+
+  const editGuru = async (id) => {
+    const { data } = await getGuruById(id)
+    setImgGuru(data.image)
+    setDataGuru(data)
+    setIdUbah(data.id)
+  }
 
   const reset = () => {
     setDataGuru({
@@ -25,6 +52,7 @@ export default function TambahGuru() {
       jadwal: '',
     });
     setImgGuru('')
+    setIdUbah(undefined)
   }
 
   const handleInputChange = (e) => {
@@ -49,25 +77,34 @@ export default function TambahGuru() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { status, message, data } = await addGuru(dataGuru)
+    setIsLoading(true)
+    const newDataGuru = { idUbah, ...dataGuru }
+    const { status, message, data } = await addGuru(newDataGuru)
     if (status) {
+      updateDataGuru(data)
       handleToast(message, 'success')
       reset()
+      setTimeout(() => {
+        navigate('/guru')
+      }, 1000)
     } else {
       handleToast(message, 'error')
     }
+    setIsLoading(false)
   }
 
 
-  console.log({ dataGuru });
 
   return (
     <Container>
       <ToastContainer />
+      {isLoading ? (
+        <Loading />
+      ) : null}
       <div className="w-full h-max pt-[80px] flex flex-col items-center gap-2 justify-center lg:pl-[20%]  pb-[100px]">
         <div className="w-[90%] h-max rounded-md bg-[#ffff]">
           <div className="w-[100%] m-auto h-[60px] border-b border-gray-300 flex items-center p-4">
-            <p className=" text-[#4D44B5] font-medium">Tambah Guru</p>
+            <p className=" text-[#4D44B5] font-medium">{idUbah ? 'Edit Guru' : 'Tambah Guru'}</p>
           </div>
           <form action="" className="w-full h-max  flex flex-col gap-3 p-4 lg:flex-row lg:justify-center lg:gap-0 " onSubmit={handleSubmit}>
             <div className="w-full h-[200px]  flex flex-col gap-2 lg:w-[40%]">
@@ -137,23 +174,20 @@ export default function TambahGuru() {
                 />
               </div>
               <div className="w-full">
-                {/* {idUbah ? (
-                <>
-                  <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
-                    Ubah
+                {idUbah ? (
+                  <>
+                    <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
+                      Ubah
+                    </button>
+                    <button className="ml-2 py-[6px] px-4 text-[.8rem] bg-[#dc143cd5] text-white rounded-lg hover:bg-[crimson]" onClick={() => navigate('/guru')}>
+                      Batal
+                    </button>
+                  </>
+                ) : (
+                  <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]" type="submit">
+                    Simpan
                   </button>
-                  <button className="ml-2 py-[6px] px-4 text-[.8rem] bg-[#dc143cd5] text-white rounded-lg hover:bg-[crimson]" onClick={() => navigate('/siswa')}>
-                    Batal
-                  </button>
-                </>
-              ) : (
-                <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
-                  Simpan
-                </button>
-              )} */}
-                <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]" type="submit">
-                  Simpan
-                </button>
+                )}
               </div>
             </div>
           </form>

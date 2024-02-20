@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { FaRegEye } from "react-icons/fa";
+import { IoManSharp, IoWoman } from "react-icons/io5";
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
@@ -144,7 +145,11 @@ export default function TabelSiswa() {
     // + JEKEL
     {
       name: 'JENIS KELAMIN',
-      selector: row => <p className='capitalize'>{row.jekel}</p>,
+      selector: row =>
+        <div className='capitalize flex items-center gap-1'>
+          {row.jekel == 'laki-laki' ? <IoManSharp size={20} fill='#64B5F6' /> : <IoWoman size={20} fill='#F48FB1' />}
+          <p>{row.jekel}</p>
+        </div>,
       minWidth: '150px',
       style: {
         textAlign: 'left',
@@ -229,13 +234,14 @@ export default function TabelSiswa() {
       ) : null}
       <ToastContainer />
       <DataTable
-        title={<span className='text-[#4d44D5] font-medium'>Data Siswa</span>}
+        title={<div className='text-zinc-100 font-medium bg-indigo-500 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Siswa</div>}
         columns={columns}
         customStyles={customStyles}
         data={dataSiswa}
         pagination
         className="rounded-lg w-[100%]"
-      />
+      >
+      </DataTable>
     </div>
   );
 }

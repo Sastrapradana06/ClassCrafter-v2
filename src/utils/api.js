@@ -86,3 +86,21 @@ export async function addGuru(data) {
   const dataGuru = await response.json()
   return dataGuru
 }
+
+export async function getAllGuru() {
+  const response = await fetch(`${url}/guru/get-guru`)
+  const data = await response.json()
+  return data
+}
+
+export async function deleteGuruById(id) {
+  const response = await fetch(`${url}/guru/delete-guru/${id}`)
+  const data = await response.json()
+  return data
+}
+
+export async function getGuruById(id) {
+  const response = await fetch(`${url}/guru/get-guru/${id}`)
+  const data = await response.json()
+  return data
+}

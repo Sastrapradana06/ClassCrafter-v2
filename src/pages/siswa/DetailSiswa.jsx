@@ -51,7 +51,7 @@ export default function DetailSiswa() {
                 <img src={detSiswa.image} alt="" className="w-full h-full object-cover rounded-full" />
               </div>
               <div className="mt-10 lg:pt-4">
-                <h1 className="text-[1.3rem] font-semibold lg:text-[1.5rem]">{detSiswa.username}</h1>
+                <h1 className="text-[1.3rem] font-semibold lg:text-[1.5rem] capitalize">{detSiswa.username}</h1>
                 <p className="text-[.9rem] font-medium text-[#312a83] capitalize">{detSiswa.jabatan}</p>
               </div>
             </div>
