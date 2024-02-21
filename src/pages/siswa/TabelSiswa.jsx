@@ -16,7 +16,7 @@ import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
 import ModalDelete from '../../components/modal-delete/ModalDelete';
 
-import { themeSiswa } from '../../theme/theme-tabel';
+import { themeTable } from '../../theme/theme-tabel';
 
 
 export default function TabelSiswa() {
@@ -218,12 +218,12 @@ export default function TabelSiswa() {
   const customStyles = {
     rows: {
       style: {
-        minHeight: '62px',
+        minHeight: '72px',
       },
     },
   };
 
-  createTheme('themeSiswa', { themeSiswa })
+  createTheme('themeTable', { themeTable })
 
   return (
     <div className='pb-[21%] lg:pb-[10%]'>
@@ -243,7 +243,7 @@ export default function TabelSiswa() {
         columns={columns}
         customStyles={customStyles}
         data={dataSiswa}
-        theme='themeSiswa'
+        theme='themeTable'
         pagination
         className="rounded-lg w-[100%]"
       >

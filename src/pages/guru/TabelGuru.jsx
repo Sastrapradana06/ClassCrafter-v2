@@ -1,5 +1,5 @@
 import DataTable, { createTheme } from 'react-data-table-component';
-import { themeGuru } from '../../theme/theme-tabel';
+import { themeTable } from '../../theme/theme-tabel';
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
@@ -127,7 +127,7 @@ export default function TabelGuru() {
     // + JADWAL
     {
       name: 'JADWAL',
-      selector: row => <p className='bg-[#307fb8] p-2 text-white rounded-md max-w-[170px]'>{row.jadwal}</p>,
+      selector: row => <p className='capitalize bg-[#86A789] p-2 text-white rounded-md max-w-[170px]'>{row.jadwal}</p>,
       minWidth: '170px',
       style: {
         textAlign: 'left',
@@ -182,7 +182,7 @@ export default function TabelGuru() {
     },
   };
 
-  createTheme('themeGuru', { themeGuru })
+  createTheme('themeTable', { themeTable })
 
 
   return (
@@ -203,7 +203,7 @@ export default function TabelGuru() {
         columns={columns}
         customStyles={customStyles}
         data={dataGuru}
-        theme='themeGuru'
+        theme='themeTable'
         pagination
         className="rounded-lg w-[100%]"
       >

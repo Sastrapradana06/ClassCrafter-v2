@@ -131,6 +131,14 @@ const router = createBrowserRouter([
       </AuthPage>,
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/edit-mapel/:id",
+    element:
+      <AuthPage>
+        <TambahMapel />
+      </AuthPage>,
+    errorElement: <ErrorPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

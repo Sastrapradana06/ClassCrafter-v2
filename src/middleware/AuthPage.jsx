@@ -14,7 +14,7 @@ export default function AuthPage({ children }) {
   const token = getToken('token')
   const idUser = getToken('idUser')
 
-  const protectedRoutes = ['/tambah-siswa', '/tambah-guru', '/auth']
+  const protectedRoutes = ['/tambah-siswa', '/tambah-guru', '/tambah-mapel', '/auth']
 
   useEffect(() => {
 

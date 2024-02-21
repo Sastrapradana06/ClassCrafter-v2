@@ -1,4 +1,4 @@
-// import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import DataTable, { createTheme } from 'react-data-table-component';
 // import { FaRegEye } from "react-icons/fa";
 // import { IoManSharp, IoWoman } from "react-icons/io5";
@@ -6,7 +6,7 @@ import DataTable, { createTheme } from 'react-data-table-component';
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
 
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { deleteSiswaById } from '../../utils/api';
 
 // import { ToastContainer } from 'react-toastify';
@@ -16,7 +16,7 @@ import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
 // import ModalDelete from '../../components/modal-delete/ModalDelete';
 
-import { themeSiswa } from '../../theme/theme-tabel';
+import { themeTable } from '../../theme/theme-tabel';
 
 
 export default function TabelMapel() {
@@ -25,17 +25,17 @@ export default function TabelMapel() {
   // const [nameDelete, setNameDelete] = useState(undefined)
   // const [isLoading, setIsLoading] = useState(false)
 
-  const [user] = useAppStore(
-    useShallow((state) => [state.user])
+  const [user, dataMapel, getDataMapel] = useAppStore(
+    useShallow((state) => [state.user, state.dataMapel, state.getDataMapel])
   )
 
+  const navigate = useNavigate()
 
-  // const navigate = useNavigate()
-  // useEffect(() => {
-  //   if (dataSiswa == undefined) {
-  //     getDataSiswa()
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (dataMapel == undefined) {
+      getDataMapel()
+    }
+  }, [])
   // const deleteSiswa = async () => {
   //   setIsLoading(true)
   //   const res = await deleteSiswaById(idDelete)
@@ -59,29 +59,6 @@ export default function TabelMapel() {
   //   setNameDelete(name)
   // }
 
-  const dataMapel = [
-    {
-      id: 1,
-      mapel: 'Bahasa Indonesia',
-      jam: '08:00 - 10:00',
-      hari: 'Senin',
-      nama_guru: 'Yuli',
-    },
-    {
-      id: 2,
-      mapel: 'IPS',
-      jam: '10:00 - 12:00',
-      hari: 'Selasa',
-      nama_guru: 'Wulandari',
-    },
-    {
-      id: 3,
-      mapel: 'Pemograman',
-      jam: '08:00 - 10:00',
-      hari: 'jumat',
-      nama_guru: 'Jhonson',
-    },
-  ]
 
   const columns = [
     // + no
@@ -122,7 +99,7 @@ export default function TabelMapel() {
     // + HARI
     {
       name: 'HARI',
-      selector: row => <p className='capitalize'>{row.hari}</p>,
+      selector: row => <p className='capitalize bg-[#86A789] py-1 px-3 rounded-md text-white'>{row.hari}</p>,
       minWidth: '150px',
       style: {
         textAlign: 'left',
@@ -147,16 +124,12 @@ export default function TabelMapel() {
       selector: row => {
         return user ? (
           user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris' ? (
-            // <div className="flex gap-2 text-white">
-            //   <button className='bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500' onClick={() => navigate(`/tambah-siswa/${row.id}`)} title='edit'>
-            //     <LuPencilLine size={20} />
-            //   </button>
             //   <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' onClick={() => showModal(row.id, row.username)} disabled={user.jabatan === 'member'} title='delete'>
             //     <MdDeleteSweep size={20} />
             //   </button>
             // </div>
             <div className="flex gap-2 text-white">
-              <button className='bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500' title='edit'>
+              <button className='bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500' title='edit' onClick={() => navigate(`/edit-mapel/${row.id}`)}>
                 <LuPencilLine size={20} />
               </button>
               <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' disabled={user.jabatan === 'member'} title='delete'>
@@ -187,7 +160,7 @@ export default function TabelMapel() {
     },
   };
 
-  createTheme('themeSiswa', { themeSiswa })
+  createTheme('themeTable', { themeTable })
 
   return (
     <div className='pb-[21%] lg:pb-[10%]'>
@@ -207,7 +180,7 @@ export default function TabelMapel() {
         columns={columns}
         customStyles={customStyles}
         data={dataMapel}
-        theme='themeSiswa'
+        theme='themeTable'
         pagination
         className="rounded-lg w-[100%]"
       >

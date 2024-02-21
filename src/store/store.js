@@ -1,5 +1,5 @@
 
-import { getAllGuru, getAllSiswa, getUserLogin } from '../utils/api'
+import { getAllGuru, getAllMapel, getAllSiswa, getUserLogin } from '../utils/api'
 import { create } from 'zustand'
 
 const useAppStore = create((set) => ({
@@ -33,15 +33,26 @@ const useAppStore = create((set) => ({
   dataGuru : undefined,
   updateDataGuru: (data) => set({dataGuru: data}),
   getDataGuru: async () => {
-      try {
-        const {data} = await getAllGuru()
-        set({ dataGuru: data });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      const {data} = await getAllGuru()
+      set({ dataGuru: data });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  
+  dataMapel : undefined,
+  updateDataMapel: (data) => set({dataMapel: data}),
+  getDataMapel: async () => {
+    try {
+      const {data} = await getAllMapel()
+      set({ dataMapel: data });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
-  resetState: () => set({user: undefined, dataSiswa: undefined, dataGuru: undefined})
+  resetState: () => set({user: undefined, dataSiswa: undefined, dataGuru: undefined, dataMapel: undefined})
 
 }))
 

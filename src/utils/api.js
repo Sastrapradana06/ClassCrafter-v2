@@ -104,3 +104,29 @@ export async function getGuruById(id) {
   const data = await response.json()
   return data
 }
+
+// + Mapel
+export async function addMapel(data) {
+  const response = await fetch(`${url}/mapel/add-mapel`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+
+  const dataMapel = await response.json()
+  return dataMapel
+}
+
+export async function getAllMapel() {
+  const response = await fetch(`${url}/mapel/get-mapel`)
+  const data = await response.json()
+  return data
+}
+
+export async function getMapelById(id) {
+  const response = await fetch(`${url}/mapel/get-mapel/${id}`)
+  const data = await response.json()
+  return data
+}
