@@ -1,8 +1,8 @@
 import Container from "../../components/container/Container";
 import { IoIosSearch } from "react-icons/io";
-import TabelSiswa from "./TabelSiswa";
+import TabelMapel from "./TabelMapel";
 
-export default function Siswa() {
+export default function Mapel() {
   return (
     <Container>
       <div className="w-full h-[100vh] pt-[80px] flex  justify-center lg:pl-[20%]">
@@ -21,7 +21,7 @@ export default function Siswa() {
               <button className="py-[4px] px-6 bg-sky-300 rounded-md text-white">Cari</button>
             </div>
           </div>
-          <TabelSiswa />
+          <TabelMapel />
         </div>
       </div>
     </Container>

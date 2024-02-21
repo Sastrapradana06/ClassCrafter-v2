@@ -1,4 +1,5 @@
-import DataTable from 'react-data-table-component';
+import DataTable, { createTheme } from 'react-data-table-component';
+import { themeGuru } from '../../theme/theme-tabel';
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
@@ -120,7 +121,7 @@ export default function TabelGuru() {
     {
       name: 'MAPEL',
       minWidth: '190px',
-      selector: row => <p className={`capitalize text-[#333333] font-semibold`}>{row.mapel}</p>,
+      selector: row => <p className={`capitalize text-[#dda15e] font-semibold`}>{row.mapel}</p>,
     },
 
     // + JADWAL
@@ -181,6 +182,9 @@ export default function TabelGuru() {
     },
   };
 
+  createTheme('themeGuru', { themeGuru })
+
+
   return (
     <div className='pb-[21%] lg:pb-[10%]'>
       {isModal ? (
@@ -195,10 +199,11 @@ export default function TabelGuru() {
       ) : null}
       <ToastContainer />
       <DataTable
-        title={<div className='text-zinc-100 font-medium bg-indigo-500 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Guru</div>}
+        title={<div className='text-black font-medium bg-zinc-100 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Guru</div>}
         columns={columns}
         customStyles={customStyles}
         data={dataGuru}
+        theme='themeGuru'
         pagination
         className="rounded-lg w-[100%]"
       >

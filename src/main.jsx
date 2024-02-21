@@ -15,9 +15,12 @@ import DetailSiswa from './pages/siswa/DetailSiswa.jsx';
 import Authentication from './pages/authentication/Authentication.jsx';
 import Guru from './pages/guru/Guru.jsx';
 import TambahGuru from './pages/guru/TambahGuru.jsx';
+import Mapel from './pages/mapel/Mapel.jsx';
+import TambahMapel from './pages/mapel/TambahMapel.jsx';
 
 
 const router = createBrowserRouter([
+  // + Home
   {
     path: "/",
     element: <App />,
@@ -32,7 +35,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 
-
+  // + Siswa
   {
     path: "/siswa",
     element:
@@ -74,6 +77,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 
+  // + Auht
   {
     path: "/auth",
     element:
@@ -83,6 +87,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 
+  // + Guru
   {
     path: "/guru",
     element:
@@ -104,6 +109,25 @@ const router = createBrowserRouter([
     element:
       <AuthPage>
         <TambahGuru />
+      </AuthPage>,
+    errorElement: <ErrorPage />,
+  },
+
+
+  // + Mapel
+  {
+    path: "/mapel",
+    element:
+      <AuthPage>
+        <Mapel />
+      </AuthPage>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/tambah-mapel",
+    element:
+      <AuthPage>
+        <TambahMapel />
       </AuthPage>,
     errorElement: <ErrorPage />,
   },

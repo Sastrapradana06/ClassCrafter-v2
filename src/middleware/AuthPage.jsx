@@ -14,7 +14,7 @@ export default function AuthPage({ children }) {
   const token = getToken('token')
   const idUser = getToken('idUser')
 
-  const protectedRoutes = ['/tambah-siswa']
+  const protectedRoutes = ['/tambah-siswa', '/tambah-guru', '/auth']
 
   useEffect(() => {
 
@@ -29,7 +29,6 @@ export default function AuthPage({ children }) {
     if (!user) {
       setUser()
     }
-
 
   }, [token, idUser, pathname])
   return children

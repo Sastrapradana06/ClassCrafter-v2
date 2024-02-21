@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import DataTable from 'react-data-table-component';
+import DataTable, { createTheme } from 'react-data-table-component';
 import { FaRegEye } from "react-icons/fa";
 import { IoManSharp, IoWoman } from "react-icons/io5";
 
@@ -16,6 +16,8 @@ import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
 import ModalDelete from '../../components/modal-delete/ModalDelete';
 
+import { themeSiswa } from '../../theme/theme-tabel';
+
 
 export default function TabelSiswa() {
   const [isModal, setIsModal] = useState(false)
@@ -26,6 +28,7 @@ export default function TabelSiswa() {
   const [dataSiswa, getDataSiswa, setDataSiswa, user] = useAppStore(
     useShallow((state) => [state.dataSiswa, state.getDataSiswa, state.setDataSiswa, state.user])
   )
+
 
   const navigate = useNavigate()
 
@@ -105,7 +108,7 @@ export default function TabelSiswa() {
     // + JABATAN
     {
       name: 'JABATAN',
-      selector: row => <p className={`capitalize py-1 px-4 border rounded-lg ${row.jabatan === 'ketua kelas' ? 'bg-[crimson] text-white' : row.jabatan === 'sekretaris' ? 'bg-[#307fb8] text-white' : row.jabatan === 'bendahara' ? 'bg-[#2ac12a] text-white' : 'text-black border-none'}`}>{row.jabatan}</p>,
+      selector: row => <p className={`capitalize py-1 px-4 border rounded-lg ${row.jabatan === 'ketua kelas' ? 'bg-[crimson] text-white' : row.jabatan === 'sekretaris' ? 'bg-[#307fb8] text-white' : row.jabatan === 'bendahara' ? 'bg-[#2ac12a] text-white' : ' border-none'}`}>{row.jabatan}</p>,
       minWidth: '140px',
       style: {
         textAlign: 'left',
@@ -220,6 +223,8 @@ export default function TabelSiswa() {
     },
   };
 
+  createTheme('themeSiswa', { themeSiswa })
+
   return (
     <div className='pb-[21%] lg:pb-[10%]'>
       {isModal ? (
@@ -234,10 +239,11 @@ export default function TabelSiswa() {
       ) : null}
       <ToastContainer />
       <DataTable
-        title={<div className='text-zinc-100 font-medium bg-indigo-500 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Siswa</div>}
+        title={<div className='text-black font-medium bg-zinc-100 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Siswa</div>}
         columns={columns}
         customStyles={customStyles}
         data={dataSiswa}
+        theme='themeSiswa'
         pagination
         className="rounded-lg w-[100%]"
       >

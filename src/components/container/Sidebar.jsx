@@ -7,6 +7,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { TiHome } from "react-icons/ti";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { RiLockPasswordLine } from "react-icons/ri";
+import { FaBook } from "react-icons/fa6";
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +26,8 @@ export default function Sidebar({ idSidebar }) {
     Home: 'hidden',
     Siswa: 'hidden',
     Guru: 'hidden',
-    Setting: 'hidden'
+    Setting: 'hidden',
+    Mapel: 'hidden',
   });
 
   const showDropdown = (nama) => {
@@ -34,69 +36,6 @@ export default function Sidebar({ idSidebar }) {
       [nama]: prev[nama] === 'hidden' ? 'block' : 'hidden',
     }));
   };
-
-  // const listLink = [
-  //   {
-  //     nama_link: 'Home',
-  //     icons: <TiHome size={20} />,
-  //     parent_link: [
-  //       {
-  //         nama_link: 'Dashboard',
-  //         url: '/dashboard'
-  //       },
-  //     ]
-  //   },
-  //   {
-  //     nama_link: 'Siswa',
-  //     icons: <PiStudentFill size={20} />,
-  //     parent_link: [
-  //       {
-  //         nama_link: 'Daftar Siswa',
-  //         url: '/siswa'
-  //       },
-  //       {
-  //         nama_link: 'Detail Siswa',
-  //         url: '/detail-siswa'
-  //       },
-  //       user ?
-  //         user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
-  //           nama_link: 'Tambah Siswa',
-  //           url: '/tambah-siswa'
-  //         } : null
-  //         : null
-  //     ].filter(link => link)
-  //   },
-  //   {
-  //     nama_link: 'Guru',
-  //     icons: <FaChalkboardTeacher size={20} />,
-  //     parent_link: [
-  //       {
-  //         nama_link: 'Daftar Guru',
-  //         url: '/'
-  //       },
-  //       user ?
-  //         user.jabatan == 'ketua kelas' || user.jabatan == 'sekretaris' ? {
-  //           nama_link: 'Tambah Guru',
-  //           url: '/'
-  //         } : null
-  //         : null,
-  //     ].filter(link => link)
-  //   },
-  //   user ? (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') && {
-  //     nama_link: 'Setting',
-  //     icons: <RiLockPasswordLine size={20} />,
-  //     parent_link: [
-  //       {
-  //         nama_link: 'Authentication',
-  //         url: '/auth'
-  //       },
-  //       {
-  //         nama_link: 'Tambah Authentication',
-  //         url: '/tambah-auth'
-  //       },
-  //     ]
-  //   } : null,
-  // ]
 
   const listLink = [
     {
@@ -138,6 +77,20 @@ export default function Sidebar({ idSidebar }) {
         ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
           nama_link: 'Tambah Guru',
           url: '/tambah-guru'
+        }] : []),
+      ]
+    },
+    {
+      nama_link: 'Mapel',
+      icons: <FaBook size={20} />,
+      parent_link: [
+        {
+          nama_link: 'Daftar Mapel',
+          url: '/mapel'
+        },
+        ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
+          nama_link: 'Tambah Mapel',
+          url: '/tambah-mapel'
         }] : []),
       ]
     },
