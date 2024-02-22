@@ -1,83 +1,90 @@
 
-import DataTable from 'react-data-table-component';
+import DataTable, { createTheme } from 'react-data-table-component';
+import { themeTable } from '../../theme/theme-tabel';
+import { getDate } from '../../utils/function'
 
 export default function TabelAcara() {
+  const dateNow = getDate()
+
+  const data = [
+    {
+      id: 1,
+      title: 'Bahasa Indonesia',
+      tanggal: '08:00-10:30',
+      status: 'Selesai'
+    },
+    {
+      id: 1,
+      title: 'Pemograman Web',
+      tanggal: '10:30-12:00',
+      status: 'Segera'
+    },
+    {
+      id: 1,
+      title: 'Agama Islam',
+      tanggal: '12:00-13:30',
+      status: 'Segera'
+    },
+  ]
 
   const columns = [
+    // + no
     {
-      name: 'Id',
-      selector: row => row.id,
-      sortable: true,
-      minWidth: '50px'
+      name: 'N0',
+      minWidth: '50px',
+      selector: (row, index) => {
+        return <div className='text-center font-semibold m-auto w-[20px]'>{index + 1}</div>;
+      },
     },
     {
-      name: 'Title',
+      name: 'Mapel',
       selector: row => row.title,
       sortable: true,
-      minWidth: '200px'
+      minWidth: '180px'
     },
     {
-      name: 'Tanggal',
+      name: 'Jam',
+      minWidth: '150px',
       selector: row => row.tanggal,
     },
     {
       name: 'Status',
       selector: row => row.status,
-      minWidth: '150px'
 
     },
   ];
 
-  const data = [
-  {
-		id: 1,
-		title: 'Beetlejuice hhhh',
-		tanggal: '1988',
-    status: 'Segera'
-	},
-	{
-		id: 2,
-		title: 'Ghostbusters',
-		tanggal: '1984',
-    status: 'Dilaksanal'
-
-	},
-	{
-		id: 3,
-		title: 'Ghostbusters',
-		tanggal: '1984',
-    status: 'Sudah Lewat'
-
-	},
-	{
-		id: 4,
-		title: 'Ghostbusters',
-		tanggal: '1984',
-    status: 'Sudah Lewat'
-
-	},
-]
-
-const customStyles = {
-  title: {
-    textAlign: 'left',
-    width: '100%',
-  },
-  rows: {
-    style: {
-      minHeight: '52px',
+  const customStyles = {
+    rows: {
+      style: {
+        minHeight: '62px',
+      },
     },
-  },
-};
+    headCells: {
+      style: {
+        paddingLeft: '12px',
+      },
+    },
+    cells: {
+      style: {
+        paddingLeft: '12px',
+      },
+    },
+  };
 
-const paginationRowsPerPageOptions = [5, 10, 15, 20]; 
+  const paginationRowsPerPageOptions = [5, 10, 15, 20];
 
+  createTheme('themeTable', { themeTable })
 
   return (
     <div>
       <DataTable
-      
-        title="Acara"
+        title={
+          <div>
+            <p className='text-[1.1rem] '>Jadwal Hari Ini</p>
+            <p className='text-[.9rem] text-[#dda15e] font-medium'>{dateNow.day}, <span>{dateNow.date}</span></p>
+          </div>
+        }
         columns={columns}
         customStyles={customStyles}
         data={data}
@@ -85,6 +92,7 @@ const paginationRowsPerPageOptions = [5, 10, 15, 20];
         paginationPerPage={5}
         pagination
         className="rounded-lg w-[100%]"
+        theme='themeTable'
       />
     </div>
   );

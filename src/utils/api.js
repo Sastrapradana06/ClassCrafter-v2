@@ -130,3 +130,9 @@ export async function getMapelById(id) {
   const data = await response.json()
   return data
 }
+
+export async function deleteMapelById(id) {
+  const response = await fetch(`${url}/mapel/delete-mapel/${id}`)
+  const data = await response.json()
+  return data
+}

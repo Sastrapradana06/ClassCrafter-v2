@@ -30,5 +30,10 @@ export default function ModalDelete({ modalData }) {
 }
 
 ModalDelete.propTypes = {
-  modalData: PropTypes.node.isRequired,
+  modalData: PropTypes.shape({
+    delete: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
+    data: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired
+  }).isRequired,
 };

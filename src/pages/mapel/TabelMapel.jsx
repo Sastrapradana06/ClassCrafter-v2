@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import DataTable, { createTheme } from 'react-data-table-component';
 // import { FaRegEye } from "react-icons/fa";
 // import { IoManSharp, IoWoman } from "react-icons/io5";
@@ -7,26 +7,28 @@ import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
 
 import { useNavigate } from 'react-router-dom';
-// import { deleteSiswaById } from '../../utils/api';
 
-// import { ToastContainer } from 'react-toastify';
-// import { handleToast } from "../../utils/function";
+import { ToastContainer } from 'react-toastify';
+import { handleToast } from "../../utils/function";
 
 import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
-// import ModalDelete from '../../components/modal-delete/ModalDelete';
+import ModalDelete from '../../components/modal-delete/ModalDelete';
 
 import { themeTable } from '../../theme/theme-tabel';
+import { deleteMapelById } from '../../utils/api';
 
 
 export default function TabelMapel() {
-  // const [isModal, setIsModal] = useState(false)
+  const [isModal, setIsModal] = useState(false)
   // const [idDelete, setIdDelete] = useState(undefined)
   // const [nameDelete, setNameDelete] = useState(undefined)
-  // const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [idDelete, setIdDelete] = useState(undefined)
+  const [nameDelete, setNameDelete] = useState(undefined)
 
-  const [user, dataMapel, getDataMapel] = useAppStore(
-    useShallow((state) => [state.user, state.dataMapel, state.getDataMapel])
+  const [user, dataMapel, getDataMapel, updateDataMapel] = useAppStore(
+    useShallow((state) => [state.user, state.dataMapel, state.getDataMapel, state.updateDataMapel])
   )
 
   const navigate = useNavigate()
@@ -36,28 +38,31 @@ export default function TabelMapel() {
       getDataMapel()
     }
   }, [])
-  // const deleteSiswa = async () => {
-  //   setIsLoading(true)
-  //   const res = await deleteSiswaById(idDelete)
-  //   if (res.status) {
-  //     handleToast(res.message, 'info')
-  //     setDataSiswa(res.data)
-  //   } else {
-  //     handleToast(res.message, 'error')
-  //   }
-  //   setIsModal(false)
-  //   setIsLoading(false)
-  // }
-  // const removeModal = () => {
-  //   setIsModal(false)
-  //   setIdDelete(undefined)
-  //   setNameDelete(undefined)
-  // }
-  // const showModal = (id, name) => {
-  //   setIsModal(true)
-  //   setIdDelete(id)
-  //   setNameDelete(name)
-  // }
+
+  const deleteSiswa = async () => {
+    setIsLoading(true)
+    const res = await deleteMapelById(idDelete)
+    if (res.status) {
+      handleToast(res.message, 'info')
+      updateDataMapel(res.data)
+    } else {
+      handleToast(res.message, 'error')
+    }
+    setIsModal(false)
+    setIsLoading(false)
+  }
+
+  const removeModal = () => {
+    setIsModal(false)
+    setIdDelete(undefined)
+    setNameDelete(undefined)
+  }
+
+  const showModal = (id, namaGuru) => {
+    setIsModal(true)
+    setIdDelete(id)
+    setNameDelete(namaGuru)
+  }
 
 
   const columns = [
@@ -124,15 +129,11 @@ export default function TabelMapel() {
       selector: row => {
         return user ? (
           user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris' ? (
-            //   <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' onClick={() => showModal(row.id, row.username)} disabled={user.jabatan === 'member'} title='delete'>
-            //     <MdDeleteSweep size={20} />
-            //   </button>
-            // </div>
             <div className="flex gap-2 text-white">
               <button className='bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500' title='edit' onClick={() => navigate(`/edit-mapel/${row.id}`)}>
                 <LuPencilLine size={20} />
               </button>
-              <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' disabled={user.jabatan === 'member'} title='delete'>
+              <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' onClick={() => showModal(row.id, row.mapel)} disabled={user.jabatan === 'member'} title='delete'>
                 <MdDeleteSweep size={20} />
               </button>
             </div>
@@ -164,7 +165,7 @@ export default function TabelMapel() {
 
   return (
     <div className='pb-[21%] lg:pb-[10%]'>
-      {/* {isModal ? (
+      {isModal ? (
         <ModalDelete
           modalData={{
             delete: deleteSiswa,
@@ -174,7 +175,7 @@ export default function TabelMapel() {
           }}
         />
       ) : null}
-      <ToastContainer /> */}
+      <ToastContainer />
       <DataTable
         title={<div className='text-black font-medium bg-zinc-100 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Mata Pelajaran</div>}
         columns={columns}

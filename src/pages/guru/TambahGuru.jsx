@@ -37,10 +37,12 @@ export default function TambahGuru() {
   }, [])
 
   const editGuru = async (id) => {
+    setIsLoading(true)
     const { data } = await getGuruById(id)
     setImgGuru(data.image)
     setDataGuru(data)
     setIdUbah(data.id)
+    setIsLoading(false)
   }
 
   const reset = () => {

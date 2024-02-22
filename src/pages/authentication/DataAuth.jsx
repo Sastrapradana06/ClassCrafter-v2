@@ -75,13 +75,13 @@ export default function DataAuth() {
 
 
   return (
-    <div className="w-full h-max bg-[#ffff] rounded-lg flex flex-col gap-7 py-6 px-2">
+    <div className="w-full h-max bg-[#404556] rounded-lg flex flex-col gap-7 py-6 px-2">
       <ToastContainer />
       {isLoading ? (
         <Loading />
       ) : null}
       {Object.keys(formData).map(key => (
-        <div key={key} className={`w-full h-max flex flex-col gap-2 ${key === 'ketua_kelas' ? 'bg-[#dc143ccd]' : key == 'sekretaris' ? 'bg-[#307fb8]' : key == 'bendahara' ? 'bg-[#2ac12a]' : 'bg-zinc-800'} p-2 rounded-md text-white`}>
+        <div key={key} className={`w-full h-max flex flex-col gap-2 ${key === 'ketua_kelas' ? 'bg-[#B80000]' : key == 'sekretaris' ? 'bg-[#40679E]' : key == 'bendahara' ? 'bg-[#0D9276]' : 'bg-[#4D4D4D] text-black'} p-2 rounded-md text-white`}>
           <div>
             <p className="capitalize">{key == 'ketua_kelas' ? 'Ketua Kelas' : key}</p>
           </div>

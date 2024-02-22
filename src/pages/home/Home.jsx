@@ -11,14 +11,14 @@ export default function Home() {
     <Container>
       <div className="w-full h-[100vh] pt-[65px] flex justify-center lg:pl-[20%] ">
         <div className="w-[90%] h-[200px]  flex flex-col gap-6 lg:mt-6 lg:w-[95%]">
-          <div className="w-full h-[150px] rounded-md flex justify-between flex-wrap bg-[#FFFFFF] lg:flex-nowrap lg:h-max lg:items-center">
+          <div className="w-full h-[150px] rounded-md flex justify-between flex-wrap bg-[#404556] lg:flex-nowrap lg:h-max lg:items-center">
             <div className="w-[50%] h-[50%] flex p-3 items-center gap-2 ">
               <div className="p-4 bg-[#4D44B5] rounded-full">
                 <BsFileEarmarkPerson fill="white" className="size-5" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[.8rem] text-[#7c7e86]">Siswa</p>
-                <p className="text-[#4D44B5] font-semibold text-[1.2rem]">923</p>
+                <p className="text-[.8rem] text-[#ffff] lg:text-[1rem]">Siswa</p>
+                <p className="text-[#dda15e] font-semibold text-[1.2rem]">923</p>
               </div>
             </div>
             <div className="w-[50%] h-[50%] flex p-3 items-center gap-2  ">
@@ -26,8 +26,8 @@ export default function Home() {
                 <GiTeacher fill="white" className="size-5" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[.8rem] text-[#7c7e86]">Guru</p>
-                <p className="text-[#4D44B5] font-semibold text-[1.2rem]">754</p>
+                <p className="text-[.8rem] text-[#ffff] lg:text-[1rem]">Guru</p>
+                <p className="text-[#dda15e] font-semibold text-[1.2rem]">754</p>
               </div>
             </div>
             <div className="w-[50%] h-[50%] flex p-3 items-center gap-2 ">
@@ -35,8 +35,8 @@ export default function Home() {
                 <RiCalendarEventLine fill="white" className="size-5" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[.8rem] text-[#7c7e86]">Acara</p>
-                <p className="text-[#4D44B5] font-semibold text-[1.2rem]">6</p>
+                <p className="text-[.8rem] text-[#ffff] lg:text-[1rem]">Mapel</p>
+                <p className="text-[#dda15e] font-semibold text-[1.2rem]">6</p>
               </div>
             </div>
             <div className="w-[50%] h-[50%] flex p-3 items-center gap-2 ">
@@ -44,8 +44,8 @@ export default function Home() {
                 <FaMoneyCheckAlt fill="white" className="size-5" />
               </div>
               <div className="flex flex-col">
-                <p className="text-[.8rem] text-[#7c7e86]">Kas</p>
-                <p className="text-[#4D44B5] font-semibold text-[1.2rem]">504.000</p>
+                <p className="text-[.8rem] text-[#ffff] lg:text-[1rem]">Kas</p>
+                <p className="text-[#dda15e] font-semibold text-[1.2rem]">504.000</p>
               </div>
             </div>
           </div>

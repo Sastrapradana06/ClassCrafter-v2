@@ -108,7 +108,7 @@ export default function TabelSiswa() {
     // + JABATAN
     {
       name: 'JABATAN',
-      selector: row => <p className={`capitalize py-1 px-4 border rounded-lg ${row.jabatan === 'ketua kelas' ? 'bg-[crimson] text-white' : row.jabatan === 'sekretaris' ? 'bg-[#307fb8] text-white' : row.jabatan === 'bendahara' ? 'bg-[#2ac12a] text-white' : ' border-none'}`}>{row.jabatan}</p>,
+      selector: row => <p className={`capitalize py-1 px-4 border rounded-lg ${row.jabatan === 'ketua kelas' ? 'bg-[#B80000] text-white' : row.jabatan === 'sekretaris' ? 'bg-[#40679E] text-white' : row.jabatan === 'bendahara' ? 'bg-[#0D9276] text-white' : ' border-none'}`}>{row.jabatan}</p>,
       minWidth: '140px',
       style: {
         textAlign: 'left',

@@ -96,3 +96,11 @@ export const getToken = (name) => {
   const cookies = Cookies.get(name)
   return cookies
 }
+
+export const getDate = () => {
+  const currentDate = new Date();
+  const day = currentDate.toLocaleDateString('id-ID', { weekday: 'long' });
+  const date = currentDate.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  return { day, date };
+};

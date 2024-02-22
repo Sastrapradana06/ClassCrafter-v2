@@ -37,10 +37,12 @@ export default function TambahSiswa() {
   }, [])
 
   const editSiswa = async (id) => {
+    setIsLoading(true)
     const { data } = await getSiswaById(id)
     setImgUser(data.image)
     setUserData(data)
     setIdUbah(data.id)
+    setIsLoading(false)
   }
 
   const [setDataSiswa] = useAppStore(

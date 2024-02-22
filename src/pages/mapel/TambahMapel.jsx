@@ -84,10 +84,6 @@ export default function TambahMapel() {
     setIsLoading(false)
   }
 
-
-
-
-
   return (
     <Container>
       <ToastContainer />
