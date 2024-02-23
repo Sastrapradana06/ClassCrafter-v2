@@ -149,16 +149,17 @@ export default function TabelGuru() {
                 <MdDeleteSweep size={20} />
               </button>
             </div>
-          ) : (
-            <div className="flex gap-2 text-white">
-              <button className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50" disabled title='edit'>
-                <LuPencilLine size={20} />
-              </button>
-              <button className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50" disabled title='delete'>
-                <MdDeleteSweep size={20} />
-              </button>
-            </div>
-          )
+          ) :
+            (
+              <div className="flex gap-2 text-white">
+                <button className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50" disabled title='edit'>
+                  <LuPencilLine size={20} />
+                </button>
+                <button className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50" disabled title='delete'>
+                  <MdDeleteSweep size={20} />
+                </button>
+              </div>
+            )
         ) : null;
       }
     },
@@ -211,3 +212,5 @@ export default function TabelGuru() {
     </div>
   )
 }
+
+

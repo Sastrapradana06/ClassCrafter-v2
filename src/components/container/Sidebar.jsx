@@ -6,7 +6,7 @@ import { PiStudentFill } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
 import { TiHome } from "react-icons/ti";
 import { FaChalkboardTeacher } from "react-icons/fa";
-import { RiLockPasswordLine } from "react-icons/ri";
+import { RiLockPasswordLine, RiMoneyDollarCircleFill } from "react-icons/ri";
 import { FaBook } from "react-icons/fa6";
 
 import { useState } from 'react';
@@ -28,6 +28,7 @@ export default function Sidebar({ idSidebar }) {
     Guru: 'hidden',
     Setting: 'hidden',
     Mapel: 'hidden',
+    Transaksi: 'hidden'
   });
 
   const showDropdown = (nama) => {
@@ -94,6 +95,20 @@ export default function Sidebar({ idSidebar }) {
         }] : []),
       ]
     },
+    {
+      nama_link: 'Transaksi',
+      icons: <RiMoneyDollarCircleFill size={20} />,
+      parent_link: [
+        {
+          nama_link: 'Uang Kas',
+          url: '/kas'
+        },
+        ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
+          nama_link: 'Buat Transaksi',
+          url: '/buat-transaksi'
+        }] : []),
+      ]
+    },
     ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
       nama_link: 'Setting',
       icons: <RiLockPasswordLine size={20} />,
@@ -116,8 +131,8 @@ export default function Sidebar({ idSidebar }) {
       <div className="flex flex-col gap-3 w-full h-[400px] lg:mt-4 lg:pl-4">
         {listLink.map((item, i) => {
           return (
-            <div className="w-full flex flex-col " key={i}>
-              <div className="flex items-center w-[70%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2  lg:w-[60%]" onClick={() => showDropdown(item.nama_link)}>
+            <div className="w-full flex-col  " key={i}>
+              <div className="flex items-center w-[70%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2  lg:w-[65%]" onClick={() => showDropdown(item.nama_link)}>
                 <div className="flex gap-4 items-center">
                   {item.icons}
                   <p className='font-semibold mt-1'>{item.nama_link}</p>
