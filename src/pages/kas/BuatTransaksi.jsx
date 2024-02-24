@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "../../components/container/Container";
 
 import { ToastContainer } from 'react-toastify';
 import { handleToast } from "../../utils/function";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Loading from "../../components/loading/Loading";
-import { addTransaksi } from "../../utils/api";
+import { addTransaksi, getKasById } from "../../utils/api";
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
@@ -26,15 +26,15 @@ export default function BuatTransaksi() {
     useShallow((state) => [state.user, state.updateDataKas, state.updateDataKelas])
   )
 
-  // const { id } = useParams()
+  const { id } = useParams()
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   if (id) {
-  //     editMapel(id)
-  //   }
+  useEffect(() => {
+    if (id) {
+      editKas(id)
+    }
 
-  // }, [])
+  }, [])
 
   const reset = () => {
     setTransaksiKas({
@@ -74,13 +74,18 @@ export default function BuatTransaksi() {
   }
 
 
-  // const editMapel = async (id) => {
-  //   setIsLoading(true)
-  //   const { data } = await getMapelById(id)
-  //   setMapel(data)
-  //   setIdUbah(data.id)
-  //   setIsLoading(false)
-  // }
+  const editKas = async (id) => {
+    setIsLoading(true)
+    const { data } = await getKasById(id)
+    setTransaksiKas({
+      jumlah: data.jumlah,
+      status: data.status,
+      tanggal: data.tanggal,
+    })
+    setIdUbah(data.id)
+    setIsLoading(false)
+  }
+
 
   return (
     <Container>
@@ -124,6 +129,7 @@ export default function BuatTransaksi() {
                   value={transaksiKas.status}
                   onChange={handleInputChange}
                   className="w-full border p-3 outline-[#4D44B5] rounded-lg"
+                  disabled={idUbah}
                 >
                   <option value="none">Pilih</option>
                   <option value="Masuk">Masuk</option>
@@ -136,7 +142,7 @@ export default function BuatTransaksi() {
                     <button className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]">
                       Ubah
                     </button>
-                    <button className="ml-2 py-[6px] px-4 text-[.8rem] bg-[#dc143cd5] text-white rounded-lg hover:bg-[crimson]" >
+                    <button className="ml-2 py-[6px] px-4 text-[.8rem] bg-[#dc143cd5] text-white rounded-lg hover:bg-[crimson]" onClick={() => navigate('/kas')}>
                       Batal
                     </button>
                   </>

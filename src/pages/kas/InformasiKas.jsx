@@ -57,32 +57,32 @@ export default function InformasiKas() {
   }, [getUangMasuk, getUangKeluar])
 
   return (
-    <div className="w-[100%] h-max flex items-center gap-2  overflow-x-auto lg:gap-4 justify-center mt-2 lg:justify-start lg:w-[90%]">
-      <div className="w-max h-max bg-[#404556] p-2 flex items-center gap-2 rounded-md">
+    <div className="w-[100%] h-max flex items-center  overflow-x-auto lg:gap-8 justify-center mt-2 lg:justify-start lg:w-[90%] gap-4 lg:pl-0">
+      <div className="w-max h-max bg-[#404556] flex items-center gap-2 rounded-md">
         <div className="p-2 rounded-full bg-green-600">
-          <GiReceiveMoney size={30} fill="white" />
+          <GiReceiveMoney fill="white" className="text-[1.5rem] lg:text-[2rem]" />
         </div>
         <div className="flex flex-col text-white">
-          <p className="text-[.6rem] lg:text-[.9rem]">Kas</p>
-          <p>{dataKelas ? dataKelas.saldo_kas.toLocaleString('id-ID') : 0}</p>
+          <p className="text-[.6rem] lg:text-[1rem]">Kas</p>
+          <p className="text-[.8rem] lg:text-[1.1rem]">{dataKelas ? dataKelas.saldo_kas.toLocaleString('id-ID') : 0}</p>
         </div>
       </div>
-      <div className="w-max h-max bg-[#404556] p-2 flex items-center gap-2 rounded-md">
+      <div className="w-max h-max bg-[#404556] flex items-center gap-2 rounded-md">
         <div className="p-2 rounded-full bg-sky-500">
-          <IoMdTrendingDown size={30} fill="white" />
+          <IoMdTrendingDown fill="white" className="text-[1.5rem] lg:text-[2rem]" />
         </div>
         <div className="flex flex-col text-white">
-          <p className="text-[.6rem] lg:text-[.9rem]">Masuk</p>
-          <p>{uangMasuk.toLocaleString('id-ID')}</p>
+          <p className="text-[.6rem] lg:text-[1rem]">Masuk</p>
+          <p className="text-[.8rem] lg:text-[1.1rem]">{uangMasuk.toLocaleString('id-ID')}</p>
         </div>
       </div>
-      <div className="w-max h-max bg-[#404556] p-2 flex items-center gap-2 rounded-md">
+      <div className="w-max h-max bg-[#404556] flex items-center gap-2 rounded-md">
         <div className="p-2 rounded-full bg-[crimson]">
-          <IoMdTrendingUp size={30} fill="white" />
+          <IoMdTrendingUp fill="white" className="text-[1.5rem] lg:text-[2rem]" />
         </div>
         <div className="flex flex-col text-white">
-          <p className="text-[.6rem] lg:text-[.9rem]">Keluar</p>
-          <p>{uangKeluar.toLocaleString('id-ID')}</p>
+          <p className="text-[.6rem] lg:text-[1rem]">Keluar</p>
+          <p className="text-[.8rem] lg:text-[1.1rem]">{uangKeluar.toLocaleString('id-ID')}</p>
         </div>
       </div>
     </div>

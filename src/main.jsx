@@ -160,6 +160,14 @@ const router = createBrowserRouter([
       </AuthPage>,
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/edit-transaksi/:id",
+    element:
+      <AuthPage>
+        <BuatTransaksi />
+      </AuthPage>,
+    errorElement: <ErrorPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

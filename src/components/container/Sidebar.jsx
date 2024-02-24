@@ -103,7 +103,7 @@ export default function Sidebar({ idSidebar }) {
           nama_link: 'Uang Kas',
           url: '/kas'
         },
-        ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris') ? [{
+        ...(user && (user.jabatan === 'ketua kelas' || user.jabatan === 'bendahara') ? [{
           nama_link: 'Buat Transaksi',
           url: '/buat-transaksi'
         }] : []),

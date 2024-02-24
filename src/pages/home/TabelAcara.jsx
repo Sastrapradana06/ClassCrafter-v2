@@ -1,31 +1,60 @@
 
 import DataTable, { createTheme } from 'react-data-table-component';
 import { themeTable } from '../../theme/theme-tabel';
-import { getDate } from '../../utils/function'
+import { getDate, getToday } from '../../utils/function'
+
+import { useShallow } from 'zustand/react/shallow'
+import useAppStore from '../../store/store';
+import { useEffect, useState, useCallback } from "react";
+
 
 export default function TabelAcara() {
+  const [jadwalMapell, setJadwalMapel] = useState()
+
+  const [dataMapel, getDataMapel] = useAppStore(
+    useShallow((state) => [state.dataMapel, state.getDataMapel])
+  )
+
+  const getMapelByHari = useCallback(() => {
+    if (dataMapel) {
+      const hari = getToday();
+      const filterByHari = dataMapel.filter((data) => data.hari === hari);
+
+      const sortedData = filterByHari.sort((a, b) => a.jam.localeCompare(b.jam));
+      setJadwalMapel(sortedData);
+    }
+  }, [dataMapel]);
+
+  useEffect(() => {
+    if (dataMapel == undefined) {
+      getDataMapel()
+    }
+    getMapelByHari()
+  }, [getMapelByHari])
+
   const dateNow = getDate()
 
-  const data = [
-    {
-      id: 1,
-      title: 'Bahasa Indonesia',
-      tanggal: '08:00-10:30',
-      status: 'Selesai'
-    },
-    {
-      id: 1,
-      title: 'Pemograman Web',
-      tanggal: '10:30-12:00',
-      status: 'Segera'
-    },
-    {
-      id: 1,
-      title: 'Agama Islam',
-      tanggal: '12:00-13:30',
-      status: 'Segera'
-    },
-  ]
+
+  // const data = [
+  //   {
+  //     id: 1,
+  //     title: 'Bahasa Indonesia',
+  //     tanggal: '08:00-10:30',
+  //     status: 'Selesai'
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Pemograman Web',
+  //     tanggal: '10:30-12:00',
+  //     status: 'Segera'
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Agama Islam',
+  //     tanggal: '12:00-13:30',
+  //     status: 'Segera'
+  //   },
+  // ]
 
   const columns = [
     // + no
@@ -38,18 +67,19 @@ export default function TabelAcara() {
     },
     {
       name: 'Mapel',
-      selector: row => row.title,
+      selector: row => row.mapel,
       sortable: true,
       minWidth: '180px'
     },
     {
       name: 'Jam',
       minWidth: '150px',
-      selector: row => row.tanggal,
+      selector: row => row.jam,
     },
     {
       name: 'Status',
-      selector: row => row.status,
+      // selector: row => <p className={`p-2 rounded ${row.status == 'Segera' ? 'bg-sky-500' : 'bg-red-500'}`}>{row.status}</p>,
+      selector: row => <p className={`p-2 rounded ${row.status == 'Segera' ? 'bg-sky-500' : 'bg-red-500'}`}>Segera</p>,
 
     },
   ];
@@ -57,7 +87,7 @@ export default function TabelAcara() {
   const customStyles = {
     rows: {
       style: {
-        minHeight: '62px',
+        minHeight: '67px',
       },
     },
     headCells: {
@@ -80,14 +110,14 @@ export default function TabelAcara() {
     <div>
       <DataTable
         title={
-          <div>
+          <div className='p-2'>
             <p className='text-[1.1rem] '>Jadwal Hari Ini</p>
             <p className='text-[.9rem] text-[#dda15e] font-medium'>{dateNow.day}, <span>{dateNow.date}</span></p>
           </div>
         }
         columns={columns}
         customStyles={customStyles}
-        data={data}
+        data={jadwalMapell}
         paginationRowsPerPageOptions={paginationRowsPerPageOptions}
         paginationPerPage={5}
         pagination

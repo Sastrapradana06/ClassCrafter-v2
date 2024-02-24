@@ -111,3 +111,12 @@ export const getDate = () => {
 export const formatDateID = (tanggal) => {
   return format(new Date(tanggal), 'dd MMMM yyyy', { locale: id });
 }
+
+export const getToday = () => {
+  const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+  const date = new Date();
+  const dayIndex = date.getDay(); 
+  const dayName = days[dayIndex]
+
+  return dayName;
+}

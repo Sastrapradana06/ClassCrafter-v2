@@ -4,31 +4,32 @@ import DataTable, { createTheme } from 'react-data-table-component';
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
 
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-// import { ToastContainer } from 'react-toastify';
-// import { handleToast } from "../../utils/function";
+import { ToastContainer } from 'react-toastify';
+import { handleToast } from "../../utils/function";
 
 import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
-// import ModalDelete from '../../components/modal-delete/ModalDelete';
+import ModalDelete from '../../components/modal-delete/ModalDelete';
 
 import { themeTable } from '../../theme/theme-tabel';
 import { formatDateID } from '../../utils/function';
-// import { deleteMapelById } from '../../utils/api';
+import { useState } from 'react';
+import { deleteKasById } from '../../utils/api';
 
 
 export default function TabelKas() {
-  // const [isModal, setIsModal] = useState(false)
-  // const [isLoading, setIsLoading] = useState(false)
-  // const [idDelete, setIdDelete] = useState(undefined)
-  // const [nameDelete, setNameDelete] = useState(undefined)
+  const [isModal, setIsModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [idDelete, setIdDelete] = useState(undefined)
+  const [nameDelete, setNameDelete] = useState(undefined)
 
-  const [user, dataKas] = useAppStore(
-    useShallow((state) => [state.user, state.dataKas])
+  const [user, dataKas, updateDataKas, updateDataKelas] = useAppStore(
+    useShallow((state) => [state.user, state.dataKas, state.updateDataKas, state.updateDataKelas])
   )
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   // useEffect(() => {
   //   if (dataMapel == undefined) {
@@ -36,30 +37,31 @@ export default function TabelKas() {
   //   }
   // }, [])
 
-  // const deleteSiswa = async () => {
-  //   setIsLoading(true)
-  //   const res = await deleteMapelById(idDelete)
-  //   if (res.status) {
-  //     handleToast(res.message, 'info')
-  //     updateDataMapel(res.data)
-  //   } else {
-  //     handleToast(res.message, 'error')
-  //   }
-  //   setIsModal(false)
-  //   setIsLoading(false)
-  // }
+  const deleteKas = async () => {
+    setIsLoading(true)
+    const res = await deleteKasById(idDelete)
+    if (res.status) {
+      handleToast(res.message, 'info')
+      updateDataKas(res.data.kas)
+      updateDataKelas(res.data.updateSaldoKas)
+    } else {
+      handleToast(res.message, 'error')
+    }
+    setIsModal(false)
+    setIsLoading(false)
+  }
 
-  // const removeModal = () => {
-  //   setIsModal(false)
-  //   setIdDelete(undefined)
-  //   setNameDelete(undefined)
-  // }
+  const removeModal = () => {
+    setIsModal(false)
+    setIdDelete(undefined)
+    setNameDelete(undefined)
+  }
 
-  // const showModal = (id, namaGuru) => {
-  //   setIsModal(true)
-  //   setIdDelete(id)
-  //   setNameDelete(namaGuru)
-  // }
+  const showModal = (id, namaGuru) => {
+    setIsModal(true)
+    setIdDelete(id)
+    setNameDelete(namaGuru)
+  }
 
 
   const columns = [
@@ -119,19 +121,12 @@ export default function TabelKas() {
       minWidth: '150px',
       selector: row => {
         return user ? (
-          user.jabatan === 'ketua kelas' || user.jabatan === 'sekretaris' ? (
-            // <div className="flex gap-2 text-white">
-            //   <button className='bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500' title='edit' onClick={() => navigate(`/edit-mapel/${row.id}`)}>
-            //     <LuPencilLine size={20} />
-            //   </button>
-            //   <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' onClick={() => showModal(row.id, row.mapel)} disabled={user.jabatan === 'member'} title='delete'>
-            //     <MdDeleteSweep size={20} />
-            //   </button>
+          user.jabatan === 'ketua kelas' || user.jabatan === 'bendahara' ? (
             <div className="flex gap-2 text-white">
-              <button className='bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500' title='edit'>
+              <button className='bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500' title='edit' onClick={() => navigate(`/edit-transaksi/${row.id}`)}>
                 <LuPencilLine size={20} />
               </button>
-              <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' disabled={user.jabatan === 'member'} title='delete'>
+              <button className='bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]' onClick={() => showModal(row.id, row.jumlah.toLocaleString('id-ID'))} disabled={user.jabatan === 'member'} title='delete'>
                 <MdDeleteSweep size={20} />
               </button>
             </div>
@@ -150,7 +145,6 @@ export default function TabelKas() {
     },
   ];
 
-
   const customStyles = {
     rows: {
       style: {
@@ -163,17 +157,17 @@ export default function TabelKas() {
 
   return (
     <div className='pb-[21%] lg:pb-[10%]'>
-      {/* {isModal ? (
+      {isModal ? (
         <ModalDelete
           modalData={{
-            delete: deleteSiswa,
+            delete: deleteKas,
             close: removeModal,
             data: nameDelete,
             loading: isLoading
           }}
         />
       ) : null}
-      <ToastContainer /> */}
+      <ToastContainer />
       <DataTable
         title={<div className='text-black font-medium bg-zinc-100 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Kas</div>}
         columns={columns}

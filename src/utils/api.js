@@ -163,3 +163,16 @@ export async function getAllDataKelas() {
   const data = await response.json()
   return data
 }
+
+export async function getKasById(id) {
+  const response = await fetch(`${url}/transaksi/get-kas/${id}`)
+  const data = await response.json()
+  return data
+}
+
+export async function deleteKasById(id) {
+  const response = await fetch(`${url}/transaksi/delete-kas/${id}`)
+  const data = await response.json()
+  console.log({data});
+  return data
+}
