@@ -22,8 +22,8 @@ export default function UangKas() {
               <button className="py-[4px] px-6 bg-[crimson] rounded-md text-white">Reset</button>
               <button className="py-[4px] px-6 bg-sky-300 rounded-md text-white">Cari</button>
             </div>
+            <InformasiKas />
           </div>
-          <InformasiKas />
           <TabelKas />
         </div>
       </div>

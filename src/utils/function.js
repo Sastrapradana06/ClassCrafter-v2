@@ -2,6 +2,8 @@ import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Bounce } from 'react-toastify';
 import Cookies from 'js-cookie';
+import { format } from 'date-fns';
+import id from 'date-fns/locale/id';
 
 export const handleFileChange = (e) => {
   const file = e.target.files[0];
@@ -104,3 +106,8 @@ export const getDate = () => {
 
   return { day, date };
 };
+
+
+export const formatDateID = (tanggal) => {
+  return format(new Date(tanggal), 'dd MMMM yyyy', { locale: id });
+}

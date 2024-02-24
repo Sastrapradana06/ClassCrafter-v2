@@ -14,6 +14,7 @@ import { MdDeleteSweep } from "react-icons/md";
 // import ModalDelete from '../../components/modal-delete/ModalDelete';
 
 import { themeTable } from '../../theme/theme-tabel';
+import { formatDateID } from '../../utils/function';
 // import { deleteMapelById } from '../../utils/api';
 
 
@@ -23,8 +24,8 @@ export default function TabelKas() {
   // const [idDelete, setIdDelete] = useState(undefined)
   // const [nameDelete, setNameDelete] = useState(undefined)
 
-  const [user] = useAppStore(
-    useShallow((state) => [state.user])
+  const [user, dataKas] = useAppStore(
+    useShallow((state) => [state.user, state.dataKas])
   )
 
   // const navigate = useNavigate()
@@ -60,27 +61,6 @@ export default function TabelKas() {
   //   setNameDelete(namaGuru)
   // }
 
-  const dataKas = [
-    {
-      id: 1,
-      jumlah: 500000,
-      status: 'masuk',
-      user: 'zoe sean',
-    },
-    {
-      id: 2,
-      jumlah: 200000,
-      status: 'keluar',
-      user: 'wulan',
-    },
-    {
-      id: 3,
-      jumlah: 120000,
-      status: 'masuk',
-      user: 'zoe sean',
-    }
-  ]
-
 
   const columns = [
     // + no
@@ -106,12 +86,21 @@ export default function TabelKas() {
     {
       name: 'STATUS',
       minWidth: '100px',
-      selector: row => <p className={`capitalize  font-semibold ${row.status == 'masuk' ? 'text-sky-400' : 'text-red-600'}`}>{row.status}</p>,
+      selector: row => <p className={`capitalize  font-semibold ${row.status == 'Masuk' ? 'text-sky-400' : 'text-red-600'}`}>{row.status}</p>,
       style: {
         textAlign: 'left',
       },
     },
 
+    // + TANGGAL
+    {
+      name: 'TANGGAL',
+      minWidth: '100px',
+      selector: row => <p>{formatDateID(row.tanggal)}</p>,
+      style: {
+        textAlign: 'left',
+      },
+    },
 
 
     // + USER

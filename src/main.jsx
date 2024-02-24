@@ -18,6 +18,7 @@ import TambahGuru from './pages/guru/TambahGuru.jsx';
 import Mapel from './pages/mapel/Mapel.jsx';
 import TambahMapel from './pages/mapel/TambahMapel.jsx';
 import UangKas from './pages/kas/UangKas.jsx';
+import BuatTransaksi from './pages/kas/BuatTransaksi.jsx';
 
 
 const router = createBrowserRouter([
@@ -148,6 +149,14 @@ const router = createBrowserRouter([
     element:
       <AuthPage>
         <UangKas />
+      </AuthPage>,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/buat-transaksi",
+    element:
+      <AuthPage>
+        <BuatTransaksi />
       </AuthPage>,
     errorElement: <ErrorPage />,
   },

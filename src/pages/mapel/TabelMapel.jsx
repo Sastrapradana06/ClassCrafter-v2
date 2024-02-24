@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import DataTable, { createTheme } from 'react-data-table-component';
-// import { FaRegEye } from "react-icons/fa";
-// import { IoManSharp, IoWoman } from "react-icons/io5";
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';

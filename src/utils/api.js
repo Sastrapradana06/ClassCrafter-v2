@@ -136,3 +136,30 @@ export async function deleteMapelById(id) {
   const data = await response.json()
   return data
 }
+
+
+// + Transaksi
+export async function addTransaksi(data) {
+  const response = await fetch(`${url}/transaksi/add-kas`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+
+  const dataKas = await response.json()
+  return dataKas
+}
+
+export async function getAllKas() {
+  const response = await fetch(`${url}/transaksi/get-kas`)
+  const data = await response.json()
+  return data
+}
+
+export async function getAllDataKelas() {
+  const response = await fetch(`${url}/transaksi/get-dataKelas`)
+  const data = await response.json()
+  return data
+}
