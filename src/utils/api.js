@@ -43,7 +43,7 @@ export async function getAllSiswa() {
 }
 
 export async function handleLoginSiswa(email, password) {
-  const res = await fetch('http://localhost:3000/auth/login', {
+  const res = await fetch(`${url}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json', 
