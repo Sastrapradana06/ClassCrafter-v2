@@ -34,28 +34,6 @@ export default function TabelAcara() {
 
   const dateNow = getDate()
 
-
-  // const data = [
-  //   {
-  //     id: 1,
-  //     title: 'Bahasa Indonesia',
-  //     tanggal: '08:00-10:30',
-  //     status: 'Selesai'
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Pemograman Web',
-  //     tanggal: '10:30-12:00',
-  //     status: 'Segera'
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'Agama Islam',
-  //     tanggal: '12:00-13:30',
-  //     status: 'Segera'
-  //   },
-  // ]
-
   const columns = [
     // + no
     {

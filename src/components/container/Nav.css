@@ -12,12 +12,8 @@ body {
 #sidebar_non {
   left: -500px;
   z-index: 10;
-  animation: animateSidebar_non .4s; 
+  /* animation: animateSidebar_non .4s;  */
   animation-timing-function: ease-in-out;
-}
-
-.group:hover .absolute {
-  display: block;
 }
 
 @keyframes animateSidebar_aktif {
@@ -36,6 +32,11 @@ body {
     left: -500px;
   }
 }
+
+.group:hover .absolute {
+  display: block;
+}
+
 
 @media (min-width: 1024px) {
   #sidebar_aktif {

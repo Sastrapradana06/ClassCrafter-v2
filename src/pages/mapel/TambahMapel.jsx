@@ -115,7 +115,7 @@ export default function TambahMapel() {
                   name='jam'
                   value={mapel.jam}
                   onChange={handleInputChange}
-                  placeholder="08:00 - 11:00"
+                  placeholder="08:00"
                   className="w-full border p-3 outline-[#4D44B5] rounded-lg"
                 />
               </div>
