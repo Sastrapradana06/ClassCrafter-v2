@@ -1,6 +1,7 @@
 import { getToken } from "./function"
 
-const url = 'http://localhost:3000'
+// const url = 'http://localhost:3000'
+const url = 'https://api-classcrafter.onrender.com/'
 
 // + AUTH
 export async function getAuthUser() {

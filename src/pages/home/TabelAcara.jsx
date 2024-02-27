@@ -32,33 +32,34 @@ export default function TabelAcara() {
     getMapelByHari()
   }, [getMapelByHari])
 
+  console.log(jadwalMapell);
+
   const dateNow = getDate()
 
   const columns = [
     // + no
     {
       name: 'N0',
-      minWidth: '50px',
+      minWidth: '10px',
       selector: (row, index) => {
         return <div className='text-center font-semibold m-auto w-[20px]'>{index + 1}</div>;
       },
     },
     {
       name: 'Mapel',
-      selector: row => row.mapel,
+      selector: row => <p className='capitalize'>{row.mapel}</p>,
       sortable: true,
       minWidth: '180px'
     },
     {
       name: 'Jam',
-      minWidth: '150px',
+      minWidth: '100px',
       selector: row => row.jam,
     },
     {
       name: 'Status',
-      // selector: row => <p className={`p-2 rounded ${row.status == 'Segera' ? 'bg-sky-500' : 'bg-red-500'}`}>{row.status}</p>,
-      selector: row => <p className={`p-2 rounded ${row.status == 'Segera' ? 'bg-sky-500' : 'bg-red-500'}`}>Segera</p>,
-
+      minWidth: '200px',
+      selector: row => <p className='capitalize'>{row.nama_guru}</p>,
     },
   ];
 
