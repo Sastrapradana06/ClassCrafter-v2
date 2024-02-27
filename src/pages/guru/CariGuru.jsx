@@ -13,8 +13,8 @@ export default function CariGuru() {
 
   const cariGuru = () => {
     const filterData = dataGuru.filter((data) => {
-      const namaMatch = data.nama_guru.toLowerCase().includes(cari)
-      const jekelMatch = data.jekel.toLowerCase().includes(cari)
+      const namaMatch = data.nama_guru.toLowerCase().includes(cari.toLowerCase())
+      const jekelMatch = data.jekel.toLowerCase().includes(cari.toLowerCase())
 
       return namaMatch || jekelMatch
     })
@@ -37,7 +37,7 @@ export default function CariGuru() {
           className="w-full outline-none bg-transparent text-white"
         />
       </div>
-      <div className="w-[90%] flex gap-4">
+      <div className="w-[90%] flex gap-3 text-[.9rem] items-center justify-center lg:items-start lg:justify-start">
         <button className="py-[4px] px-6 bg-sky-400 rounded-md text-white" onClick={cariGuru} disabled={cari.length < 3}>Cari</button>
         <button className="py-[4px] px-6 bg-[crimson] rounded-md text-white" onClick={() => setCari('')}>Reset</button>
         <button className="py-[4px] px-6 bg-green-600 rounded-md text-white" onClick={reset}>Reload</button>

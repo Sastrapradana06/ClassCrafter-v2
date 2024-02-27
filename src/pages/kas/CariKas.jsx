@@ -16,9 +16,9 @@ export default function CariKas() {
   const cariKas = () => {
     const filterData = dataKas.filter((data) => {
 
-      const statusMatch = data.status.toLowerCase().includes(cari);
+      const statusMatch = data.status.toLowerCase().includes(cari.toLowerCase());
       const jumlahMatch = data.jumlah == cari;
-      const userMatch = data.user.toLowerCase().includes(cari);
+      const userMatch = data.user.toLowerCase().includes(cari.toLowerCase());
 
       return statusMatch || jumlahMatch || userMatch
     })
@@ -42,7 +42,7 @@ export default function CariKas() {
           className="w-full outline-none bg-transparent text-white"
         />
       </div>
-      <div className="w-[90%] flex gap-4">
+      <div className="w-[90%] flex gap-3 text-[.9rem] items-center justify-center lg:items-start lg:justify-start">
         <button className="py-[4px] px-6 bg-sky-400 rounded-md text-white" onClick={cariKas} disabled={cari.length < 3}>Cari</button>
         <button className="py-[4px] px-6 bg-[crimson] rounded-md text-white" onClick={() => setCari('')}>Reset</button>
         <button className="py-[4px] px-6 bg-green-600 rounded-md text-white" onClick={reset}>Reload</button>

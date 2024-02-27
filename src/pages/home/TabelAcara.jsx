@@ -32,7 +32,6 @@ export default function TabelAcara() {
     getMapelByHari()
   }, [getMapelByHari])
 
-  console.log(jadwalMapell);
 
   const dateNow = getDate()
 
