@@ -132,7 +132,7 @@ export default function Sidebar({ idSidebar }) {
         {listLink.map((item, i) => {
           return (
             <div className="w-full flex-col  " key={i}>
-              <div className="flex items-center w-[70%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2  lg:w-[65%]" onClick={() => showDropdown(item.nama_link)}>
+              <div className="flex items-center w-[95%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2  lg:w-[80%]" onClick={() => showDropdown(item.nama_link)}>
                 <div className="flex gap-4 items-center">
                   {item.icons}
                   <p className='font-semibold mt-1'>{item.nama_link}</p>

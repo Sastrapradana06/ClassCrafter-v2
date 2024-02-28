@@ -64,17 +64,11 @@ export default function TabelGuru() {
   const columns = [
     // + no
     {
-      name: 'N0',
+      name: 'NO',
       minWidth: '50px',
       selector: (row, index) => {
         return <div className='text-center font-semibold m-auto w-[20px]'>{index + 1}</div>;
       },
-    },
-
-    // + ID 
-    {
-      name: 'ID GURU',
-      selector: row => <div className='text-center font-medium m-auto  w-[50px]'>{row.id}</div>,
     },
 
     // + NAMA

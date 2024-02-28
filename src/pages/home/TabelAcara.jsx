@@ -45,20 +45,20 @@ export default function TabelAcara() {
       },
     },
     {
-      name: 'Mapel',
-      selector: row => <p className='capitalize'>{row.mapel}</p>,
+      name: 'Mata Pelajaran',
+      selector: row => <p className='capitalize text-[#dda15e] font-semibold'>{row.mapel}</p>,
       sortable: true,
       minWidth: '180px'
     },
     {
       name: 'Jam',
       minWidth: '100px',
-      selector: row => row.jam,
+      selector: row => <p className='bg-[#86A789] p-1 rounded-md'>{row.jam}</p>,
     },
     {
-      name: 'Status',
+      name: 'Guru',
       minWidth: '200px',
-      selector: row => <p className='capitalize'>{row.nama_guru}</p>,
+      selector: row => <p className='capitalize '>{row.nama_guru}</p>,
     },
   ];
 

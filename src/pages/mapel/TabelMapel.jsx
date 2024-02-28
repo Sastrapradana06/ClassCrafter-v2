@@ -73,12 +73,6 @@ export default function TabelMapel() {
       },
     },
 
-    // + ID 
-    {
-      name: 'ID MAPEL',
-      selector: row => <div className='text-center font-medium m-auto  w-[50px]'>{row.id}</div>,
-    },
-
     // + MAPEL
     {
       name: 'MATA PELAJARAN',
