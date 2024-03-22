@@ -16,16 +16,16 @@ export default function CariKas() {
   )
 
   const cariKas = () => {
-    const filterData = dataKas.filter((data) => {
-      const statusMatch = data.status.toLowerCase().includes(cari.toLowerCase());
-      const jumlahMatch = data.jumlah == cari;
-      const userMatch = data.user.toLowerCase().includes(cari.toLowerCase());
+    if (cari.length >= 3) {
+      const filterData = dataKas.filter((data) => {
+        const statusMatch = data.status.toLowerCase().includes(cari);
+        const jumlahMatch = data.jumlah == cari;
+        const userMatch = data.user.toLowerCase().includes(cari);
 
-      return statusMatch || jumlahMatch || userMatch
-    })
-
-
-    updateDataKas(filterData)
+        return statusMatch || jumlahMatch || userMatch
+      })
+      updateDataKas(filterData)
+    }
   }
 
   const reset = () => {

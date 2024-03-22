@@ -14,13 +14,17 @@ export default function CariSiswa() {
 
 
   const cariSiswa = () => {
-    const filterData = dataSiswa.filter((data) => {
-      const namaMatch = data.username.toLowerCase().includes(cari.toLowerCase());
-      const jekelMatch = data.jekel.toLowerCase().includes(cari.toLowerCase())
 
-      return namaMatch || jekelMatch
-    })
-    setDataSiswa(filterData)
+    if (cari.length >= 3) {
+      const filterData = dataSiswa.filter((data) => {
+        const namaMatch = data.username.toLowerCase().includes(cari);
+        const jekelMatch = data.jekel.toLowerCase().includes(cari)
+
+        return namaMatch || jekelMatch
+      })
+      setDataSiswa(filterData)
+
+    }
   }
 
   const reset = () => {

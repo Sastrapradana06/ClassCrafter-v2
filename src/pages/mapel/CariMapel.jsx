@@ -14,13 +14,15 @@ export default function CariMapel() {
   )
 
   const cariMapel = () => {
-    const filterData = dataMapel.filter((data) => {
-      const mapelMatch = data.mapel.toLowerCase().includes(cari.toLowerCase())
-      const hariMatch = data.hari.toLowerCase().includes(cari.toLowerCase())
+    if (cari.length >= 3) {
+      const filterData = dataMapel.filter((data) => {
+        const mapelMatch = data.mapel.toLowerCase().includes(cari)
+        const hariMatch = data.hari.toLowerCase().includes(cari)
 
-      return mapelMatch || hariMatch
-    });
-    updateDataMapel(filterData)
+        return mapelMatch || hariMatch
+      });
+      updateDataMapel(filterData)
+    }
   }
 
   const reset = () => {

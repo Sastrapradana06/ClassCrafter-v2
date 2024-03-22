@@ -14,13 +14,15 @@ export default function CariGuru() {
   const [debouncedValue] = useDebounce(cari, 1000);
 
   const cariGuru = () => {
-    const filterData = dataGuru.filter((data) => {
-      const namaMatch = data.nama_guru.toLowerCase().includes(cari.toLowerCase())
-      const jekelMatch = data.jekel.toLowerCase().includes(cari.toLowerCase())
+    if (cari.length >= 3) {
+      const filterData = dataGuru.filter((data) => {
+        const namaMatch = data.nama_guru.toLowerCase().includes(cari)
+        const jekelMatch = data.jekel.toLowerCase().includes(cari)
+        return namaMatch || jekelMatch
+      })
+      updateDataGuru(filterData)
 
-      return namaMatch || jekelMatch
-    })
-    updateDataGuru(filterData)
+    }
   }
 
   const reset = () => {
