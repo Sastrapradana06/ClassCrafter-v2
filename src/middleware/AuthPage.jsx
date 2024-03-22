@@ -16,7 +16,13 @@ export default function AuthPage({ children }) {
 
   const protectedRoutes = ['/tambah-siswa', '/tambah-guru', '/tambah-mapel', '/auth', '/buat-transaksi']
 
+
+
   useEffect(() => {
+
+    if (!user) {
+      setUser()
+    }
 
     if (!token || !idUser) {
       return navigate('/')
@@ -26,9 +32,6 @@ export default function AuthPage({ children }) {
       return navigate('/dashboard')
     }
 
-    if (!user) {
-      setUser()
-    }
 
   }, [token, idUser, pathname])
   return children

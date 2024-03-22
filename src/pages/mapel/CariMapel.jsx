@@ -22,13 +22,11 @@ export default function CariMapel() {
         return mapelMatch || hariMatch
       });
       updateDataMapel(filterData)
+    } else {
+      getDataMapel()
     }
   }
 
-  const reset = () => {
-    getDataMapel()
-    setCari('')
-  }
 
   useEffect(() => {
     cariMapel();
@@ -46,7 +44,7 @@ export default function CariMapel() {
           className="w-full outline-none bg-transparent text-white"
         />
       </div>
-      <div className="w-[90%] flex gap-4">
+      {/* <div className="w-[90%] flex gap-4">
         {cari.length < 3 ? (
           <button className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50" disabled>
             Pulihkan Data
@@ -54,7 +52,7 @@ export default function CariMapel() {
         ) : (
           <button className="py-2 px-4 bg-green-600 rounded-md text-white" onClick={reset} >Pulihkan Data</button>
         )}
-      </div>
+      </div> */}
     </div>
   )
 }
