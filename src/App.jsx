@@ -35,6 +35,8 @@ function App() {
         setCookies('idUser', data.id)
         updateUser(data)
         navigate('/dashboard')
+
+
       } else {
         handleToast(message, 'warning')
       }

@@ -17,6 +17,7 @@ import { themeTable } from '../../theme/theme-tabel';
 import { formatDateID } from '../../utils/function';
 import { useState } from 'react';
 import { deleteKasById } from '../../utils/api';
+import TitleTable from '../../components/titleTable/title-table';
 
 
 export default function TabelKas() {
@@ -169,7 +170,7 @@ export default function TabelKas() {
       ) : null}
       <ToastContainer />
       <DataTable
-        title={<div className='text-black font-medium bg-zinc-100 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Kas</div>}
+        title={<TitleTable namaTable={'Data Kas'} link={'/buat-transaksi'} />}
         columns={columns}
         customStyles={customStyles}
         data={dataKas}

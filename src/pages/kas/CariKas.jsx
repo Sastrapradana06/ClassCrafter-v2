@@ -1,21 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosSearch } from "react-icons/io";
 import InformasiKas from "./InformasiKas";
 
 
 import { useShallow } from 'zustand/react/shallow'
 import useAppStore from '../../store/store';
+import { useDebounce } from 'use-debounce';
+
 
 export default function CariKas() {
   const [cari, setCari] = useState('')
-
+  const [debouncedValue] = useDebounce(cari, 1500);
   const [dataKas, getDataKas, updateDataKas] = useAppStore(
     useShallow((state) => [state.dataKas, state.getDataKas, state.updateDataKas])
   )
 
   const cariKas = () => {
     const filterData = dataKas.filter((data) => {
-
       const statusMatch = data.status.toLowerCase().includes(cari.toLowerCase());
       const jumlahMatch = data.jumlah == cari;
       const userMatch = data.user.toLowerCase().includes(cari.toLowerCase());
@@ -29,7 +30,12 @@ export default function CariKas() {
 
   const reset = () => {
     getDataKas()
+    setCari('')
   }
+
+  useEffect(() => {
+    cariKas();
+  }, [debouncedValue]);
   return (
     <div className="w-full h-max flex flex-col bg-[#404556] rounded-md items-center py-3 gap-2">
       <div className="w-[90%] h-[50px] rounded-md  flex border border-gray  items-center p-2 gap-2">
@@ -42,10 +48,15 @@ export default function CariKas() {
           className="w-full outline-none bg-transparent text-white"
         />
       </div>
-      <div className="w-[90%] flex gap-3 text-[.9rem] items-center justify-center lg:items-start lg:justify-start">
-        <button className="py-[4px] px-6 bg-sky-400 rounded-md text-white" onClick={cariKas} disabled={cari.length < 3}>Cari</button>
-        <button className="py-[4px] px-6 bg-[crimson] rounded-md text-white" onClick={() => setCari('')}>Reset</button>
-        <button className="py-[4px] px-6 bg-green-600 rounded-md text-white" onClick={reset}>Reload</button>
+
+      <div className="w-[90%] flex gap-4">
+        {cari.length < 3 ? (
+          <button className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50" disabled>
+            Pulihkan Data
+          </button>
+        ) : (
+          <button className="py-2 px-4 bg-green-600 rounded-md text-white" onClick={reset} >Pulihkan Data</button>
+        )}
       </div>
       <InformasiKas />
 

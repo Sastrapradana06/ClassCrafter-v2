@@ -181,7 +181,7 @@ export default function TambahSiswa() {
                 />
               </div>
               <div className="w-full flex flex-col gap-2 text-[.9rem]">
-                <label htmlFor="notel">Notel  <span className="text-[crimson]">*</span></label>
+                <label htmlFor="notel">Telepon / Wa  <span className="text-[crimson]">*</span></label>
                 <input
                   type="text"
                   name='notel'

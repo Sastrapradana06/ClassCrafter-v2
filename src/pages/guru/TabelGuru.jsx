@@ -16,6 +16,7 @@ import { IoManSharp, IoWoman } from "react-icons/io5";
 
 import ModalDelete from '../../components/modal-delete/ModalDelete';
 import { useNavigate } from 'react-router-dom';
+import TitleTable from '../../components/titleTable/title-table';
 
 
 export default function TabelGuru() {
@@ -194,7 +195,8 @@ export default function TabelGuru() {
       ) : null}
       <ToastContainer />
       <DataTable
-        title={<div className='text-black font-medium bg-zinc-100 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Guru</div>}
+        title={<TitleTable namaTable={'Data Guru'} link={'/tambah-guru'} />}
+        // title={<div className='text-black font-medium bg-zinc-100 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Data Guru</div>}
         columns={columns}
         customStyles={customStyles}
         data={dataGuru}

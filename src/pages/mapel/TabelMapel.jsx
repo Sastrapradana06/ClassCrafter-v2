@@ -15,6 +15,7 @@ import ModalDelete from '../../components/modal-delete/ModalDelete';
 
 import { themeTable } from '../../theme/theme-tabel';
 import { deleteMapelById } from '../../utils/api';
+import TitleTable from '../../components/titleTable/title-table';
 
 
 export default function TabelMapel() {
@@ -169,7 +170,7 @@ export default function TabelMapel() {
       ) : null}
       <ToastContainer />
       <DataTable
-        title={<div className='text-black font-medium bg-zinc-100 w-max py-1 px-5 rounded-md text-[1rem] lg:text-[1.1rem]'>Mata Pelajaran</div>}
+        title={<TitleTable namaTable={'Mata Pelajaran'} link={'/tambah-mapel'} />}
         columns={columns}
         customStyles={customStyles}
         data={dataMapel}

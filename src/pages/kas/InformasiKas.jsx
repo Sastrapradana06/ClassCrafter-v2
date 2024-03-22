@@ -57,8 +57,8 @@ export default function InformasiKas() {
   }, [getUangMasuk, getUangKeluar])
 
   return (
-    <div className="w-[100%] h-max flex items-center  overflow-x-auto lg:gap-8 justify-center mt-2 lg:justify-start lg:w-[90%] gap-1 lg:pl-0 flex-wrap">
-      <div className="w-max h-max bg-[#404556] flex items-center gap-2 rounded-md">
+    <div className="w-[90%] h-max flex items-center flex-wrap lg:flex-nowrap  lg:gap-8 justify-center mt-2 lg:justify-start lg:w-[90%] gap-4 lg:pl-0">
+      <div className="w-full lg:w-max  justify-center h-max bg-[#404556] flex items-center gap-2 rounded-md">
         <div className="p-2 rounded-full bg-green-600">
           <GiReceiveMoney fill="white" className="text-[1.5rem] lg:text-[2rem]" />
         </div>

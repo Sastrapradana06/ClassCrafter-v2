@@ -22,6 +22,18 @@ export async function setAuth(data) {
   return dataRes
 }
 
+export async function apiSendWa(noHp, username) {
+  const res = await fetch(`${url}/auth/send-notif`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ noHp, username }),
+  });
+
+  await res.json()
+}
+
 
 // + SISWA
 export async function addSiswa(data) {
