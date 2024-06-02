@@ -1,25 +1,23 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import ErrorPage from './components/error/Error.jsx';
-import Home from './pages/home/Home.jsx';
-import Siswa from './pages/siswa/Siswa.jsx';
-import TambahSiswa from './pages/siswa/TambahSiswa.jsx';
-import AuthPage from './middleware/AuthPage.jsx';
-import DetailSiswa from './pages/siswa/DetailSiswa.jsx';
-import Authentication from './pages/authentication/Authentication.jsx';
-import Guru from './pages/guru/Guru.jsx';
-import TambahGuru from './pages/guru/TambahGuru.jsx';
-import Mapel from './pages/mapel/Mapel.jsx';
-import TambahMapel from './pages/mapel/TambahMapel.jsx';
-import UangKas from './pages/kas/UangKas.jsx';
-import BuatTransaksi from './pages/kas/BuatTransaksi.jsx';
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ErrorPage from "./components/error/Error.jsx";
+import Home from "./pages/home/Home.jsx";
+import Siswa from "./pages/siswa/Siswa.jsx";
+import TambahSiswa from "./pages/siswa/TambahSiswa.jsx";
+import AuthPage from "./middleware/AuthPage.jsx";
+import DetailSiswa from "./pages/siswa/DetailSiswa.jsx";
+import Authentication from "./pages/authentication/Authentication.jsx";
+import Guru from "./pages/guru/Guru.jsx";
+import TambahGuru from "./pages/guru/TambahGuru.jsx";
+import Mapel from "./pages/mapel/Mapel.jsx";
+import TambahMapel from "./pages/mapel/TambahMapel.jsx";
+import UangKas from "./pages/kas/UangKas.jsx";
+import BuatTransaksi from "./pages/kas/BuatTransaksi.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const router = createBrowserRouter([
   // + Home
@@ -30,148 +28,167 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element:
-      <AuthPage>
-        <Home />
-      </AuthPage>,
+    // element:
+    //   <AuthPage>
+    //     <Home />
+    //   </AuthPage>,
+    element: <Home />,
     errorElement: <ErrorPage />,
   },
 
   // + Siswa
   {
     path: "/siswa",
-    element:
+    element: (
       <AuthPage>
         <Siswa />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/detail-siswa",
-    element:
+    element: (
       <AuthPage>
         <DetailSiswa />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/detail-siswa/:id",
-    element:
+    element: (
       <AuthPage>
         <DetailSiswa />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/tambah-siswa/:id",
-    element:
+    element: (
       <AuthPage>
         <TambahSiswa />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/tambah-siswa",
-    element:
+    element: (
       <AuthPage>
         <TambahSiswa />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
 
   // + Auht
   {
     path: "/auth",
-    element:
+    element: (
       <AuthPage>
         <Authentication />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
 
   // + Guru
   {
     path: "/guru",
-    element:
+    element: (
       <AuthPage>
         <Guru />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/tambah-guru",
-    element:
+    element: (
       <AuthPage>
         <TambahGuru />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/edit-guru/:id",
-    element:
+    element: (
       <AuthPage>
         <TambahGuru />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
-
 
   // + Mapel
   {
     path: "/mapel",
-    element:
+    element: (
       <AuthPage>
         <Mapel />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/tambah-mapel",
-    element:
+    element: (
       <AuthPage>
         <TambahMapel />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/edit-mapel/:id",
-    element:
+    element: (
       <AuthPage>
         <TambahMapel />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
-
 
   // + Uang Kas
   {
     path: "/kas",
-    element:
+    element: (
       <AuthPage>
         <UangKas />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/buat-transaksi",
-    element:
+    element: (
       <AuthPage>
         <BuatTransaksi />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/edit-transaksi/:id",
-    element:
+    element: (
       <AuthPage>
         <BuatTransaksi />
-      </AuthPage>,
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+const queryClient = new QueryClient();
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <QueryClientProvider client={queryClient}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+    <ReactQueryDevtools />
+  </QueryClientProvider>
+);
