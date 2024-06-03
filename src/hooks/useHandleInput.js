@@ -9,6 +9,7 @@ export default function useHandleInput(initialState) {
     if (name != "email") {
       valueInput = value.toLocaleLowerCase();
     }
+
     setData({ ...data, [name]: valueInput });
   };
 
