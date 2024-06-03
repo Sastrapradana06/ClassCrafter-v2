@@ -234,41 +234,66 @@ export async function deleteMapelById(id) {
   }
 }
 
-// + Transaksi
-export async function addTransaksi(data) {
-  const response = await fetch(`${url}/transaksi/add-kas`, {
+// + Kas
+export async function addKas(data) {
+  const response = await fetch(`${url}/kas/tambah`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
+  const res = await response.json();
+  if (res.status) {
+    return true;
+  } else {
+    throw res;
+  }
+}
 
-  const dataKas = await response.json();
-  return dataKas;
+export async function updateKas(data) {
+  const response = await fetch(`${url}/kas/update`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  const res = await response.json();
+  if (res.status) {
+    return true;
+  } else {
+    throw res;
+  }
 }
 
 export async function getAllKas() {
-  const response = await fetch(`${url}/transaksi/get-kas`);
-  const data = await response.json();
-  return data;
-}
-
-export async function getAllDataKelas() {
-  const response = await fetch(`${url}/transaksi/get-dataKelas`);
-  const data = await response.json();
-  return data;
+  const response = await fetch(`${url}/kas`);
+  const res = await response.json();
+  if (res.status) {
+    return res.data;
+  }
+  return [];
 }
 
 export async function getKasById(id) {
-  const response = await fetch(`${url}/transaksi/get-kas/${id}`);
+  const response = await fetch(`${url}/kas/${id}`);
+  const data = await response.json();
+  return data;
+}
+
+export async function getKasByStatus(status) {
+  const response = await fetch(`${url}/kas/status/${status}`);
   const data = await response.json();
   return data;
 }
 
 export async function deleteKasById(id) {
-  const response = await fetch(`${url}/transaksi/delete-kas/${id}`);
-  const data = await response.json();
-  console.log({ data });
-  return data;
+  const response = await fetch(`${url}/kas/delete/${id}`);
+  const res = await response.json();
+  if (res.status) {
+    return true;
+  } else {
+    throw res;
+  }
 }

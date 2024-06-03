@@ -3,7 +3,6 @@ import {
   getAllKas,
   getAllMapel,
   getAllSiswa,
-  getAllDataKelas,
   getUserLogin,
 } from "../utils/api";
 import { create } from "zustand";
@@ -76,7 +75,7 @@ const useAppStore = create((set) => ({
   updateDataKelas: (data) => set({ dataKelas: data }),
   getDataKelas: async () => {
     try {
-      const { data } = await getAllDataKelas();
+      const { data } = await getAllKas();
       set({ dataKelas: data[0] });
     } catch (error) {
       console.log(error);
