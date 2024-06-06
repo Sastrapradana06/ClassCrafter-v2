@@ -1,32 +1,15 @@
 import { useState, useEffect } from "react";
 import { IoIosSearch } from "react-icons/io";
 
-import { useShallow } from 'zustand/react/shallow'
-import useAppStore from '../../store/store';
-import { useDebounce } from 'use-debounce';
-
+import { useDebounce } from "use-debounce";
 
 export default function CariMapel() {
-  const [cari, setCari] = useState('')
+  const [cari, setCari] = useState("");
   const [debouncedValue] = useDebounce(cari, 1000);
-  const [dataMapel, getDataMapel, updateDataMapel] = useAppStore(
-    useShallow((state) => [state.dataMapel, state.getDataMapel, state.updateDataMapel])
-  )
 
   const cariMapel = () => {
-    if (cari.length >= 3) {
-      const filterData = dataMapel.filter((data) => {
-        const mapelMatch = data.mapel.toLowerCase().includes(cari)
-        const hariMatch = data.hari.toLowerCase().includes(cari)
-
-        return mapelMatch || hariMatch
-      });
-      updateDataMapel(filterData)
-    } else {
-      getDataMapel()
-    }
-  }
-
+    console.log(cari);
+  };
 
   useEffect(() => {
     cariMapel();
@@ -54,5 +37,5 @@ export default function CariMapel() {
         )}
       </div> */}
     </div>
-  )
+  );
 }

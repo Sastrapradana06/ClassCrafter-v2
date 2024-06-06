@@ -1,8 +1,5 @@
 /* eslint-disable react/prop-types */
 
-import { useShallow } from "zustand/react/shallow";
-import useAppStore from "../../store/store";
-
 import { useState } from "react";
 
 import { LuPencilLine } from "react-icons/lu";
@@ -11,11 +8,10 @@ import { IoManSharp, IoWoman } from "react-icons/io5";
 
 import ModalDelete from "../../components/modal-delete/ModalDelete";
 import { useNavigate } from "react-router-dom";
-import { useDataQuery, useInvalidate } from "../../services/useCustomQuery";
-import { useDeleteGuruQuery } from "../../services/useGuruQuery";
+import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
+import { useDataGuru, useDeleteGuruQuery } from "../../services/useGuruQuery";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import Alert from "../../components/alert/alert";
-import { getAllGuru } from "../../utils/api";
 
 export default function TabelGuru() {
   const [isModal, setIsModal] = useState(false);
@@ -23,12 +19,10 @@ export default function TabelGuru() {
   const [nameDelete, setNameDelete] = useState(undefined);
 
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
-  const { data, isFetching } = useDataQuery("data-guru", () => getAllGuru());
+  const { data, isFetching } = useDataGuru();
   const { mutate, isPending } = useDeleteGuruQuery();
   const { invalidateListQuery } = useInvalidate();
-  const [user] = useAppStore(useShallow((state) => [state.user]));
-
-  // console.log({ data });
+  const { data: user } = useUserLogin();
 
   const navigate = useNavigate();
 
@@ -115,46 +109,28 @@ export default function TabelGuru() {
                     {row.jadwal}
                   </p>
                 </td>
-                <td className="px-6 py-4">
-                  {user &&
-                    (user.jabatan === "ketua kelas" ||
-                    user.jabatan === "sekretaris" ? (
-                      <div className="flex gap-2 text-white">
-                        <button
-                          className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
-                          onClick={() => navigate(`/edit-guru/${row.id}`)}
-                          title="edit"
-                        >
-                          <LuPencilLine size={20} />
-                        </button>
-                        <button
-                          className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]"
-                          onClick={() => showModal(row.id, row.name)}
-                          disabled={user.jabatan === "member"}
-                          title="delete"
-                        >
-                          <MdDeleteSweep size={20} />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex gap-2 text-white">
-                        <button
-                          className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50"
-                          disabled
-                          title="edit"
-                        >
-                          <LuPencilLine size={20} />
-                        </button>
-                        <button
-                          className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50"
-                          disabled
-                          title="delete"
-                        >
-                          <MdDeleteSweep size={20} />
-                        </button>
-                      </div>
-                    ))}
-                </td>
+                {user?.jabatan == "ketua kelas" ||
+                user?.jabatan == "sekretaris" ? (
+                  <td className="px-6 py-4">
+                    <div className="flex gap-2 text-white">
+                      <button
+                        className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
+                        onClick={() => navigate(`/edit-guru/${row.id}`)}
+                        title="edit"
+                      >
+                        <LuPencilLine size={20} />
+                      </button>
+                      <button
+                        className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]"
+                        onClick={() => showModal(row.id, row.name)}
+                        disabled={user.jabatan === "member"}
+                        title="delete"
+                      >
+                        <MdDeleteSweep size={20} />
+                      </button>
+                    </div>
+                  </td>
+                ) : null}
               </tr>
             ))}
           </tbody>
@@ -162,6 +138,18 @@ export default function TabelGuru() {
       </div>
     );
   };
+
+  console.log({ user });
+
+  const column = [
+    "No",
+    "Nama Guru",
+    "Foto",
+    "Jenis Kelamin",
+    "Mata Pelajaran",
+    "Jadwal",
+    "Aksi",
+  ];
 
   return (
     <div className="pb-[21%] lg:pb-[10%]">
@@ -181,15 +169,11 @@ export default function TabelGuru() {
         message={dataAlert.message}
       />
       <TableGuru
-        columns={[
-          "No",
-          "Nama Guru",
-          "Foto",
-          "Jenis Kelamin",
-          "Mata Pelajaran",
-          "Jadwal",
-          "Aksi",
-        ]}
+        columns={
+          user?.jabatan == "ketua kelas" || user?.jabatan == "sekretaris"
+            ? column
+            : column.slice(0, 6)
+        }
         dataTable={isFetching ? [] : data}
       />
     </div>

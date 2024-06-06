@@ -1,35 +1,15 @@
 import { useState, useEffect } from "react";
 import { IoIosSearch } from "react-icons/io";
 import InformasiKas from "./InformasiKas";
-
-
-import { useShallow } from 'zustand/react/shallow'
-import useAppStore from '../../store/store';
-import { useDebounce } from 'use-debounce';
-
+import { useDebounce } from "use-debounce";
 
 export default function CariKas() {
-  const [cari, setCari] = useState('')
+  const [cari, setCari] = useState("");
   const [debouncedValue] = useDebounce(cari, 1500);
-  const [dataKas, getDataKas, updateDataKas] = useAppStore(
-    useShallow((state) => [state.dataKas, state.getDataKas, state.updateDataKas])
-  )
 
   const cariKas = () => {
-    if (cari.length >= 3) {
-      const filterData = dataKas.filter((data) => {
-        const statusMatch = data.status.toLowerCase().includes(cari);
-        const jumlahMatch = data.jumlah == cari;
-        const userMatch = data.user.toLowerCase().includes(cari);
-
-        return statusMatch || jumlahMatch || userMatch
-      })
-      updateDataKas(filterData)
-    } else {
-      getDataKas()
-    }
-  }
-
+    console.log(cari);
+  };
 
   useEffect(() => {
     cariKas();
@@ -47,7 +27,6 @@ export default function CariKas() {
         />
       </div>
       <InformasiKas />
-
     </div>
-  )
+  );
 }

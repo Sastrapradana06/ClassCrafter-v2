@@ -2,36 +2,7 @@ import DataTable, { createTheme } from "react-data-table-component";
 import { themeTable } from "../../theme/theme-tabel";
 import { getDate, getToday } from "../../utils/function";
 
-import { useShallow } from "zustand/react/shallow";
-import useAppStore from "../../store/store";
-import { useEffect, useState, useCallback } from "react";
-
 export default function TabelAcara() {
-  const [jadwalMapell, setJadwalMapel] = useState();
-
-  const [dataMapel, getDataMapel] = useAppStore(
-    useShallow((state) => [state.dataMapel, state.getDataMapel])
-  );
-
-  const getMapelByHari = useCallback(() => {
-    if (dataMapel) {
-      const hari = getToday();
-      const filterByHari = dataMapel.filter((data) => data.hari === hari);
-
-      const sortedData = filterByHari.sort((a, b) =>
-        a.jam.localeCompare(b.jam)
-      );
-      setJadwalMapel(sortedData);
-    }
-  }, [dataMapel]);
-
-  useEffect(() => {
-    if (dataMapel == undefined) {
-      getDataMapel();
-    }
-    getMapelByHari();
-  }, [getMapelByHari]);
-
   const dateNow = getDate();
 
   const data = [

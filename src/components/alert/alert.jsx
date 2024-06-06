@@ -13,10 +13,10 @@ export default function Alert({ status, type, message }) {
       <div
         className={`flex max-w-[90%] min-h-max lg:w-max items-center p-2 lg:p-4 mt-4 text-sm   border  rounded-lg  ${
           type == "success"
-            ? "bg-gray-800 text-green-400 border-green-800"
+            ? "bg-gray-700 text-green-400 border-green-800"
             : type == "info"
-            ? "bg-gray-800 text-blue-400 border-blue-800"
-            : "bg-gray-800 text-red-400 border-red-800"
+            ? "bg-gray-700 text-blue-400 border-blue-800"
+            : "bg-gray-700 text-red-400 border-red-800"
         }`}
         role="alert"
       >

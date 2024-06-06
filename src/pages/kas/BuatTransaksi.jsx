@@ -6,11 +6,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../../components/loading/Loading";
 import { getKasById } from "../../utils/api";
 
-import { useShallow } from "zustand/react/shallow";
-import useAppStore from "../../store/store";
 import useHandleInput from "../../hooks/useHandleInput";
 import { useTambahKas, useUpdateKas } from "../../services/useKasQuery";
-import { useInvalidate } from "../../services/useCustomQuery";
+import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import Alert from "../../components/alert/alert";
 import useHandleAlert from "../../hooks/useHandleAlert";
 
@@ -22,7 +20,7 @@ export default function BuatTransaksi() {
   });
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
 
-  const [user] = useAppStore(useShallow((state) => [state.user]));
+  const { data: user } = useUserLogin();
   const { invalidateListQuery } = useInvalidate();
   const { mutate, isPending } = useTambahKas();
   const updateKas = useUpdateKas();
@@ -38,9 +36,11 @@ export default function BuatTransaksi() {
         nominal: data.nominal,
         status: data.status,
         tgl_transaksi: data.tgl_transaksi,
-        user: user.name,
+        user: user.username,
+        jabatan: user.jabatan,
         deskripsi: data.deskripsi,
       };
+
       updateKas.mutate(dataInput, {
         onSuccess: () => {
           invalidateListQuery("dataKas");
@@ -53,7 +53,8 @@ export default function BuatTransaksi() {
         },
       });
     } else {
-      const dataInput = { ...data, user: user.name };
+      const dataInput = { ...data, user: user.username, jabatan: user.jabatan };
+
       mutate(dataInput, {
         onSuccess: () => {
           invalidateListQuery("dataKas");

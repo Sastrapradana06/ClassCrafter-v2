@@ -7,18 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { setCookies } from "./utils/function";
 import { handleLoginSiswa } from "./utils/api";
 
-import { useShallow } from "zustand/react/shallow";
-import useAppStore from "./store/store";
 import Loading from "./components/loading/Loading";
 import Alert from "./components/alert/alert";
 import useHandleAlert from "./hooks/useHandleAlert";
+import { useInvalidate } from "./services/useCustomQuery";
 
 function App() {
   const [email, setEmail] = useState("zoe@gmail.com");
   const [password, setPassword] = useState("ketuakelas");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [updateUser] = useAppStore(useShallow((state) => [state.updateUser]));
+  const { invalidateListQuery } = useInvalidate();
   const { status, data, handleAlert } = useHandleAlert();
 
   const navigate = useNavigate();
@@ -30,9 +29,9 @@ function App() {
       const res = await handleLoginSiswa(email, password);
       if (res.status) {
         handleAlert("success", "Login Berhasil");
+        invalidateListQuery("userLogin");
         setCookies("token", res.token);
         setCookies("idUser", res.data.id);
-        updateUser(res.data);
         navigate("/dashboard");
         setEmail("");
         setPassword("");

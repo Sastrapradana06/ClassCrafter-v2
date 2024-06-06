@@ -72,6 +72,7 @@ export async function updateSiswa(data) {
 export async function getAllSiswa() {
   const response = await fetch(`${url}/siswa`);
   const res = await response.json();
+
   if (res.status) {
     return res.data;
   }
@@ -109,9 +110,25 @@ export async function deleteSiswaById(id) {
 
 export async function getUserLogin() {
   const id = getToken("idUser");
-  const res = await fetch(`${url}/siswa/${id}`);
-  const data = await res.json();
-  return data;
+  const response = await fetch(`${url}/siswa/${id}`);
+  const res = await response.json();
+  if (res.status) {
+    const data = res.data[0];
+    return {
+      id: data.id,
+      username: data.name,
+      image: data.image,
+      tanggal_lahir: data.tanggal_lahir,
+      jabatan: data.jabatan,
+      notel: data.notel,
+      email: data.email,
+      jekel: data.jekel,
+      nama_ortu: data.nama_ortu,
+      alamat: data.alamat,
+    };
+  } else {
+    throw res;
+  }
 }
 
 // + GURU

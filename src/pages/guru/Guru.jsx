@@ -3,9 +3,11 @@ import Container from "../../components/container/Container";
 import CariGuru from "./CariGuru";
 import TabelGuru from "./TabelGuru";
 import { CiCirclePlus } from "react-icons/ci";
+import { useUserLogin } from "../../services/useCustomQuery";
 
 export default function Guru() {
   const navigate = useNavigate();
+  const { data: user } = useUserLogin();
 
   return (
     <Container>
@@ -16,13 +18,19 @@ export default function Guru() {
             <h1 className="text-[1.2rem] text-black font-semibold tracking-[2px]">
               Data Guru
             </h1>
-            <button
-              className="p-2 bg-sky-500 rounded-xl"
-              title="tambah data"
-              onClick={() => navigate("/tambah-guru")}
-            >
-              <CiCirclePlus fill="white" className="text-[1.2rem] font-bold" />
-            </button>
+            {(user?.jabatan == "ketua kelas" ||
+              user?.jabatan == "sekretaris") && (
+              <button
+                className="p-2 bg-sky-500 rounded-xl"
+                title="tambah data"
+                onClick={() => navigate("/tambah-guru")}
+              >
+                <CiCirclePlus
+                  fill="white"
+                  className="text-[1.2rem] font-bold"
+                />
+              </button>
+            )}
           </div>
           <TabelGuru />
         </div>

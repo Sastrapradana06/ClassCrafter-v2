@@ -1,30 +1,15 @@
 import { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 
-import { useShallow } from 'zustand/react/shallow'
-import useAppStore from '../../store/store';
-import { useDebounce } from 'use-debounce';
-
+import { useDebounce } from "use-debounce";
 
 export default function CariGuru() {
-  const [dataGuru, getDataGuru, updateDataGuru] = useAppStore(
-    useShallow((state) => [state.dataGuru, state.getDataGuru, state.updateDataGuru])
-  )
-  const [cari, setCari] = useState('')
+  const [cari, setCari] = useState("");
   const [debouncedValue] = useDebounce(cari, 1000);
 
   const cariGuru = () => {
-    if (cari.length >= 3) {
-      const filterData = dataGuru.filter((data) => {
-        const namaMatch = data.nama_guru.toLowerCase().includes(cari)
-        const jekelMatch = data.jekel.toLowerCase().includes(cari)
-        return namaMatch || jekelMatch
-      })
-      updateDataGuru(filterData)
-    } else {
-      getDataGuru()
-    }
-  }
+    console.log(cari);
+  };
 
   useEffect(() => {
     cariGuru();
@@ -43,5 +28,5 @@ export default function CariGuru() {
         />
       </div>
     </div>
-  )
+  );
 }
