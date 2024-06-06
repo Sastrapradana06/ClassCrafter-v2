@@ -1,31 +1,16 @@
 import { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 
-import { useShallow } from 'zustand/react/shallow'
-import useAppStore from '../../store/store';
-import { useDebounce } from 'use-debounce';
+import { useDebounce } from "use-debounce";
 
 export default function CariSiswa() {
-  const [cari, setCari] = useState('')
-  const [dataSiswa, getDataSiswa, setDataSiswa] = useAppStore(
-    useShallow((state) => [state.dataSiswa, state.getDataSiswa, state.setDataSiswa])
-  )
+  const [cari, setCari] = useState("");
+
   const [debouncedValue] = useDebounce(cari, 1000);
 
-
   const cariSiswa = () => {
-    if (cari.length >= 3) {
-      const filterData = dataSiswa.filter((data) => {
-        const namaMatch = data.username.toLowerCase().includes(cari.toLocaleLowerCase());
-        const jekelMatch = data.jekel.toLowerCase().includes(cari.toLocaleLowerCase())
-        return namaMatch || jekelMatch
-      })
-      setDataSiswa(filterData)
-    } else {
-      getDataSiswa()
-    }
-  }
-
+    console.log(cari);
+  };
 
   useEffect(() => {
     cariSiswa();
@@ -44,5 +29,5 @@ export default function CariSiswa() {
         />
       </div>
     </div>
-  )
+  );
 }

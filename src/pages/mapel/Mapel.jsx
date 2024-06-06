@@ -3,8 +3,11 @@ import Container from "../../components/container/Container";
 import CariMapel from "./CariMapel";
 import TabelMapel from "./TabelMapel";
 import { CiCirclePlus } from "react-icons/ci";
+import { useUserLogin } from "../../services/useCustomQuery";
 
 export default function Mapel() {
+  const { data: user } = useUserLogin();
+
   const navigate = useNavigate();
   return (
     <Container>
@@ -15,13 +18,19 @@ export default function Mapel() {
             <h1 className="text-[1.2rem] text-black font-semibold tracking-[2px]">
               Data Mapel
             </h1>
-            <button
-              className="p-2 bg-sky-500 rounded-xl"
-              title="tambah data"
-              onClick={() => navigate("/tambah-mapel")}
-            >
-              <CiCirclePlus fill="white" className="text-[1.2rem] font-bold" />
-            </button>
+            {(user?.jabatan == "ketua kelas" ||
+              user?.jabatan == "sekretaris") && (
+              <button
+                className="p-2 bg-sky-500 rounded-xl"
+                title="tambah data"
+                onClick={() => navigate("/tambah-mapel")}
+              >
+                <CiCirclePlus
+                  fill="white"
+                  className="text-[1.2rem] font-bold"
+                />
+              </button>
+            )}
           </div>
           <TabelMapel />
         </div>

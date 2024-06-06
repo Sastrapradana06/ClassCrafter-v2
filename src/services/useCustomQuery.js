@@ -1,24 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteSiswaById } from "../utils/api";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserLogin } from "../utils/api";
 
-export const useDataQuery = (key, api) => {
+export const useUserLogin = () => {
   return useQuery({
-    queryKey: [key],
-    queryFn: api,
-    staleTime: 5 * 60 * 1000,
-  });
-};
-
-export const useDeleteQuery = () => {
-  const deleteData = useMutation(deleteSiswaById, {
-    onError: (error) => {
-      // Menangani error saat penghapusan siswa
-      console.error("Error deleting student:", error);
-      return error;
+    queryKey: ["userLogin"],
+    queryFn: () => {
+      return getUserLogin();
     },
+    staleTime: 10 * 60 * 1000,
   });
-
-  return deleteData;
 };
 
 export function useInvalidate() {

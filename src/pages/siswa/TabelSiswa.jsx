@@ -3,9 +3,6 @@ import { useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { IoManSharp, IoWoman } from "react-icons/io5";
 
-import { useShallow } from "zustand/react/shallow";
-import useAppStore from "../../store/store";
-
 import { useNavigate } from "react-router-dom";
 
 import { LuPencilLine } from "react-icons/lu";
@@ -15,7 +12,7 @@ import ModalDelete from "../../components/modal-delete/ModalDelete";
 import { useDataSiswa, useDeleteSiswa } from "../../services/useDataSiswa";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import Alert from "../../components/alert/alert";
-import { useInvalidate } from "../../services/useCustomQuery";
+import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 
 export default function TabelSiswa() {
   const [isModal, setIsModal] = useState(false);
@@ -27,7 +24,7 @@ export default function TabelSiswa() {
   const { data, isFetching } = useDataSiswa();
   const { isPending, mutate } = useDeleteSiswa();
   const { invalidateListQuery } = useInvalidate();
-  const [user] = useAppStore(useShallow((state) => [state.user]));
+  const { data: user } = useUserLogin();
 
   const navigate = useNavigate();
 

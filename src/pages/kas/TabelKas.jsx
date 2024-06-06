@@ -1,8 +1,5 @@
 /* eslint-disable react/prop-types */
 
-import { useShallow } from "zustand/react/shallow";
-import useAppStore from "../../store/store";
-
 import { useNavigate } from "react-router-dom";
 
 import { LuPencilLine } from "react-icons/lu";
@@ -13,7 +10,7 @@ import { useState } from "react";
 import { useDataKas, useDeleteKas } from "../../services/useKasQuery";
 import Alert from "../../components/alert/alert";
 import useHandleAlert from "../../hooks/useHandleAlert";
-import { useInvalidate } from "../../services/useCustomQuery";
+import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import { formatIndonesianDate } from "../../utils/function";
 
 export default function TabelKas() {
@@ -21,11 +18,11 @@ export default function TabelKas() {
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
 
-  const [user] = useAppStore(useShallow((state) => [state.user]));
   const { invalidateListQuery } = useInvalidate();
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { data, isFetching } = useDataKas();
   const { mutate, isPending } = useDeleteKas();
+  const { data: user } = useUserLogin();
 
   const navigate = useNavigate();
 
@@ -56,12 +53,11 @@ export default function TabelKas() {
   };
 
   const TableKas = ({ columns, dataTable }) => {
-    console.log({ columns });
     return (
       <div className="relative w-full h-max overflow-x-auto shadow-md sm:rounded-lg ">
         <table className="w-full h-max  text-sm text-left rtl:text-right text-white p-2">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-max">
-            <tr className="border w-[10px]">
+            <tr className="">
               {columns.map((column, i) => (
                 <th scope="col" className="px-6 py-3" key={i}>
                   {column}
@@ -97,41 +93,41 @@ export default function TabelKas() {
                   {formatIndonesianDate(row.tgl_transaksi)}
                 </td>
                 <td className="px-6 py-4 ">
-                  <p className="capitalize bg-violet-500 py-1 px-3 rounded-md text-white text-center">
+                  <p
+                    className={`capitalize ${
+                      row.jabatan == "ketua kelas"
+                        ? "bg-red-500"
+                        : "bg-teal-600"
+                    }  py-1 px-3 rounded-md text-white text-center`}
+                  >
                     {row.user}
                   </p>
                 </td>
-                <td className="px-6 py-4 ">
-                  <p className="">{row.deskripsi}</p>
-                </td>
-                <td className="px-6 py-4">
-                  {user &&
-                    (user.jabatan === "ketua kelas" ||
-                    user.jabatan === "bendahara" ? (
-                      <div className="flex gap-2 text-white">
-                        <button
-                          className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
-                          title="edit"
-                          onClick={() => navigate(`/edit-transaksi/${row.id}`)}
-                        >
-                          <LuPencilLine size={20} />
-                        </button>
-                        <button
-                          className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]"
-                          onClick={() =>
-                            showModal(
-                              row.id,
-                              row.nominal.toLocaleString("id-ID")
-                            )
-                          }
-                          disabled={user.jabatan === "member"}
-                          title="delete"
-                        >
-                          <MdDeleteSweep size={20} />
-                        </button>
-                      </div>
-                    ) : null)}
-                </td>
+                <td className="px-6 py-4 ">{row.deskripsi}</td>
+                {user?.jabatan == "ketua kelas" ||
+                user?.jabatan == "bendahara" ? (
+                  <td className="px-6 py-4">
+                    <div className="flex gap-2 text-white">
+                      <button
+                        className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
+                        title="edit"
+                        onClick={() => navigate(`/edit-transaksi/${row.id}`)}
+                      >
+                        <LuPencilLine size={20} />
+                      </button>
+                      <button
+                        className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]"
+                        onClick={() =>
+                          showModal(row.id, row.nominal.toLocaleString("id-ID"))
+                        }
+                        disabled={user.jabatan === "member"}
+                        title="delete"
+                      >
+                        <MdDeleteSweep size={20} />
+                      </button>
+                    </div>
+                  </td>
+                ) : null}
               </tr>
             ))}
           </tbody>
@@ -169,7 +165,7 @@ export default function TabelKas() {
       />
       <TableKas
         columns={
-          user.jabatan == "ketua kelas" || user.jabatan == "bendahara"
+          user?.jabatan == "ketua kelas" || user?.jabatan == "bendahara"
             ? columns
             : columns.slice(0, 6)
         }

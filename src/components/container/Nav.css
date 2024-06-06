@@ -1,18 +1,18 @@
 body {
-  background-color: #E6EBEE;
+  background-color: #e6ebee;
 }
 
 #sidebar_aktif {
   left: 0px;
   z-index: 10;
-  animation: animateSidebar_aktif .4s; 
+  animation: animateSidebar_aktif 0.4s;
   animation-timing-function: ease-in-out;
 }
 
 #sidebar_non {
   left: -500px;
   z-index: 10;
-  /* animation: animateSidebar_non .4s;  */
+  animation: animateSidebar_non 0.4s;
   animation-timing-function: ease-in-out;
 }
 
@@ -37,20 +37,16 @@ body {
   display: block;
 }
 
-
 @media (min-width: 1024px) {
   #sidebar_aktif {
     left: 0px;
-    animation: none; 
+    animation: none;
     animation-timing-function: none;
   }
-  
+
   #sidebar_non {
     left: 0px;
-    animation: none; 
+    animation: none;
     animation-timing-function: none;
   }
 }
-
-
-

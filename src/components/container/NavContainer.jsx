@@ -12,25 +12,34 @@ import useAppStore from "../../store/store";
 import { deleteCookies } from "../../utils/function";
 import ShowModal from "../modal/ShowModal";
 import { useState } from "react";
+import { useUserLogin } from "../../services/useCustomQuery";
 
 export default function NavContainer() {
   const [isModal, setIsModal] = useState(false);
 
   const navigate = useNavigate();
+  const { data: user } = useUserLogin();
 
-  const [sidebar, setSidebar, resetState, user] = useAppStore(
+  const [sidebar, setSidebar, status, setStatus] = useAppStore(
     useShallow((state) => [
       state.sidebar,
       state.setSidebar,
-      state.resetState,
-      state.user,
+      state.status,
+      state.setStatus,
     ])
   );
 
   const logoutUser = () => {
     deleteCookies();
-    resetState();
     navigate("/");
+  };
+
+  const handleSidebar = () => {
+    if (!status) {
+      setStatus();
+    }
+
+    setSidebar();
   };
 
   return (
@@ -64,12 +73,12 @@ export default function NavContainer() {
         ) : null}
         <div className="w-[95%] h-max p-2 flex justify-between items-center gap-3">
           <div className="flex justify-center items-center gap-2 w-max">
-            <button onClick={() => setSidebar()} className="lg:hidden ">
+            <button onClick={() => handleSidebar()} className="lg:hidden ">
               <CgMenuGridO size={28} />
             </button>
             <div className="flex flex-col justify-center">
               <h1 className=" text-[#303972] font-bold text-[1.1rem] tracking-[1px] capitalize lg:text-[1.5rem]">
-                {user ? user.name : null}
+                {user ? user.username : null}
               </h1>
               <p className="-mt-2 text-[.8rem] capitalize text-slate-500">
                 {user ? user.jabatan : null}
@@ -103,7 +112,7 @@ export default function NavContainer() {
           </div>
         </div>
       </nav>
-      <Sidebar idSidebar={sidebar} />
+      <Sidebar status={status} idSidebar={sidebar} />
     </>
   );
 }
