@@ -12,7 +12,7 @@ body {
 #sidebar_non {
   left: -500px;
   z-index: 10;
-  animation: animateSidebar_non 0.4s;
+  /* animation: animateSidebar_non 0.4s; */
   animation-timing-function: ease-in-out;
 }
 

@@ -16,7 +16,7 @@ import useAppStore from "../../store/store";
 import { useUserLogin } from "../../services/useCustomQuery";
 
 // eslint-disable-next-line react/prop-types
-export default function Sidebar({ status, idSidebar }) {
+export default function Sidebar({ idSidebar }) {
   const navigate = useNavigate();
 
   const [setSidebar] = useAppStore(useShallow((state) => [state.setSidebar]));
@@ -129,24 +129,19 @@ export default function Sidebar({ status, idSidebar }) {
           : []),
       ],
     },
-    ...(user &&
-    (user.jabatan === "ketua kelas" || user.jabatan === "sekretaris")
-      ? [
-          {
-            nama_link: "Setting",
-            icons: <RiLockPasswordLine size={20} />,
-            parent_link: [
-              {
-                nama_link: "Authentication",
-                url: "/auth",
-              },
-            ],
-          },
-        ]
-      : []),
+    {
+      nama_link: "Setting",
+      icons: <RiLockPasswordLine size={20} />,
+      parent_link: [
+        {
+          nama_link: "Ganti Password",
+          url: "/setting",
+        },
+      ],
+    },
   ];
 
-  if (!status) return null;
+  // if (!status) return null;
 
   return (
     <div

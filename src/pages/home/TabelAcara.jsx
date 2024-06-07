@@ -1,97 +1,99 @@
-import DataTable, { createTheme } from "react-data-table-component";
-import { themeTable } from "../../theme/theme-tabel";
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
+import { useDataMapel } from "../../services/useMapelQuery";
 import { getDate, getToday } from "../../utils/function";
 
 export default function TabelAcara() {
   const dateNow = getDate();
+  const [data, setData] = useState([]);
+  const { data: dataMapel } = useDataMapel();
 
-  const data = [
-    {
-      id: 1,
-      mapel: "Pemrograman Web",
-      jam: "07.00 - 08.00",
-      hari: "Senin",
-      nama_guru: "Nurkhayati",
-    },
-  ];
+  const getDataMapel = () => {
+    if (dataMapel) {
+      const getMapel = dataMapel.filter((item) => {
+        return item.hari == getToday().toLowerCase();
+      });
 
-  const columns = [
-    // + no
-    {
-      name: "N0",
-      minWidth: "10px",
-      selector: (row, index) => {
-        return (
-          <div className="text-center font-semibold m-auto w-[20px]">
-            {index + 1}
-          </div>
-        );
-      },
-    },
-    {
-      name: "Mata Pelajaran",
-      selector: (row) => (
-        <p className="capitalize text-[#dda15e] font-semibold">{row.mapel}</p>
-      ),
-      sortable: true,
-      minWidth: "180px",
-    },
-    {
-      name: "Jam",
-      minWidth: "100px",
-      selector: (row) => (
-        <p className="bg-[#86A789] p-1 rounded-md">{row.jam}</p>
-      ),
-    },
-    {
-      name: "Guru",
-      minWidth: "200px",
-      selector: (row) => <p className="capitalize ">{row.nama_guru}</p>,
-    },
-  ];
-
-  const customStyles = {
-    rows: {
-      style: {
-        minHeight: "67px",
-      },
-    },
-    headCells: {
-      style: {
-        paddingLeft: "12px",
-      },
-    },
-    cells: {
-      style: {
-        paddingLeft: "12px",
-      },
-    },
+      setData(getMapel);
+    }
   };
 
-  const paginationRowsPerPageOptions = [5, 10, 15, 20];
+  const getHoursMinutes = () => {
+    const event = new Date();
+    const hours = event.getHours();
+    const minutes = event.getMinutes();
+    const jam = `${hours}:${minutes}`;
+    return parseInt(jam.replace(":", ""));
+  };
 
-  createTheme("themeTable", { themeTable });
+  const TableAcara = ({ columns, dataTable }) => {
+    return (
+      <div className="relative w-full h-max overflow-x-auto shadow-md sm:rounded-lg ">
+        <table className="w-full h-max  text-sm text-left rtl:text-right text-white p-2">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 w-max">
+            <tr className="">
+              {columns.map((column, i) => (
+                <th scope="col" className="px-6 py-3" key={i}>
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {dataTable.map((row, i) => (
+              <tr
+                className="odd:bg-white  odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                key={i}
+              >
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {i + 1}
+                </th>
+                <td className="px-6 py-4 capitalize">
+                  <p className={`capitalize text-[#dda15e] font-semibold`}>
+                    {row.mapel}
+                  </p>
+                </td>
+                <td className="px-6 py-4 capitalize">{row.nama_guru}</td>
+                <td className="px-6 py-4 capitalize">{row.jam}</td>
+                <td className="px-6 py-4 capitalize">
+                  {row.jam.replace(":", "") < getHoursMinutes() &&
+                  parseInt(row.jam.replace(":", "")) + 100 >
+                    getHoursMinutes() ? (
+                    <p className="text-green-500 font-semibold animate-pulse">
+                      Berlangsung
+                    </p>
+                  ) : row.jam.replace(":", "") < getHoursMinutes() ? (
+                    <p className="text-sky-500 font-semibold">Selesai</p>
+                  ) : (
+                    <p className="text-gray-500 font-semibold">Belum Masuk</p>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  const columns = ["No", "Mata Pelajaran", "Guru", "Jam", "Status"];
+
+  useEffect(() => {
+    getDataMapel();
+  }, [dataMapel]);
 
   return (
     <div>
-      <DataTable
-        title={
-          <div className="p-2">
-            <p className="text-[1.1rem] ">Jadwal Hari Ini</p>
-            <p className="text-[.9rem] text-[#dda15e] font-medium">
-              {dateNow.day}, <span>{dateNow.date}</span>
-            </p>
-          </div>
-        }
-        columns={columns}
-        customStyles={customStyles}
-        data={data}
-        paginationRowsPerPageOptions={paginationRowsPerPageOptions}
-        paginationPerPage={5}
-        pagination
-        className="rounded-lg w-[100%]"
-        theme="themeTable"
-      />
+      <div className="p-2 w-full h-max ">
+        <p className="text-[1.1rem] font-bold text-gray-600">Jadwal Hari Ini</p>
+        <p className="text-[.9rem] text-red-600 font-semibold">
+          {dateNow.day}, <span>{dateNow.date}</span>
+        </p>
+      </div>
+      <TableAcara columns={columns} dataTable={data.length == 0 ? [] : data} />
     </div>
   );
 }

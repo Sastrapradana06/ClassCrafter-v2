@@ -54,7 +54,6 @@ export default function BuatTransaksi() {
       });
     } else {
       const dataInput = { ...data, user: user.username, jabatan: user.jabatan };
-
       mutate(dataInput, {
         onSuccess: () => {
           invalidateListQuery("dataKas");
