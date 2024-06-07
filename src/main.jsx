@@ -9,7 +9,6 @@ import Siswa from "./pages/siswa/Siswa.jsx";
 import TambahSiswa from "./pages/siswa/TambahSiswa.jsx";
 import AuthPage from "./middleware/AuthPage.jsx";
 import DetailSiswa from "./pages/siswa/DetailSiswa.jsx";
-import Authentication from "./pages/authentication/Authentication.jsx";
 import Guru from "./pages/guru/Guru.jsx";
 import TambahGuru from "./pages/guru/TambahGuru.jsx";
 import Mapel from "./pages/mapel/Mapel.jsx";
@@ -18,6 +17,7 @@ import UangKas from "./pages/kas/UangKas.jsx";
 import BuatTransaksi from "./pages/kas/BuatTransaksi.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Setting from "./pages/setting/Setting.jsx";
 
 const router = createBrowserRouter([
   // + Home
@@ -85,10 +85,10 @@ const router = createBrowserRouter([
 
   // + Auht
   {
-    path: "/auth",
+    path: "/setting",
     element: (
       <AuthPage>
-        <Authentication />
+        <Setting />
       </AuthPage>
     ),
     errorElement: <ErrorPage />,

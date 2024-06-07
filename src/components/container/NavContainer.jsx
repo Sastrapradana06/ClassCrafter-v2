@@ -20,13 +20,8 @@ export default function NavContainer() {
   const navigate = useNavigate();
   const { data: user } = useUserLogin();
 
-  const [sidebar, setSidebar, status, setStatus] = useAppStore(
-    useShallow((state) => [
-      state.sidebar,
-      state.setSidebar,
-      state.status,
-      state.setStatus,
-    ])
+  const [sidebar, setSidebar] = useAppStore(
+    useShallow((state) => [state.sidebar, state.setSidebar])
   );
 
   const logoutUser = () => {
@@ -35,10 +30,6 @@ export default function NavContainer() {
   };
 
   const handleSidebar = () => {
-    if (!status) {
-      setStatus();
-    }
-
     setSidebar();
   };
 
@@ -112,7 +103,7 @@ export default function NavContainer() {
           </div>
         </div>
       </nav>
-      <Sidebar status={status} idSidebar={sidebar} />
+      <Sidebar idSidebar={sidebar} />
     </>
   );
 }
