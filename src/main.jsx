@@ -18,6 +18,7 @@ import BuatTransaksi from "./pages/kas/BuatTransaksi.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Setting from "./pages/setting/Setting.jsx";
+import EditProfile from "./pages/setting/EditProfile.jsx";
 
 const router = createBrowserRouter([
   // + Home
@@ -28,11 +29,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    // element:
-    //   <AuthPage>
-    //     <Home />
-    //   </AuthPage>,
-    element: <Home />,
+    element: (
+      <AuthPage>
+        <Home />
+      </AuthPage>
+    ),
     errorElement: <ErrorPage />,
   },
 
@@ -78,17 +79,6 @@ const router = createBrowserRouter([
     element: (
       <AuthPage>
         <TambahSiswa />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-
-  // + Auht
-  {
-    path: "/setting",
-    element: (
-      <AuthPage>
-        <Setting />
       </AuthPage>
     ),
     errorElement: <ErrorPage />,
@@ -176,6 +166,26 @@ const router = createBrowserRouter([
     element: (
       <AuthPage>
         <BuatTransaksi />
+      </AuthPage>
+    ),
+    errorElement: <ErrorPage />,
+  },
+
+  // + Setting
+  {
+    path: "/setting",
+    element: (
+      <AuthPage>
+        <Setting />
+      </AuthPage>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/edit-profile",
+    element: (
+      <AuthPage>
+        <EditProfile />
       </AuthPage>
     ),
     errorElement: <ErrorPage />,

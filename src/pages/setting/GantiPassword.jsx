@@ -4,6 +4,12 @@ import { BsEmojiHeartEyesFill } from "react-icons/bs";
 import { useState } from "react";
 import Alert from "../../components/alert/alert";
 import useHandleAlert from "../../hooks/useHandleAlert";
+import {
+  useInvalidate,
+  useUpdatePassword,
+  useUserLogin,
+} from "../../services/useCustomQuery";
+import Loading from "../../components/loading/Loading";
 
 export default function GantiPassword() {
   const { data, handleChange, clearInput } = useHandleInput({
@@ -13,6 +19,9 @@ export default function GantiPassword() {
   });
 
   const { status, data: alert, handleAlert } = useHandleAlert();
+  const { data: user } = useUserLogin();
+  const { mutate, isPending } = useUpdatePassword();
+  const { invalidateListQuery } = useInvalidate();
 
   const [showPassword, setShowPassword] = useState({
     password_lama: false,
@@ -27,9 +36,37 @@ export default function GantiPassword() {
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (data.password_baru !== data.confirmasi_password) {
+      handleAlert(
+        "info",
+        "Password baru tidak sama dengan konfirmasi password"
+      );
+      return;
+    }
+    const dataBody = {
+      idUser: user.id,
+      password_lama: data.password_lama,
+      password_baru: data.password_baru,
+    };
+    mutate(dataBody, {
+      onSuccess: () => {
+        invalidateListQuery("userLogin");
+        handleAlert("success", "Password Berhasil Dirubah");
+        clearInput();
+      },
+      onError: (error) => {
+        handleAlert("error", error.message);
+      },
+    });
+  };
+
   return (
     <div className="w-full h-max bg-[#404556] rounded-lg flex flex-col gap-7 py-6 px-2">
       <Alert status={status} type={alert.type} message={alert.message} />
+      {isPending ? <Loading /> : null}
+
       <div className="w-full h-max  flex flex-col items-center gap-2 justify-center ">
         <div className="w-[90%] h-max rounded-md bg-[#ffff]">
           <div className="w-[100%] m-auto h-[60px] border-b border-gray-300 flex items-center p-4">
@@ -38,7 +75,7 @@ export default function GantiPassword() {
           <form
             action=""
             className="w-full h-max  flex flex-col gap-3 p-4 lg:flex-row lg:justify-center lg:gap-0 "
-            // onSubmit={}
+            onSubmit={handleSubmit}
           >
             <div className="w-full h-max flex flex-col gap-3">
               <div className="w-full flex flex-col gap-2 text-[.9rem]">

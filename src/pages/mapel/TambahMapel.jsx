@@ -142,12 +142,12 @@ export default function TambahMapel() {
                   className="w-full border p-3 outline-[#4D44B5] rounded-lg"
                 >
                   <option value="none">Pilih Hari</option>
-                  <option value="Senin">Senin</option>
-                  <option value="Selasa">Selasa</option>
-                  <option value="Rabu">Rabu</option>
-                  <option value="Kamis">Kamis</option>
-                  <option value="Jumat">Jumat</option>
-                  <option value="Sabtu">Sabtu</option>
+                  <option value="senin">Senin</option>
+                  <option value="selasa">Selasa</option>
+                  <option value="rabu">Rabu</option>
+                  <option value="kamis">Kamis</option>
+                  <option value="jumat">Jumat</option>
+                  <option value="sabtu">Sabtu</option>
                 </select>
               </div>
               <div className="w-full flex flex-col gap-2 text-[.9rem]">

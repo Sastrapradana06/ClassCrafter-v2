@@ -10,6 +10,23 @@ export async function getAuthUser() {
   return data;
 }
 
+export async function updatePasswordUser(data) {
+  const response = await fetch(`${url}/auth/update-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const res = await response.json();
+  if (res.status) {
+    return res.data;
+  } else {
+    throw res;
+  }
+}
+
 export async function setAuth(data) {
   const res = await fetch(`${url}/auth/set-auth`, {
     method: "POST",
@@ -47,6 +64,20 @@ export async function addSiswa(data) {
   const res = await response.json();
   if (res.status) {
     return true;
+  } else {
+    throw res;
+  }
+}
+
+export async function uploadFile(data) {
+  const response = await fetch(`${url}/upload/profile`, {
+    method: "POST",
+    body: data,
+  });
+
+  const res = await response.json();
+  if (res.status) {
+    return res.data;
   } else {
     throw res;
   }
