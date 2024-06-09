@@ -65,10 +65,11 @@ export default function TabelAcara() {
                     <p className="text-green-500 font-semibold animate-pulse">
                       Berlangsung
                     </p>
-                  ) : row.jam.replace(":", "") < getHoursMinutes() ? (
+                  ) : row.jam.replace(":", "") < getHoursMinutes() &&
+                    row.jam.replace(":", "") < getHoursMinutes() ? (
                     <p className="text-sky-500 font-semibold">Selesai</p>
                   ) : (
-                    <p className="text-gray-500 font-semibold">Belum Masuk</p>
+                    <p className="text-gray-500 font-semibold">Belum Dimulai</p>
                   )}
                 </td>
               </tr>

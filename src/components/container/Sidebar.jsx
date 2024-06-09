@@ -134,6 +134,10 @@ export default function Sidebar({ idSidebar }) {
       icons: <RiLockPasswordLine size={20} />,
       parent_link: [
         {
+          nama_link: "Edit Profile",
+          url: "/edit-profile",
+        },
+        {
           nama_link: "Ganti Password",
           url: "/setting",
         },

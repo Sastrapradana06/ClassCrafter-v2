@@ -1,5 +1,5 @@
 import Container from "../../components/container/Container";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getSiswaById } from "../../utils/api";
 import Loading from "../../components/loading/Loading";
@@ -11,12 +11,10 @@ import { useInvalidate } from "../../services/useCustomQuery";
 
 export default function TambahSiswa() {
   const [idUbah, setIdUbah] = useState(undefined);
-  const [imgUser, setImgUser] = useState("");
-
-  const { isPending, mutate } = useTambahSiswa();
-  const updateSiswa = useUpdateSiswa();
 
   const { invalidateListQuery } = useInvalidate();
+  const { isPending, mutate } = useTambahSiswa();
+  const updateSiswa = useUpdateSiswa();
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { data, handleChange, clearInput, editData } = useHandleInput({
     name: "",
@@ -32,11 +30,9 @@ export default function TambahSiswa() {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const fileInputRef = useRef(null);
 
   const editSiswa = async (id) => {
     const { data } = await getSiswaById(id);
-    setImgUser(data[0].image);
     editData(data[0]);
     setIdUbah(data[0].id);
   };
@@ -44,28 +40,6 @@ export default function TambahSiswa() {
   const resetUserData = () => {
     clearInput();
     setIdUbah(undefined);
-    setImgUser("");
-  };
-
-  const handleFoto = (e) => {
-    e.preventDefault();
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = (e) => {
-    const file = URL.createObjectURL(e.target.files[0]);
-    setImgUser(file);
-    const updatedUserData = { ...data };
-    updatedUserData.image = file;
-    editData(updatedUserData);
-  };
-
-  const deleteFotoUser = (e) => {
-    e.preventDefault();
-    const updatedUserData = { ...data };
-    updatedUserData.image = "";
-    editData(updatedUserData);
-    setImgUser("");
   };
 
   const handleSubmit = async (e) => {
@@ -124,41 +98,6 @@ export default function TambahSiswa() {
             className="w-full h-max  flex flex-col gap-3 p-4 lg:flex-row lg:justify-center lg:gap-0 "
             onSubmit={handleSubmit}
           >
-            <div className="w-full h-[200px]  flex flex-col gap-2 lg:w-[40%]">
-              <div className="">
-                <p>
-                  Foto <span className="text-[crimson]">*</span>
-                </p>
-              </div>
-              <div className="">
-                <img
-                  src={imgUser}
-                  alt=""
-                  className="w-[120px] h-[120px] border border-sky-300 rounded-md object-cover"
-                />
-              </div>
-              <div className="w-full flex gap-2">
-                <button
-                  className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]"
-                  onClick={handleFoto}
-                >
-                  Pilih File
-                </button>
-                <button
-                  className="py-[6px] px-4 text-[.8rem] bg-[#FFEAEA] text-[#FD5858] rounded-lg hover:bg-[#FD5858] hover:text-white"
-                  onClick={deleteFotoUser}
-                >
-                  Hapus
-                </button>
-              </div>
-              <input
-                type="file"
-                id="file-input"
-                className="file-input hidden"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
-            </div>
             <div className="w-full h-max flex flex-col gap-3">
               <div className="w-full flex flex-col gap-2 text-[.9rem]">
                 <label htmlFor={data.name}>

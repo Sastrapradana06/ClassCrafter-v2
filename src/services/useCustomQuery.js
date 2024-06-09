@@ -1,5 +1,5 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getUserLogin } from "../utils/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getUserLogin, updatePasswordUser, uploadFile } from "../utils/api";
 
 export const useUserLogin = () => {
   return useQuery({
@@ -8,6 +8,28 @@ export const useUserLogin = () => {
       return getUserLogin();
     },
     staleTime: 10 * 60 * 1000,
+  });
+};
+
+export const useUpdatePassword = () => {
+  return useMutation({
+    mutationFn: (data) => {
+      return updatePasswordUser(data);
+    },
+    onError: (error) => {
+      return error;
+    },
+  });
+};
+
+export const useUploadUserProfile = () => {
+  return useMutation({
+    mutationFn: (data) => {
+      return uploadFile(data);
+    },
+    onError: (error) => {
+      return error;
+    },
   });
 };
 
