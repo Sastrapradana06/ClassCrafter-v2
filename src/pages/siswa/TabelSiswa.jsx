@@ -25,7 +25,6 @@ export default function TabelSiswa() {
   const { isPending, mutate } = useDeleteSiswa();
   const { invalidateListQuery } = useInvalidate();
   const { data: user } = useUserLogin();
-
   const navigate = useNavigate();
 
   const deleteSiswa = async () => {
@@ -83,9 +82,13 @@ export default function TabelSiswa() {
                 <td className="px-6 py-4">
                   <img
                     src={
-                      row.jekel === "laki-laki"
-                        ? "/men-user.jfif"
-                        : "women.jfif"
+                      row.image == ""
+                        ? row.jekel == "laki-laki"
+                          ? "/men_user.jfif"
+                          : row.jekel == "perempuan"
+                          ? "/women.jfif"
+                          : ""
+                        : row.image
                     }
                     alt="User Avatar"
                     className="w-[35px] h-[35px] border border-black rounded-full object-cover mx-auto"

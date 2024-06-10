@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getUserLogin, updatePasswordUser, uploadFile } from "../utils/api";
+import {
+  deleteImage,
+  getUserLogin,
+  updatePasswordUser,
+  uploadFile,
+} from "../utils/api";
 
 export const useUserLogin = () => {
   return useQuery({
@@ -26,6 +31,17 @@ export const useUploadUserProfile = () => {
   return useMutation({
     mutationFn: (data) => {
       return uploadFile(data);
+    },
+    onError: (error) => {
+      return error;
+    },
+  });
+};
+
+export const useDeleteImage = () => {
+  return useMutation({
+    mutationFn: (data) => {
+      return deleteImage(data);
     },
     onError: (error) => {
       return error;
