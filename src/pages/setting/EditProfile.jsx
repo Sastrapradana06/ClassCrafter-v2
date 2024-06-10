@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Container from "../../components/container/Container";
 import { useDropzone } from "react-dropzone";
 import {
+  useDeleteImage,
   useInvalidate,
   useUploadUserProfile,
   useUserLogin,
@@ -12,12 +13,13 @@ import Loading from "../../components/loading/Loading";
 import { getToken } from "../../utils/function";
 
 export default function EditProfile() {
-  const [imgUser, setImgUser] = useState("/men-user.jfif");
+  const [imgUser, setImgUser] = useState("");
   const [fileImg, setFileImg] = useState(null);
   const fileInputRef = useRef(null);
 
   const { invalidateListQuery } = useInvalidate();
   const uploadProfile = useUploadUserProfile();
+  const deleteImg = useDeleteImage();
   const { data: user } = useUserLogin();
   const { data: alert, status, handleAlert } = useHandleAlert();
 
@@ -48,18 +50,39 @@ export default function EditProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("jalan");
     const formData = new FormData();
     const id = getToken("idUser");
     formData.append("idUser", parseInt(id));
     formData.append("file", fileImg);
+    formData.append("urlImgLama", user.image);
     uploadProfile.mutate(formData, {
       onSuccess: (data) => {
         const newData = data[0];
         invalidateListQuery("userLogin");
-        handleAlert("success", "Berhasil mengupload gambar profil");
+        handleAlert("success", "Berhasil update foto profil");
         setImgUser(newData.image);
+        setFileImg(null);
       },
       onError: (error) => {
+        console.log({ error });
+        handleAlert("error", error.message);
+      },
+    });
+  };
+
+  const handleDeleteImg = () => {
+    const data = {
+      idUser: user.id,
+      urlImgLama: user.image,
+    };
+    deleteImg.mutate(data, {
+      onSuccess: () => {
+        invalidateListQuery("userLogin");
+        handleAlert("success", "Berhasil hapus image profil");
+      },
+      onError: (error) => {
+        console.log({ error });
         handleAlert("error", error.message);
       },
     });
@@ -72,7 +95,7 @@ export default function EditProfile() {
       if (user?.jekel === "laki-laki") {
         setImgUser("/men-user.jfif");
       } else {
-        setImgUser("/women-user.jfif");
+        setImgUser("/women.jfif");
       }
     }
   }, [user]);
@@ -80,21 +103,21 @@ export default function EditProfile() {
   return (
     <Container>
       <Alert status={status} type={alert.type} message={alert.message} />
-      {uploadProfile.isPending ? <Loading /> : null}
+      {uploadProfile.isPending || deleteImg.isPending ? <Loading /> : null}
       <div className="w-full h-[100vh] pt-[70px] lg:pl-[20%]">
         <div className="w-[90%] h-max m-auto flex flex-col items-center gap-4">
           <h1 className="text-[1.3rem] text-[#4d44D5] font-semibold tracking-[2px]">
             Edit Profile
           </h1>
-          <div className="w-full h-max rounded-lg bg-[#404556] flex flex-col items-center gap-3 p-2">
-            <form
+          <div className="w-full h-max rounded-lg bg-[#404556] flex flex-col items-center p-2">
+            <div
               className={`w-full h-max   p-2 rounded-lg ${
                 isDragActive && "border border-gray-300"
               }`}
-              onSubmit={handleSubmit}
               {...getRootProps()}
             >
               <input {...getInputProps()} />
+
               {isDragActive ? (
                 <img
                   src={imgUser}
@@ -108,24 +131,31 @@ export default function EditProfile() {
                   className="w-[100px] h-[100px] rounded-full object-cover m-auto p-1 ring-2 ring-gray-500"
                 />
               )}
+
               <div className="w-max h-max flex gap-2 m-auto">
                 <button
-                  className="bg-orange-500 px-3 py-1 rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-orange-600"
+                  className="bg-red-500 px-3 py-1 rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-red-600 disabled:bg-red-300 disabled:cursor-not-allowed"
+                  disabled={user?.image == ""}
+                  onClick={handleDeleteImg}
+                >
+                  Delete
+                </button>
+                <button
+                  className="bg-green-500 px-3 py-1 rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-green-600"
                   onClick={handleFoto}
                 >
                   Pilih File
                 </button>
-                <button
-                  className="bg-sky-500 px-3 py-1 rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-sky-600 disabled:bg-sky-300 disabled:cursor-not-allowed"
-                  disabled={fileImg == null}
-                  type="submit"
-                >
-                  Simpan
-                </button>
               </div>
               <p className="italic text-center text-[.7rem] text-gray-200">
-                * Klik Ubah atau Drop image disini
+                * Klik File atau Drop image disini
               </p>
+            </div>
+            <form
+              className={`w-full h-max
+              }`}
+              onSubmit={handleSubmit}
+            >
               <input
                 type="file"
                 id="file-input"
@@ -133,6 +163,13 @@ export default function EditProfile() {
                 ref={fileInputRef}
                 onChange={handleFileChange}
               />
+              <button
+                className="bg-blue-500 px-3 py-1 rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
+                disabled={fileImg == null}
+                type="submit"
+              >
+                Simpan Perubahan
+              </button>
             </form>
           </div>
         </div>

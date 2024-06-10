@@ -3,6 +3,39 @@ import { getToken } from "./function";
 const url = "http://localhost:3000";
 // const url = 'https://api-classcrafter.onrender.com'
 
+// + FILE
+export async function uploadFile(data) {
+  const response = await fetch(`${url}/upload/profile`, {
+    method: "POST",
+    body: data,
+  });
+
+  const res = await response.json();
+  if (res.status) {
+    return res.data;
+  } else {
+    throw res;
+  }
+}
+
+export async function deleteImage(data) {
+  const response = await fetch(`${url}/upload/delete-profile`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const res = await response.json();
+  console.log(res, "dari api");
+  if (res.status) {
+    return true;
+  } else {
+    throw res;
+  }
+}
+
 // + AUTH
 export async function getAuthUser() {
   const res = await fetch(`${url}/auth/get-auth`);
@@ -64,20 +97,6 @@ export async function addSiswa(data) {
   const res = await response.json();
   if (res.status) {
     return true;
-  } else {
-    throw res;
-  }
-}
-
-export async function uploadFile(data) {
-  const response = await fetch(`${url}/upload/profile`, {
-    method: "POST",
-    body: data,
-  });
-
-  const res = await response.json();
-  if (res.status) {
-    return res.data;
   } else {
     throw res;
   }
