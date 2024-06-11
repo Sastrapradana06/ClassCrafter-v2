@@ -17,8 +17,8 @@ import UangKas from "./pages/kas/UangKas.jsx";
 import BuatTransaksi from "./pages/kas/BuatTransaksi.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Setting from "./pages/setting/Setting.jsx";
-import EditProfile from "./pages/setting/EditProfile.jsx";
+import EditProfile from "./pages/setting/edit-profile/EditProfile.jsx";
+import GantiPassword from "./pages/setting/ganti-password/gantiPassword.jsx";
 
 const router = createBrowserRouter([
   // + Home
@@ -173,10 +173,10 @@ const router = createBrowserRouter([
 
   // + Setting
   {
-    path: "/setting",
+    path: "/ganti-password",
     element: (
       <AuthPage>
-        <Setting />
+        <GantiPassword />
       </AuthPage>
     ),
     errorElement: <ErrorPage />,

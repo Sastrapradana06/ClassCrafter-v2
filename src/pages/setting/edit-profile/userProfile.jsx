@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import Container from "../../components/container/Container";
-import { useDropzone } from "react-dropzone";
+import Alert from "../../../components/alert/alert";
 import {
   useDeleteImage,
   useInvalidate,
   useUploadUserProfile,
   useUserLogin,
-} from "../../services/useCustomQuery";
-import Alert from "../../components/alert/alert";
-import useHandleAlert from "../../hooks/useHandleAlert";
-import Loading from "../../components/loading/Loading";
-import { getToken } from "../../utils/function";
+} from "../../../services/useCustomQuery";
+import useHandleAlert from "../../../hooks/useHandleAlert";
+import { useDropzone } from "react-dropzone";
+import { getToken } from "../../../utils/function";
+import Loading from "../../../components/loading/Loading";
 
-export default function EditProfile() {
+export default function UserProfile() {
+  const [isEdit, setIsEdit] = useState(false);
   const [imgUser, setImgUser] = useState("");
   const [fileImg, setFileImg] = useState(null);
   const fileInputRef = useRef(null);
@@ -63,6 +63,7 @@ export default function EditProfile() {
         handleAlert("success", "Berhasil update foto profil");
         setImgUser(newData.image);
         setFileImg(null);
+        setIsEdit(false);
       },
       onError: (error) => {
         console.log({ error });
@@ -99,81 +100,88 @@ export default function EditProfile() {
       }
     }
   }, [user]);
-
   return (
-    <Container>
+    <>
       <Alert status={status} type={alert.type} message={alert.message} />
       {uploadProfile.isPending || deleteImg.isPending ? <Loading /> : null}
-      <div className="w-full h-[100vh] pt-[70px] lg:pl-[20%]">
-        <div className="w-[90%] h-max m-auto flex flex-col items-center gap-4">
-          <h1 className="text-[1.3rem] text-[#4d44D5] font-semibold tracking-[2px]">
-            Edit Profile
-          </h1>
-          <div className="w-full h-max rounded-lg bg-[#404556] flex flex-col items-center p-2">
-            <div
-              className={`w-full h-max   p-2 rounded-lg ${
-                isDragActive && "border border-gray-300"
-              }`}
-              {...getRootProps()}
+      <div
+        className={`w-full h-max rounded-xl bg-gray-700 flex flex-col items-center py-3`}
+      >
+        <div
+          className={`w-full h-max   p-2 rounded-lg ${
+            isDragActive && "ring-2 ring-gray-300"
+          }`}
+          {...getRootProps()}
+        >
+          <input {...getInputProps()} />
+
+          {isDragActive ? (
+            <img
+              src={imgUser}
+              alt="profile-user"
+              className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] rounded-full object-cover m-auto p-1 ring-2 ring-white"
+            />
+          ) : (
+            <img
+              src={imgUser}
+              alt="profile-user"
+              className="w-[100px] h-[100px] lg:w-[150px] lg:h-[150px] rounded-full object-cover m-auto p-1 ring-2 ring-white"
+            />
+          )}
+
+          {!isEdit ? (
+            <button
+              className="bg-purple-500 px-3 py-1 lg:py-2 lg:px-4 lg:text-[.9rem] rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-purple-600"
+              onClick={() => setIsEdit(true)}
             >
-              <input {...getInputProps()} />
-
-              {isDragActive ? (
-                <img
-                  src={imgUser}
-                  alt="profile-user"
-                  className="w-[100px] h-[100px] rounded-full object-cover m-auto p-1 ring-2 ring-gray-500"
-                />
-              ) : (
-                <img
-                  src={imgUser}
-                  alt="profile-user"
-                  className="w-[100px] h-[100px] rounded-full object-cover m-auto p-1 ring-2 ring-gray-500"
-                />
-              )}
-
+              Edit Photo
+            </button>
+          ) : (
+            <>
               <div className="w-max h-max flex gap-2 m-auto">
                 <button
-                  className="bg-red-500 px-3 py-1 rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-red-600 disabled:bg-red-300 disabled:cursor-not-allowed"
+                  className="bg-red-500 px-3 py-1 lg:py-2 lg:px-4 lg:text-[.9rem] rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-red-600 disabled:bg-red-300 disabled:cursor-not-allowed"
                   disabled={user?.image == ""}
                   onClick={handleDeleteImg}
                 >
                   Delete
                 </button>
                 <button
-                  className="bg-green-500 px-3 py-1 rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-green-600"
+                  className="bg-green-500 px-3 py-1 lg:py-2 lg:px-4 lg:text-[.9rem] rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-green-600"
                   onClick={handleFoto}
                 >
                   Pilih File
                 </button>
               </div>
-              <p className="italic text-center text-[.7rem] text-gray-200">
+              <p className="italic text-center text-[.7rem] text-white lg:text-[.8rem]">
                 * Klik File atau Drop image disini
               </p>
-            </div>
-            <form
-              className={`w-full h-max
-              }`}
-              onSubmit={handleSubmit}
-            >
-              <input
-                type="file"
-                id="file-input"
-                className="file-input hidden"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-              />
-              <button
-                className="bg-blue-500 px-3 py-1 rounded-md text-white m-auto mt-3 text-[.8rem] block hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed"
-                disabled={fileImg == null}
-                type="submit"
-              >
-                Simpan Perubahan
-              </button>
-            </form>
-          </div>
+            </>
+          )}
         </div>
+        {isEdit && (
+          <form
+            className={`w-full h-max
+              }`}
+            onSubmit={handleSubmit}
+          >
+            <input
+              type="file"
+              id="file-input"
+              className="file-input hidden"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+            />
+            <button
+              className="bg-blue-500 px-3 py-1 lg:px-5 lg:py-2 rounded-md text-white m-auto mt-3 text-[.8rem] lg:text-[.9rem] block hover:bg-blue-600 disabled:bg-blue-400 disabled:cursor-not-allowed"
+              disabled={fileImg == null}
+              type="submit"
+            >
+              Simpan Perubahan
+            </button>
+          </form>
+        )}
       </div>
-    </Container>
+    </>
   );
 }
