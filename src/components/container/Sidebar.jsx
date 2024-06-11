@@ -139,7 +139,7 @@ export default function Sidebar({ idSidebar }) {
         },
         {
           nama_link: "Ganti Password",
-          url: "/setting",
+          url: "/ganti-password",
         },
       ],
     },

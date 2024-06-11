@@ -1,17 +1,17 @@
-import useHandleInput from "../../hooks/useHandleInput";
 import { PiSmileyXEyesFill } from "react-icons/pi";
 import { BsEmojiHeartEyesFill } from "react-icons/bs";
 import { useState } from "react";
-import Alert from "../../components/alert/alert";
-import useHandleAlert from "../../hooks/useHandleAlert";
 import {
   useInvalidate,
   useUpdatePassword,
   useUserLogin,
-} from "../../services/useCustomQuery";
-import Loading from "../../components/loading/Loading";
+} from "../../../services/useCustomQuery";
+import Loading from "../../../components/loading/Loading";
+import useHandleAlert from "../../../hooks/useHandleAlert";
+import useHandleInput from "../../../hooks/useHandleInput";
+import Alert from "../../../components/alert/alert";
 
-export default function GantiPassword() {
+export default function FormGantiPassword() {
   const { data, handleChange, clearInput } = useHandleInput({
     password_lama: "",
     password_baru: "",
