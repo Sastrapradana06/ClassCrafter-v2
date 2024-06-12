@@ -11,6 +11,8 @@ import { useDataMapel, useDeleteMapel } from "../../services/useMapelQuery";
 import Alert from "../../components/alert/alert";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
+import useAppStore from "../../store/store";
+import { useShallow } from "zustand/react/shallow";
 
 export default function TabelMapel() {
   const [isModal, setIsModal] = useState(false);
@@ -19,6 +21,10 @@ export default function TabelMapel() {
   const navigate = useNavigate();
 
   const { data: user } = useUserLogin();
+
+  const [dataSearchMapel] = useAppStore(
+    useShallow((state) => [state.dataSearchMapel])
+  );
 
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { data, isFetching } = useDataMapel();
@@ -143,7 +149,9 @@ export default function TabelMapel() {
             ? columns
             : columns.slice(0, 5)
         }
-        dataTable={isFetching ? [] : data}
+        dataTable={
+          isFetching ? [] : dataSearchMapel.length ? dataSearchMapel : data
+        }
       />
     </div>
   );

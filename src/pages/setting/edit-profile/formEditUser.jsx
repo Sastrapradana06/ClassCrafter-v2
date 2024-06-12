@@ -133,6 +133,18 @@ export default function FormEditUser() {
 
             <div className="w-full lg:w-[47%] h-max gap-5 flex flex-col">
               <div className="w-full flex flex-col text-[.9rem]">
+                <label htmlFor={"nama_ortu"} className="text-gray-300">
+                  Nama ortu<span className="text-[crimson]">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="nama_ortu"
+                  value={input.nama_ortu}
+                  onChange={handleChange}
+                  className="w-full border-b border-purple-500  p-3 outline-none   bg-transparent text-white focus:border-b-2 focus:border-purple-500"
+                />
+              </div>
+              <div className="w-full flex flex-col text-[.9rem]">
                 <label htmlFor={"alamat"} className="text-gray-300">
                   Alamat<span className="text-[crimson]">*</span>
                 </label>
@@ -157,23 +169,6 @@ export default function FormEditUser() {
                 >
                   <option value="laki-laki">Laki-Laki</option>
                   <option value="perempuan">Perempuan</option>
-                </select>
-              </div>
-              <div className="w-full flex flex-col text-[.9rem]">
-                <label htmlFor={"jabatan"} className="text-gray-300">
-                  Jabatan<span className="text-[crimson]">*</span>
-                </label>
-                <select
-                  name="jabatan"
-                  value={input.jabatan}
-                  onChange={handleChange}
-                  disabled
-                  className="w-full border-b border-purple-500  p-3 outline-none   bg-transparent text-white focus:border-b-2 focus:border-purple-500"
-                >
-                  <option value="ketua kelas">Ketua Kelas</option>
-                  <option value="sekretaris">Sekretaris</option>
-                  <option value="bendahara">Bendahara</option>
-                  <option value="member">Member</option>
                 </select>
               </div>
               <div className="w-full flex flex-col text-[.9rem]">
