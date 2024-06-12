@@ -9,6 +9,9 @@ const useAppStore = create((set) => ({
       sidebar:
         state.sidebar === "sidebar_aktif" ? "sidebar_non" : "sidebar_aktif",
     })),
+
+  dataSearchMapel: [],
+  setDataSearchMapel: (data) => set(() => ({ dataSearchMapel: data })),
 }));
 
 export default useAppStore;

@@ -1,41 +1,48 @@
-import { useState, useEffect } from "react";
-import { IoIosSearch } from "react-icons/io";
-
-import { useDebounce } from "use-debounce";
+import { useShallow } from "zustand/react/shallow";
+import InputSearch from "../../components/input-search/inputSearch";
+import { useDataMapel } from "../../services/useMapelQuery";
+import useAppStore from "../../store/store";
+import { useEffect, useState } from "react";
+import Alert from "../../components/alert/alert";
+import useHandleAlert from "../../hooks/useHandleAlert";
 
 export default function CariMapel() {
-  const [cari, setCari] = useState("");
-  const [debouncedValue] = useDebounce(cari, 1000);
+  const [input, setInput] = useState("");
+  const { data } = useDataMapel();
 
-  const cariMapel = () => {
-    console.log(cari);
+  const [setDataSearchMapel] = useAppStore(
+    useShallow((state) => [state.setDataSearchMapel])
+  );
+
+  const { data: alert, status, handleAlert } = useHandleAlert();
+
+  const cariMapel = (input) => {
+    if (data) {
+      const dataMapel = data.filter((mapel) =>
+        mapel.mapel.toLowerCase().includes(input.toLowerCase())
+      );
+      if (dataMapel.length > 0) {
+        setDataSearchMapel(dataMapel);
+      } else {
+        handleAlert("info", "Mata pelajaran tidak ditemukan");
+      }
+    }
   };
 
   useEffect(() => {
-    cariMapel();
-  }, [debouncedValue]);
+    if (input == "") {
+      setDataSearchMapel([]);
+    }
+  }, [input]);
 
   return (
-    <div className="w-full h-max flex flex-col bg-[#404556] rounded-md items-center py-3 gap-2">
-      <div className="w-[90%] h-[50px] rounded-md  flex border border-gray  items-center p-2 gap-2">
-        <IoIosSearch size={25} fill="#ffff" />
-        <input
-          type="text"
-          placeholder="Cari nama mapel (min 3 huruf)"
-          value={cari}
-          onChange={(e) => setCari(e.target.value)}
-          className="w-full outline-none bg-transparent text-white"
-        />
-      </div>
-      {/* <div className="w-[90%] flex gap-4">
-        {cari.length < 3 ? (
-          <button className="bg-gray-300 px-4 py-2 rounded-md cursor-not-allowed opacity-50" disabled>
-            Pulihkan Data
-          </button>
-        ) : (
-          <button className="py-2 px-4 bg-green-600 rounded-md text-white" onClick={reset} >Pulihkan Data</button>
-        )}
-      </div> */}
-    </div>
+    <>
+      <Alert status={status} type={alert.type} message={alert.message} />
+      <InputSearch
+        placeholder={"Mata Pelajaran"}
+        func={cariMapel}
+        setState={setInput}
+      />
+    </>
   );
 }

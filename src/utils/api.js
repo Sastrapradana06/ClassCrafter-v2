@@ -285,6 +285,20 @@ export async function getAllMapel() {
   return [];
 }
 
+export async function searchMapel(key) {
+  const response = await fetch(`${url}/mapel`);
+  const res = await response.json();
+  if (res.status) {
+    const { data } = res;
+    const result = data.filter((item) =>
+      item.mapel.toLowerCase().includes(key.toLowerCase())
+    );
+    console.log(result, " dari api");
+    return result;
+  }
+  return [];
+}
+
 export async function getMapelById(id) {
   const response = await fetch(`${url}/mapel/${id}`);
   const data = await response.json();
