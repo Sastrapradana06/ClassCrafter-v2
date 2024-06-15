@@ -1,32 +1,55 @@
-import { useState, useEffect } from "react";
-import { IoIosSearch } from "react-icons/io";
-import InformasiKas from "./InformasiKas";
-import { useDebounce } from "use-debounce";
+import { useShallow } from "zustand/react/shallow";
+import InputSearch from "../../components/input-search/inputSearch";
+import useAppStore from "../../store/store";
+import { useEffect, useState } from "react";
+import Alert from "../../components/alert/alert";
+import useHandleAlert from "../../hooks/useHandleAlert";
+import { useDataKas } from "../../services/useKasQuery";
+import { formatIndonesianDate } from "../../utils/function";
 
 export default function CariKas() {
-  const [cari, setCari] = useState("");
-  const [debouncedValue] = useDebounce(cari, 1500);
+  const [input, setInput] = useState("");
+  const { data } = useDataKas();
 
-  const cariKas = () => {
-    console.log(cari);
+  const [setDataSearchKas] = useAppStore(
+    useShallow((state) => [state.setDataSearchKas])
+  );
+
+  const { data: alert, status, handleAlert } = useHandleAlert();
+
+  const cariKas = (input) => {
+    if (data) {
+      const dataKas = data.filter((kas) => {
+        const byStatus = kas.status == input.toLowerCase();
+        const byUser = kas.user == input.toLowerCase();
+        const byTanggal = formatIndonesianDate(kas.tgl_transaksi)
+          .toLowerCase()
+          .includes(input.toLowerCase());
+
+        return byStatus || byUser || byTanggal;
+      });
+      if (dataKas.length > 0) {
+        setDataSearchKas(dataKas);
+      } else {
+        handleAlert("info", "Data Kas tidak ditemukan");
+      }
+    }
   };
 
   useEffect(() => {
-    cariKas();
-  }, [debouncedValue]);
+    if (input == "") {
+      setDataSearchKas([]);
+    }
+  }, [input]);
+
   return (
-    <div className="w-full h-max flex flex-col bg-[#404556] rounded-md items-center py-3 gap-2">
-      <div className="w-[90%] h-[50px] rounded-md  flex border border-gray  items-center p-2 gap-2">
-        <IoIosSearch size={25} fill="#ffff" />
-        <input
-          type="text"
-          placeholder="Cari Kas (min 3 huruf)"
-          value={cari}
-          onChange={(e) => setCari(e.target.value)}
-          className="w-full outline-none bg-transparent text-white"
-        />
-      </div>
-      <InformasiKas />
-    </div>
+    <>
+      <Alert status={status} type={alert.type} message={alert.message} />
+      <InputSearch
+        placeholder={"Tanggal, status, user"}
+        func={cariKas}
+        setState={setInput}
+      />
+    </>
   );
 }

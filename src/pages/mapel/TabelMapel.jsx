@@ -13,6 +13,7 @@ import useHandleAlert from "../../hooks/useHandleAlert";
 import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
+import { dayColors } from "../../utils/function";
 
 export default function TabelMapel() {
   const [isModal, setIsModal] = useState(false);
@@ -60,7 +61,7 @@ export default function TabelMapel() {
   const TableMapel = ({ columns, dataTable }) => {
     return (
       <div className="relative w-full h-max overflow-x-auto shadow-md sm:rounded-lg ">
-        <table className="w-full h-max  text-sm text-left rtl:text-right text-white p-2">
+        <table className="w-full   text-sm text-left rtl:text-right text-white p-2">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               {columns.map((column, i) => (
@@ -88,8 +89,14 @@ export default function TabelMapel() {
                   </p>
                 </td>
                 <td className="px-6 py-4 capitalize">{row.jam}</td>
+                <td className="px-6 py-4 capitalize">{row.durasi} M</td>
+
                 <td className="px-6 py-4">
-                  <p className="capitalize bg-[#86A789] p-2 text-white rounded-md max-w-[170px] text-center">
+                  <p
+                    className={`capitalize ${
+                      dayColors[row.hari]
+                    } p-2 text-white rounded-md max-w-[170px] text-center`}
+                  >
                     {row.hari}
                   </p>
                 </td>
@@ -124,7 +131,15 @@ export default function TabelMapel() {
     );
   };
 
-  const columns = ["No", "Mata Pelajaran", "Jam", "Hari", "Guru", "Aksi"];
+  const columns = [
+    "No",
+    "Mata Pelajaran",
+    "Jam Masuk",
+    "Durasi Belajar (Menit)",
+    "Hari",
+    "Guru",
+    "Aksi",
+  ];
 
   return (
     <div className="pb-[21%] lg:pb-[10%]">
@@ -136,6 +151,7 @@ export default function TabelMapel() {
             data: nameDelete,
             loading: isPending,
           }}
+          setIsModal={setIsModal}
         />
       ) : null}
       <Alert

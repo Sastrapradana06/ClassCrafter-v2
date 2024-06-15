@@ -1,7 +1,7 @@
 import { getToken } from "./function";
 
 const url = "http://localhost:3000";
-// const url = 'https://api-classcrafter.onrender.com'
+// const url = "https://api-classcrafter-vfwt.onrender.com";
 
 // + FILE
 export async function uploadFile(data) {

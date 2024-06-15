@@ -139,3 +139,12 @@ export const getToday = () => {
 
   return dayName;
 };
+
+export const dayColors = {
+  senin: "bg-red-500",
+  selasa: "bg-green-500",
+  rabu: "bg-[#3357FF]",
+  kamis: "bg-[#F33FF5]",
+  jumat: "bg-[#F5A623]",
+  sabtu: "bg-[#9B59B6]",
+};

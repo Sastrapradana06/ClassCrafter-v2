@@ -12,11 +12,18 @@ import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import { useDataGuru, useDeleteGuruQuery } from "../../services/useGuruQuery";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import Alert from "../../components/alert/alert";
+import useAppStore from "../../store/store";
+import { useShallow } from "zustand/react/shallow";
+import { dayColors } from "../../utils/function";
 
 export default function TabelGuru() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
+
+  const [dataSearchGuru] = useAppStore(
+    useShallow((state) => [state.dataSearchGuru])
+  );
 
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { data, isFetching } = useDataGuru();
@@ -105,7 +112,11 @@ export default function TabelGuru() {
                   </p>
                 </td>
                 <td className="px-6 py-4">
-                  <p className="capitalize bg-[#86A789] p-2 text-white rounded-md max-w-[170px] text-center">
+                  <p
+                    className={`capitalize ${
+                      dayColors[row.jadwal]
+                    } p-2 text-white rounded-md max-w-[170px] text-center`}
+                  >
                     {row.jadwal}
                   </p>
                 </td>
@@ -138,8 +149,6 @@ export default function TabelGuru() {
       </div>
     );
   };
-
-  console.log({ user });
 
   const column = [
     "No",
@@ -174,7 +183,9 @@ export default function TabelGuru() {
             ? column
             : column.slice(0, 6)
         }
-        dataTable={isFetching ? [] : data}
+        dataTable={
+          isFetching ? [] : dataSearchGuru.length > 0 ? dataSearchGuru : data
+        }
       />
     </div>
   );

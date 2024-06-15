@@ -12,8 +12,10 @@
   "dependencies": {
     "@tanstack/react-query": "^5.40.0",
     "@tanstack/react-query-devtools": "^5.40.0",
+    "csv-parse": "^5.5.6",
     "date-fns": "^3.3.1",
     "js-cookie": "^3.0.5",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-calendar": "^4.8.0",
     "react-data-table-component": "^7.6.2",

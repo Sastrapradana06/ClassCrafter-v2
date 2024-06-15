@@ -12,11 +12,17 @@ import Alert from "../../components/alert/alert";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import { formatIndonesianDate } from "../../utils/function";
+import useAppStore from "../../store/store";
+import { useShallow } from "zustand/react/shallow";
 
 export default function TabelKas() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
+
+  const [dataSearchKas] = useAppStore(
+    useShallow((state) => [state.dataSearchKas])
+  );
 
   const { invalidateListQuery } = useInvalidate();
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
@@ -169,7 +175,9 @@ export default function TabelKas() {
             ? columns
             : columns.slice(0, 6)
         }
-        dataTable={isFetching ? [] : data}
+        dataTable={
+          isFetching ? [] : dataSearchKas.length > 0 ? dataSearchKas : data
+        }
       />
     </div>
   );

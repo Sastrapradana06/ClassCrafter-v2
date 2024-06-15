@@ -1,32 +1,49 @@
+import { useShallow } from "zustand/react/shallow";
+import InputSearch from "../../components/input-search/inputSearch";
+import useAppStore from "../../store/store";
 import { useEffect, useState } from "react";
-import { IoIosSearch } from "react-icons/io";
-
-import { useDebounce } from "use-debounce";
+import Alert from "../../components/alert/alert";
+import useHandleAlert from "../../hooks/useHandleAlert";
+import { useDataGuru } from "../../services/useGuruQuery";
 
 export default function CariGuru() {
-  const [cari, setCari] = useState("");
-  const [debouncedValue] = useDebounce(cari, 1000);
+  const [input, setInput] = useState("");
+  const { data } = useDataGuru();
 
-  const cariGuru = () => {
-    console.log(cari);
+  const [setDataSearchGuru] = useAppStore(
+    useShallow((state) => [state.setDataSearchGuru])
+  );
+
+  const { data: alert, status, handleAlert } = useHandleAlert();
+
+  const cariGuru = (input) => {
+    if (data) {
+      const dataGuru = data.filter((guru) =>
+        guru.name.toLowerCase().includes(input.toLowerCase())
+      );
+      if (dataGuru.length > 0) {
+        setDataSearchGuru(dataGuru);
+      } else {
+        // setDataSearchGuru([]);
+        handleAlert("info", "Nama guru tidak ditemukan");
+      }
+    }
   };
 
   useEffect(() => {
-    cariGuru();
-  }, [debouncedValue]);
+    if (input == "") {
+      setDataSearchGuru([]);
+    }
+  }, [input]);
 
   return (
-    <div className="w-full h-max flex flex-col bg-[#404556] rounded-md items-center py-3 gap-2">
-      <div className="w-[90%] h-[50px] rounded-md  flex border border-gray  items-center p-2 gap-2">
-        <IoIosSearch size={25} fill="#ffff" />
-        <input
-          type="text"
-          placeholder="Cari nama guru (min 3 huruf)"
-          value={cari}
-          onChange={(e) => setCari(e.target.value)}
-          className="w-full outline-none bg-transparent text-white"
-        />
-      </div>
-    </div>
+    <>
+      <Alert status={status} type={alert.type} message={alert.message} />
+      <InputSearch
+        placeholder={"Nama guru"}
+        func={cariGuru}
+        setState={setInput}
+      />
+    </>
   );
 }

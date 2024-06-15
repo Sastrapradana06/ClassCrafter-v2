@@ -26,6 +26,34 @@ export default function TabelAcara() {
     return parseInt(jam.replace(":", ""));
   };
 
+  const replaceAndParse = (jam) => {
+    return parseInt(jam.replace(":", ""));
+  };
+
+  function addDurationToTime(jamPelajaran, durasi) {
+    const jam = replaceAndParse(jamPelajaran);
+    let hours = Math.floor(jam / 100);
+    let minutes = jam % 100;
+
+    minutes += parseInt(durasi);
+
+    hours += Math.floor(minutes / 60);
+    minutes = minutes % 60;
+
+    hours = hours % 24;
+
+    let formattedResult = ("0" + hours).slice(-2) + ("0" + minutes).slice(-2);
+
+    return parseInt(formattedResult, 10);
+  }
+
+  const formatTime = (waktu) => {
+    const strWaktu = waktu.toString();
+    const jam = strWaktu.slice(0, 2);
+    const menit = strWaktu.slice(2);
+    return `${jam}:${menit}`;
+  };
+
   const TableAcara = ({ columns, dataTable }) => {
     return (
       <div className="relative w-full h-max overflow-x-auto shadow-md sm:rounded-lg ">
@@ -39,42 +67,61 @@ export default function TabelAcara() {
               ))}
             </tr>
           </thead>
-          <tbody>
-            {dataTable.map((row, i) => (
-              <tr
-                className="odd:bg-white  odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-                key={i}
-              >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          {dataTable.length == 0 ? (
+            <tbody>
+              <tr>
+                <td
+                  colSpan={5}
+                  className="px-6 py-4 font-medium text-amber-500 lg:text-center italic whitespace-nowrap bg-gray-600"
                 >
-                  {i + 1}
-                </th>
-                <td className="px-6 py-4 capitalize">
-                  <p className={`capitalize text-[#dda15e] font-semibold`}>
-                    {row.mapel}
-                  </p>
-                </td>
-                <td className="px-6 py-4 capitalize">{row.nama_guru}</td>
-                <td className="px-6 py-4 capitalize">{row.jam}</td>
-                <td className="px-6 py-4 capitalize">
-                  {row.jam.replace(":", "") < getHoursMinutes() &&
-                  parseInt(row.jam.replace(":", "")) + 100 >
-                    getHoursMinutes() ? (
-                    <p className="text-green-500 font-semibold animate-pulse">
-                      Berlangsung
-                    </p>
-                  ) : row.jam.replace(":", "") < getHoursMinutes() &&
-                    row.jam.replace(":", "") < getHoursMinutes() ? (
-                    <p className="text-sky-500 font-semibold">Selesai</p>
-                  ) : (
-                    <p className="text-gray-500 font-semibold">Belum Dimulai</p>
-                  )}
+                  Tidak ada mata pelajaran pada hari ini
                 </td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          ) : (
+            <tbody>
+              {dataTable.map((row, i) => (
+                <tr
+                  className="odd:bg-white  odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
+                  key={i}
+                >
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {i + 1}
+                  </th>
+                  <td className="px-6 py-4 capitalize">
+                    <p className={`capitalize text-[#dda15e] font-semibold`}>
+                      {row.mapel}
+                    </p>
+                  </td>
+                  <td className="px-6 py-4 capitalize">{row.nama_guru}</td>
+                  <td className="px-6 py-4 capitalize">
+                    {row.jam} -{" "}
+                    {formatTime(addDurationToTime(row.jam, row.durasi))}
+                  </td>
+
+                  <td className="px-6 py-4 capitalize">
+                    {replaceAndParse(row.jam) < getHoursMinutes() &&
+                    addDurationToTime(row.jam, row.durasi) >
+                      getHoursMinutes() ? (
+                      <p className="text-green-500 font-semibold animate-pulse">
+                        Berlangsung
+                      </p>
+                    ) : replaceAndParse(row.jam) < getHoursMinutes() ? (
+                      <p className="text-sky-500 font-semibold">Selesai</p>
+                    ) : (
+                      <p className="text-gray-500 font-semibold">
+                        {replaceAndParse(row.jam) - getHoursMinutes()} Menit
+                        lagi
+                      </p>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
     );

@@ -4,6 +4,7 @@ import CariMapel from "./CariMapel";
 import TabelMapel from "./TabelMapel";
 import { CiCirclePlus } from "react-icons/ci";
 import { useUserLogin } from "../../services/useCustomQuery";
+import ImportCsvMapel from "./ImportCsv";
 
 export default function Mapel() {
   const { data: user } = useUserLogin();
@@ -18,19 +19,22 @@ export default function Mapel() {
             <h1 className="text-[1.2rem] text-black font-semibold tracking-[2px]">
               Data Mapel
             </h1>
-            {(user?.jabatan == "ketua kelas" ||
-              user?.jabatan == "sekretaris") && (
-              <button
-                className="p-2 bg-sky-500 rounded-xl"
-                title="tambah data"
-                onClick={() => navigate("/tambah-mapel")}
-              >
-                <CiCirclePlus
-                  fill="white"
-                  className="text-[1.2rem] font-bold"
-                />
-              </button>
-            )}
+            <div className="w-max flex gap-3">
+              <ImportCsvMapel />
+              {(user?.jabatan == "ketua kelas" ||
+                user?.jabatan == "sekretaris") && (
+                <button
+                  className="p-2 bg-sky-500 rounded-xl"
+                  title="tambah data"
+                  onClick={() => navigate("/tambah-mapel")}
+                >
+                  <CiCirclePlus
+                    fill="white"
+                    className="text-[1.2rem] font-bold"
+                  />
+                </button>
+              )}
+            </div>
           </div>
           <TabelMapel />
         </div>
