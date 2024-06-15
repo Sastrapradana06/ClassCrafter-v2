@@ -36,7 +36,6 @@ export default function TambahGuru() {
 
   const editGuru = async (id) => {
     const res = await getGuruById(id);
-    console.log({ res });
     if (res.status) {
       editData(res.data[0]);
     } else {
@@ -57,7 +56,7 @@ export default function TambahGuru() {
         },
         onError: (error) => {
           console.log({ error });
-          handleAlert("error", error.message);
+          handleAlert("error", "Gagal mengubah data guru");
         },
       });
     } else {
@@ -117,6 +116,44 @@ export default function TambahGuru() {
                 />
               </div>
               <div className="w-full flex flex-col gap-2 text-[.9rem]">
+                <label htmlFor="mapel">
+                  Mata Pelajaran <span className="text-[crimson]">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="mapel"
+                  required
+                  value={dataGuru.mapel}
+                  onChange={handleChange}
+                  placeholder="Bahasa Indonesia"
+                  className="w-full border p-3 outline-[#4D44B5] rounded-lg"
+                />
+              </div>
+
+              <div className="w-full flex flex-col gap-2 text-[.9rem]">
+                <div className="w-full flex flex-col gap-2 text-[.9rem]">
+                  <label htmlFor="hari">
+                    Hari <span className="text-[crimson]">*</span>
+                  </label>
+                  <select
+                    name="jadwal"
+                    required
+                    value={dataGuru.jadwal}
+                    onChange={handleChange}
+                    className="w-full border p-3 outline-[#4D44B5] rounded-lg"
+                  >
+                    <option value="none">Pilih Hari</option>
+                    <option value="senin">Senin</option>
+                    <option value="selasa">Selasa</option>
+                    <option value="rabu">Rabu</option>
+                    <option value="kamis">Kamis</option>
+                    <option value="jumat">Jumat</option>
+                    <option value="sabtu">Sabtu</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="w-full flex flex-col gap-2 text-[.9rem]">
                 <label htmlFor="jekel">
                   Jenis Kelamin <span className="text-[crimson]">*</span>
                 </label>
@@ -133,34 +170,6 @@ export default function TambahGuru() {
                   <option value="laki-laki">Laki-Laki</option>
                   <option value="perempuan">Perempuan</option>
                 </select>
-              </div>
-              <div className="w-full flex flex-col gap-2 text-[.9rem]">
-                <label htmlFor="mapel">
-                  Mata Pelajaran <span className="text-[crimson]">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="mapel"
-                  required
-                  value={dataGuru.mapel}
-                  onChange={handleChange}
-                  placeholder="Bahasa Indonesia"
-                  className="w-full border p-3 outline-[#4D44B5] rounded-lg"
-                />
-              </div>
-              <div className="w-full flex flex-col gap-2 text-[.9rem]">
-                <label htmlFor="jadwal">
-                  Jadwal Pelajaran <span className="text-[crimson]">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="jadwal"
-                  required
-                  value={dataGuru.jadwal}
-                  onChange={handleChange}
-                  placeholder="Senin"
-                  className="w-full border p-3 outline-[#4D44B5] rounded-lg"
-                />
               </div>
               <div className="w-full">
                 {id ? (

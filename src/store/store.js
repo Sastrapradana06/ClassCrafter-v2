@@ -12,6 +12,15 @@ const useAppStore = create((set) => ({
 
   dataSearchMapel: [],
   setDataSearchMapel: (data) => set(() => ({ dataSearchMapel: data })),
+
+  dataSearchGuru: [],
+  setDataSearchGuru: (data) => set(() => ({ dataSearchGuru: data })),
+
+  dataSearchSiswa: [],
+  setDataSearchSiswa: (data) => set(() => ({ dataSearchSiswa: data })),
+
+  dataSearchKas: [],
+  setDataSearchKas: (data) => set(() => ({ dataSearchKas: data })),
 }));
 
 export default useAppStore;

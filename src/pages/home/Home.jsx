@@ -9,12 +9,12 @@ export default function Home() {
       <div className="w-full h-[100vh] pt-[65px] flex justify-center lg:pl-[20%] ">
         <div className="w-[90%] h-[200px]  flex flex-col gap-6 lg:mt-6 lg:w-[95%]">
           <Header />
-          <div className="w-[100%] h-max  flex flex-col gap-5 lg:flex-row  lg:mt-10 pb-[100px]">
+          <div className="w-[100%] h-max  flex flex-col gap-5   lg:mt-2 pb-[100px]">
             <TabelAcara />
             <Kalender />
           </div>
         </div>
       </div>
     </Container>
-  )
+  );
 }

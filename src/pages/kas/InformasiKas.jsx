@@ -57,8 +57,8 @@ export default function InformasiKas() {
   }, [data]);
 
   return (
-    <div className="w-[90%] h-max flex items-center flex-wrap lg:flex-nowrap  lg:gap-8  mt-2 lg:justify-start lg:w-[90%] gap-4 lg:pl-0">
-      <div className="w-full lg:w-max  h-max bg-[#404556] flex items-center gap-2 rounded-md">
+    <div className="w-full  h-max flex items-center flex-wrap lg:flex-nowrap  lg:gap-8  mt-2 justify-start lg:w-[90%] gap-4 lg:pl-0">
+      <div className="w-max  h-max flex items-center gap-2 rounded-md">
         <div className="p-2 rounded-full bg-green-600">
           <GiReceiveMoney
             fill="white"
@@ -66,13 +66,15 @@ export default function InformasiKas() {
           />
         </div>
         <div className="flex flex-col text-white">
-          <p className="text-[.6rem] lg:text-[1rem]">Kas</p>
-          <p className="text-[.8rem] lg:text-[1.1rem]">
+          <p className="text-[.7rem] text-green-600 font-semibold lg:text-[1rem]">
+            Kas
+          </p>
+          <p className="text-[.8rem] lg:text-[1.1rem] text-black font-medium">
             {saldo.toLocaleString("id-ID")}
           </p>
         </div>
       </div>
-      <div className="w-max h-max bg-[#404556] flex items-center gap-2 rounded-md">
+      <div className="w-max h-max  flex items-center gap-2 rounded-md">
         <div className="p-2 rounded-full bg-sky-500">
           <IoMdTrendingDown
             fill="white"
@@ -80,13 +82,15 @@ export default function InformasiKas() {
           />
         </div>
         <div className="flex flex-col text-white">
-          <p className="text-[.6rem] lg:text-[1rem]">Masuk</p>
-          <p className="text-[.8rem] lg:text-[1.1rem]">
+          <p className="text-[.7rem] text-sky-600 font-semibold lg:text-[1rem]">
+            Masuk
+          </p>
+          <p className="text-[.8rem] lg:text-[1.1rem]  text-black">
             {uangMasuk.toLocaleString("id-ID")}
           </p>
         </div>
       </div>
-      <div className="w-max h-max bg-[#404556] flex items-center gap-2 rounded-md">
+      <div className="w-max h-max  flex items-center gap-2 rounded-md">
         <div className="p-2 rounded-full bg-[crimson]">
           <IoMdTrendingUp
             fill="white"
@@ -94,8 +98,10 @@ export default function InformasiKas() {
           />
         </div>
         <div className="flex flex-col text-white">
-          <p className="text-[.6rem] lg:text-[1rem]">Keluar</p>
-          <p className="text-[.8rem] lg:text-[1.1rem]">
+          <p className="text-[.7rem] font-semibold text-red-600 lg:text-[1rem]">
+            Keluar
+          </p>
+          <p className="text-[.8rem] lg:text-[1.1rem] text-black">
             {uangKeluar.toLocaleString("id-ID")}
           </p>
         </div>

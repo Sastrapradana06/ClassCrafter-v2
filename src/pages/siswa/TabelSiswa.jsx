@@ -13,11 +13,17 @@ import { useDataSiswa, useDeleteSiswa } from "../../services/useDataSiswa";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import Alert from "../../components/alert/alert";
 import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
+import useAppStore from "../../store/store";
+import { useShallow } from "zustand/react/shallow";
 
 export default function TabelSiswa() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
+
+  const [dataSearchSiswa] = useAppStore(
+    useShallow((state) => [state.dataSearchSiswa])
+  );
 
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
 
@@ -53,6 +59,14 @@ export default function TabelSiswa() {
     setNameDelete(name);
   };
 
+  const handleNavigateEdit = (id) => {
+    if (id == user.id) {
+      navigate("/edit-profile");
+    } else {
+      navigate(`/tambah-siswa/${id}`);
+    }
+  };
+
   const TableSiswa = ({ columns, dataTable }) => {
     return (
       <div className="relative w-full h-max overflow-x-auto shadow-md sm:rounded-lg ">
@@ -82,12 +96,10 @@ export default function TabelSiswa() {
                 <td className="px-6 py-4">
                   <img
                     src={
-                      row.image == ""
-                        ? row.jekel == "laki-laki"
-                          ? "/men_user.jfif"
-                          : row.jekel == "perempuan"
-                          ? "/women.jfif"
-                          : ""
+                      row.image == "" && row.jekel == "laki-laki"
+                        ? "/men-user.jfif"
+                        : row.image == "" && row.jekel == "perempuan"
+                        ? "/women.jfif"
                         : row.image
                     }
                     alt="User Avatar"
@@ -133,7 +145,7 @@ export default function TabelSiswa() {
                       <div className="flex gap-2 text-white">
                         <button
                           className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
-                          onClick={() => navigate(`/tambah-siswa/${row.id}`)}
+                          onClick={() => handleNavigateEdit(row.id)}
                           title="edit"
                         >
                           <LuPencilLine size={20} />
@@ -200,13 +212,15 @@ export default function TabelSiswa() {
           "Jabatan",
           "Email",
           "No. Hp",
-          "Tgl. Daftar",
+          "Tgl. Lahir",
           "Jenis Kelamin",
           "Nama",
           "Kota",
           "Aksi",
         ]}
-        dataTable={isFetching ? [] : data}
+        dataTable={
+          isFetching ? [] : dataSearchSiswa.length > 0 ? dataSearchSiswa : data
+        }
       />
     </div>
   );

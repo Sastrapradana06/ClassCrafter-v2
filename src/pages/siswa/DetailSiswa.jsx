@@ -28,7 +28,6 @@ export default function DetailSiswa() {
 
   const siswaById = async (id) => {
     const { data } = await getSiswaById(id);
-    console.log(data);
     if (data.length === 0) return;
     setDetSiswa(data[0]);
   };
@@ -46,7 +45,13 @@ export default function DetailSiswa() {
         ></div>
         <div className="w-max h-max bg-gray-700 rounded-full">
           <img
-            src={detSiswa ? detSiswa.image : "/men-user.jfif"}
+            src={
+              detSiswa.image == "" && detSiswa.jekel == "laki-laki"
+                ? "/men-user.jfif"
+                : detSiswa.image == "" && detSiswa.jekel == "perempuan"
+                ? "/women.jfif"
+                : detSiswa.image
+            }
             alt="avatar"
             className="w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] object-cover rounded-full p-2 ring-2 ring-white"
           />
@@ -70,7 +75,13 @@ export default function DetailSiswa() {
             <div className="w-full h-maxflex flex-col relative p-4 lg:pl-6">
               <div className="w-[110px] h-[110px] border-4 border-white absolute -top-[60px] rounded-full lg:left-7 lg:h-[130px] lg:w-[130px] lg:border-8">
                 <img
-                  src={detSiswa.image}
+                  src={
+                    detSiswa.image == "" && detSiswa.jekel == "laki-laki"
+                      ? "/men-user.jfif"
+                      : detSiswa.image == "" && detSiswa.jekel == "perempuan"
+                      ? "/women.jfif"
+                      : detSiswa.image
+                  }
                   alt="avatar"
                   onClick={handleShowAvatar}
                   className="w-full h-full object-cover rounded-full cursor-pointer"

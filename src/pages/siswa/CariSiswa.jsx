@@ -1,33 +1,48 @@
+import { useShallow } from "zustand/react/shallow";
+import InputSearch from "../../components/input-search/inputSearch";
+import useAppStore from "../../store/store";
 import { useEffect, useState } from "react";
-import { IoIosSearch } from "react-icons/io";
-
-import { useDebounce } from "use-debounce";
+import Alert from "../../components/alert/alert";
+import useHandleAlert from "../../hooks/useHandleAlert";
+import { useDataSiswa } from "../../services/useDataSiswa";
 
 export default function CariSiswa() {
-  const [cari, setCari] = useState("");
+  const [input, setInput] = useState("");
+  const { data } = useDataSiswa();
 
-  const [debouncedValue] = useDebounce(cari, 1000);
+  const [setDataSearchSiswa] = useAppStore(
+    useShallow((state) => [state.setDataSearchSiswa])
+  );
 
-  const cariSiswa = () => {
-    console.log(cari);
+  const { data: alert, status, handleAlert } = useHandleAlert();
+
+  const cariSiswa = (input) => {
+    if (data) {
+      const dataSiswa = data.filter((siswa) =>
+        siswa.name.toLowerCase().includes(input.toLowerCase())
+      );
+      if (dataSiswa.length > 0) {
+        setDataSearchSiswa(dataSiswa);
+      } else {
+        handleAlert("info", "Nama siswa tidak ditemukan");
+      }
+    }
   };
 
   useEffect(() => {
-    cariSiswa();
-  }, [debouncedValue]);
+    if (input == "") {
+      setDataSearchSiswa([]);
+    }
+  }, [input]);
 
   return (
-    <div className="w-full h-max flex flex-col bg-[#404556] rounded-md items-center py-3 gap-2">
-      <div className="w-[90%] h-[50px] rounded-md  flex border border-gray  items-center p-1 gap-2">
-        <IoIosSearch size={25} fill="#ffff" />
-        <input
-          type="text"
-          placeholder="Cari nama siswa (min 3 huruf)"
-          value={cari}
-          onChange={(e) => setCari(e.target.value)}
-          className="w-full outline-none bg-transparent text-white"
-        />
-      </div>
-    </div>
+    <>
+      <Alert status={status} type={alert.type} message={alert.message} />
+      <InputSearch
+        placeholder={"Nama Siswa"}
+        func={cariSiswa}
+        setState={setInput}
+      />
+    </>
   );
 }

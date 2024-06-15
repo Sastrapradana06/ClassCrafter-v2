@@ -21,6 +21,7 @@ export default function TambahMapel() {
   } = useHandleInput({
     mapel: "",
     jam: "",
+    durasi: "",
     hari: "",
     nama_guru: "",
   });
@@ -47,6 +48,9 @@ export default function TambahMapel() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const isNumeric = /^\d+$/.test(mapel.durasi);
+    if (!isNumeric)
+      return handleAlert("info", "Durasi harus angka, tidak boleh huruf/spasi");
     const newMapel = mapel;
     if (mapel.id) {
       updateMapel.mutate(newMapel, {
@@ -131,7 +135,21 @@ export default function TambahMapel() {
                 />
               </div>
               <div className="w-full flex flex-col gap-2 text-[.9rem]">
-                <label htmlFor="jekel">
+                <label htmlFor={"durasi"}>
+                  Durasi Belajar <span className="text-[crimson]">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="durasi"
+                  required
+                  value={mapel.durasi}
+                  onChange={handleChange}
+                  placeholder="60"
+                  className="w-full border p-3 outline-[#4D44B5] rounded-lg"
+                />
+              </div>
+              <div className="w-full flex flex-col gap-2 text-[.9rem]">
+                <label htmlFor="hari">
                   Hari <span className="text-[crimson]">*</span>
                 </label>
                 <select
