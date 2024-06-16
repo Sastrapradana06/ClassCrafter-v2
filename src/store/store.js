@@ -10,6 +10,13 @@ const useAppStore = create((set) => ({
         state.sidebar === "sidebar_aktif" ? "sidebar_non" : "sidebar_aktif",
     })),
 
+  selectedId: [],
+  setSelectedId: (data) => set({ selectedId: data }),
+  deleteSelectedId: () => set({ selectedId: [] }),
+
+  isDelete: false,
+  setIsDelete: (status) => set({ isDelete: status }),
+
   dataSearchMapel: [],
   setDataSearchMapel: (data) => set(() => ({ dataSearchMapel: data })),
 

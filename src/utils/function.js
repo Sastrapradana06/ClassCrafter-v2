@@ -4,6 +4,7 @@ import { Bounce } from "react-toastify";
 import Cookies from "js-cookie";
 import { format } from "date-fns";
 import id from "date-fns/locale/id";
+import Papa from "papaparse";
 
 export function formatIndonesianDate(dateString) {
   const date = new Date(dateString);
@@ -138,6 +139,40 @@ export const getToday = () => {
   const dayName = days[dayIndex];
 
   return dayName;
+};
+
+export const convertCsvFile = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onabort = () => {
+      console.log("File reading was aborted");
+      reject("File reading was aborted");
+    };
+
+    reader.onerror = () => {
+      console.log("File reading has failed");
+      reject("File reading has failed");
+    };
+
+    reader.onload = () => {
+      const csvString = reader.result;
+
+      Papa.parse(csvString, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (result) => {
+          resolve({ status: true, data: result.data });
+        },
+        error: (error) => {
+          console.error("Error parsing CSV:", error);
+          reject({ status: false, message: error.message });
+        },
+      });
+    };
+
+    reader.readAsText(file);
+  });
 };
 
 export const dayColors = {

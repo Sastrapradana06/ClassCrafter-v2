@@ -101,9 +101,12 @@ function App() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <BsEmojiHeartEyesFill fill="white" size={20} />
+                    <BsEmojiHeartEyesFill
+                      className="text-violet-500"
+                      size={20}
+                    />
                   ) : (
-                    <PiSmileyXEyesFill size={23} fill="white" />
+                    <PiSmileyXEyesFill size={23} className="text-violet-500" />
                   )}
                 </div>
               </div>
