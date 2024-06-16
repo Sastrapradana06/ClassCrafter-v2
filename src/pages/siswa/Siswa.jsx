@@ -4,6 +4,7 @@ import TabelSiswa from "./TabelSiswa";
 import { CiCirclePlus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { useUserLogin } from "../../services/useCustomQuery";
+import ImportCsvSiswa from "./ImportCsvSiswa";
 
 export default function Siswa() {
   const navigate = useNavigate();
@@ -20,16 +21,19 @@ export default function Siswa() {
             </h1>
             {(user?.jabatan == "ketua kelas" ||
               user?.jabatan == "sekretaris") && (
-              <button
-                className="p-2 bg-sky-500 rounded-xl"
-                title="tambah data"
-                onClick={() => navigate("/tambah-siswa")}
-              >
-                <CiCirclePlus
-                  fill="white"
-                  className="text-[1.2rem] font-bold"
-                />
-              </button>
+              <div className="w-max flex gap-3">
+                <ImportCsvSiswa />
+                <button
+                  className="p-2 bg-sky-500 rounded-xl"
+                  title="tambah data"
+                  onClick={() => navigate("/tambah-siswa")}
+                >
+                  <CiCirclePlus
+                    fill="white"
+                    className="text-[1.2rem] font-bold"
+                  />
+                </button>
+              </div>
             )}
           </div>
           <TabelSiswa />

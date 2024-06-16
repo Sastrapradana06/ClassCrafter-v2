@@ -14,6 +14,7 @@ import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
 import { dayColors } from "../../utils/function";
+import InputCheckbox from "../../components/checkbox/InputCheckbox";
 
 export default function TabelMapel() {
   const [isModal, setIsModal] = useState(false);
@@ -23,12 +24,12 @@ export default function TabelMapel() {
 
   const { data: user } = useUserLogin();
 
-  const [dataSearchMapel] = useAppStore(
-    useShallow((state) => [state.dataSearchMapel])
+  const [dataSearchMapel, isDelete] = useAppStore(
+    useShallow((state) => [state.dataSearchMapel, state.isDelete])
   );
 
-  const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { data, isFetching } = useDataMapel();
+  const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { mutate, isPending } = useDeleteMapel();
   const { invalidateListQuery } = useInvalidate();
 
@@ -81,6 +82,7 @@ export default function TabelMapel() {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
+                  <InputCheckbox id={row.id} />
                   {i + 1}
                 </th>
                 <td className="px-6 py-4 capitalize">
@@ -113,9 +115,9 @@ export default function TabelMapel() {
                         <LuPencilLine size={20} />
                       </button>
                       <button
-                        className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]"
+                        className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e] disabled:bg-red-300 disabled:cursor-not-allowed"
                         onClick={() => showModal(row.id, row.name)}
-                        disabled={user.jabatan === "member"}
+                        disabled={isDelete}
                         title="delete"
                       >
                         <MdDeleteSweep size={20} />
@@ -163,7 +165,7 @@ export default function TabelMapel() {
         columns={
           user?.jabatan == "ketua kelas" || user?.jabatan == "sekretaris"
             ? columns
-            : columns.slice(0, 5)
+            : columns.slice(0, 6)
         }
         dataTable={
           isFetching ? [] : dataSearchMapel.length ? dataSearchMapel : data

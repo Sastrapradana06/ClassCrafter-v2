@@ -4,6 +4,7 @@ import CariGuru from "./CariGuru";
 import TabelGuru from "./TabelGuru";
 import { CiCirclePlus } from "react-icons/ci";
 import { useUserLogin } from "../../services/useCustomQuery";
+import ImportCsvGuru from "./ImportCsvGuru";
 
 export default function Guru() {
   const navigate = useNavigate();
@@ -20,16 +21,19 @@ export default function Guru() {
             </h1>
             {(user?.jabatan == "ketua kelas" ||
               user?.jabatan == "sekretaris") && (
-              <button
-                className="p-2 bg-sky-500 rounded-xl"
-                title="tambah data"
-                onClick={() => navigate("/tambah-guru")}
-              >
-                <CiCirclePlus
-                  fill="white"
-                  className="text-[1.2rem] font-bold"
-                />
-              </button>
+              <div className="w-max flex gap-3">
+                <ImportCsvGuru />
+                <button
+                  className="p-2 bg-sky-500 rounded-xl"
+                  title="tambah data"
+                  onClick={() => navigate("/tambah-guru")}
+                >
+                  <CiCirclePlus
+                    fill="white"
+                    className="text-[1.2rem] font-bold"
+                  />
+                </button>
+              </div>
             )}
           </div>
           <TabelGuru />

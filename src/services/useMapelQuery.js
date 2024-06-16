@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   addMapel,
   deleteMapelById,
+  deleteMapelRecords,
   getAllMapel,
   updateMapel,
 } from "../utils/api";
@@ -18,6 +19,19 @@ export const useDeleteMapel = () => {
   const deleteMapel = useMutation({
     mutationFn: (id) => {
       return deleteMapelById(id);
+    },
+    onError: (error) => {
+      return error;
+    },
+  });
+
+  return deleteMapel;
+};
+
+export const useDeleteMapelRecords = () => {
+  const deleteMapel = useMutation({
+    mutationFn: (ids) => {
+      return deleteMapelRecords(ids);
     },
     onError: (error) => {
       return error;
