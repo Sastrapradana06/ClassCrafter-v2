@@ -15,14 +15,15 @@ import Alert from "../../components/alert/alert";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
 import { dayColors } from "../../utils/function";
+import InputCheckbox from "../../components/checkbox/InputCheckbox";
 
 export default function TabelGuru() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
 
-  const [dataSearchGuru] = useAppStore(
-    useShallow((state) => [state.dataSearchGuru])
+  const [dataSearchGuru, isDelete] = useAppStore(
+    useShallow((state) => [state.dataSearchGuru, state.isDelete])
   );
 
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
@@ -82,6 +83,7 @@ export default function TabelGuru() {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
+                  <InputCheckbox id={row.id} />
                   {i + 1}
                 </th>
                 <td className="px-6 py-4 capitalize">{row.name}</td>
@@ -132,9 +134,9 @@ export default function TabelGuru() {
                         <LuPencilLine size={20} />
                       </button>
                       <button
-                        className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]"
+                        className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e] disabled:bg-red-400 disabled:cursor-not-allowed"
                         onClick={() => showModal(row.id, row.name)}
-                        disabled={user.jabatan === "member"}
+                        disabled={isDelete}
                         title="delete"
                       >
                         <MdDeleteSweep size={20} />

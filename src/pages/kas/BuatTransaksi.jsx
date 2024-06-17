@@ -17,6 +17,7 @@ export default function BuatTransaksi() {
     nominal: "",
     status: "masuk",
     tgl_transaksi: "",
+    deskripsi: "",
   });
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
 
@@ -80,8 +81,10 @@ export default function BuatTransaksi() {
   useEffect(() => {
     if (id) {
       editKas(id);
+    } else {
+      clearInput();
     }
-  }, []);
+  }, [id]);
 
   return (
     <Container>

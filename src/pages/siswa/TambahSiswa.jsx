@@ -75,8 +75,10 @@ export default function TambahSiswa() {
   useEffect(() => {
     if (id) {
       editSiswa(id);
+    } else {
+      clearInput();
     }
-  }, []);
+  }, [id]);
 
   return (
     <Container>

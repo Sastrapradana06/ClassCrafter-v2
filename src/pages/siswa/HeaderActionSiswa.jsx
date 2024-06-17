@@ -2,26 +2,26 @@ import { useInvalidate } from "../../services/useCustomQuery";
 
 import useHandleAlert from "../../hooks/useHandleAlert";
 import Alert from "../../components/alert/alert";
-import { useDeleteMapelRecords } from "../../services/useMapelQuery";
 import HeaderAction from "../../components/header-action/HeaderAction";
+import { useDeleteSiswaRecords } from "../../services/useDataSiswa";
 
-export default function HeaderActionsMapel() {
+export default function HeaderActionsSiswa() {
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
-  const { mutate, isPending } = useDeleteMapelRecords();
+  const { mutate, isPending } = useDeleteSiswaRecords();
   const { invalidateListQuery } = useInvalidate();
 
   const deleteMapel = async (selectedId) => {
     if (selectedId.length == 0) {
-      return handleAlert("info", "Pilih mata pelajaran yang ingin di hapus");
+      return handleAlert("info", "Pilih siswa yang ingin di hapus");
     }
     mutate(selectedId, {
       onSuccess: () => {
-        invalidateListQuery("dataMapel");
-        handleAlert("success", "Berhasil menghapus mata pelajaran");
+        invalidateListQuery("dataSiswa");
+        handleAlert("success", "Berhasil menghapus siswa");
       },
       onError: (error) => {
         console.log({ error });
-        handleAlert("info", "Gagal menghapus mata pelajaran");
+        handleAlert("info", "Gagal menghapus siswa");
       },
     });
   };
@@ -34,7 +34,7 @@ export default function HeaderActionsMapel() {
         message={dataAlert.message}
       />
       <HeaderAction
-        page={"mapel"}
+        page={"siswa"}
         isPending={isPending}
         funcDelete={deleteMapel}
       />

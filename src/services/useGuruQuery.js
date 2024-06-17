@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addGuru, deleteGuruById, getAllGuru, updateGuru } from "../utils/api";
+import {
+  addGuru,
+  deleteGuruById,
+  deleteGuruRecords,
+  getAllGuru,
+  updateGuru,
+} from "../utils/api";
 
 export const useDataGuru = () => {
   return useQuery({
@@ -13,6 +19,19 @@ export const useDeleteGuruQuery = () => {
   const deleteGuru = useMutation({
     mutationFn: (id) => {
       return deleteGuruById(id);
+    },
+    onError: (error) => {
+      return error;
+    },
+  });
+
+  return deleteGuru;
+};
+
+export const useDeleteGuruRecords = () => {
+  const deleteGuru = useMutation({
+    mutationFn: (ids) => {
+      return deleteGuruRecords(ids);
     },
     onError: (error) => {
       return error;

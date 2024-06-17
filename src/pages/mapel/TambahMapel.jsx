@@ -82,8 +82,10 @@ export default function TambahMapel() {
   useEffect(() => {
     if (id) {
       editMapel(id);
+    } else {
+      clearInput();
     }
-  }, []);
+  }, [id]);
 
   return (
     <Container>

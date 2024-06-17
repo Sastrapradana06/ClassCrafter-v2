@@ -1,6 +1,6 @@
-import { CgMenuGridO } from "react-icons/cg";
 import { IoLogOutOutline } from "react-icons/io5";
 import { BsFillPatchExclamationFill } from "react-icons/bs";
+import { RiMenuUnfoldFill, RiMenuFoldFill } from "react-icons/ri";
 
 import Sidebar from "./Sidebar";
 import women_user from "/women.jfif";
@@ -65,7 +65,11 @@ export default function NavContainer() {
         <div className="w-[95%] h-max p-2 flex justify-between items-center gap-3">
           <div className="flex justify-center items-center gap-2 w-max">
             <button onClick={() => handleSidebar()} className="lg:hidden ">
-              <CgMenuGridO size={28} />
+              {sidebar == "sidebar_aktif" ? (
+                <RiMenuUnfoldFill size={30} />
+              ) : (
+                <RiMenuFoldFill size={30} />
+              )}
             </button>
             <div className="flex flex-col justify-center">
               <h1 className=" text-[#303972] font-bold text-[1.1rem] tracking-[1px] capitalize lg:text-[1.5rem]">

@@ -145,8 +145,6 @@ export default function Sidebar({ idSidebar }) {
     },
   ];
 
-  // if (!status) return null;
-
   return (
     <div
       className="top-[50px] h-[100vh] fixed w-[60%] lg:top-0 lg:h-[100vh] lg:w-[20%] p-4 bg-[#4D44B5] text-[#BDB9E3] flex flex-col gap-3"
