@@ -77,8 +77,10 @@ export default function TambahGuru() {
   useEffect(() => {
     if (id) {
       editGuru(id);
+    } else {
+      clearInput();
     }
-  }, []);
+  }, [id]);
 
   return (
     <Container>

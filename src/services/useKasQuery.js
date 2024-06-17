@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addKas, deleteKasById, getAllKas, updateKas } from "../utils/api";
+import {
+  addKas,
+  deleteKasById,
+  deleteKasRecords,
+  getAllKas,
+  updateKas,
+} from "../utils/api";
 
 export const useDataKas = () => {
   return useQuery({
@@ -38,6 +44,18 @@ export const useDeleteKas = () => {
   const deleteKas = useMutation({
     mutationFn: (id) => {
       return deleteKasById(id);
+    },
+    onError: (error) => {
+      return error;
+    },
+  });
+  return deleteKas;
+};
+
+export const useDeleteKasRecords = () => {
+  const deleteKas = useMutation({
+    mutationFn: (ids) => {
+      return deleteKasRecords(ids);
     },
     onError: (error) => {
       return error;

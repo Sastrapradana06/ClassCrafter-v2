@@ -1,7 +1,7 @@
 import { getToken } from "./function";
 
-const url = "http://localhost:3000";
-// const url = "https://api-classcrafter-vfwt.onrender.com";
+// const url = "http://localhost:3000";
+const url = "https://api-classcrafter-vfwt.onrender.com";
 
 // + FILE
 export async function uploadFile(data) {
@@ -158,6 +158,22 @@ export async function deleteSiswaById(id) {
   }
 }
 
+export async function deleteSiswaRecords(ids) {
+  const response = await fetch(`${url}/siswa/delete-all`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ids }),
+  });
+  const res = await response.json();
+  if (res.status) {
+    return true;
+  } else {
+    throw res;
+  }
+}
+
 export async function getUserLogin() {
   const id = getToken("idUser");
   const response = await fetch(`${url}/siswa/${id}`);
@@ -227,6 +243,22 @@ export async function getAllGuru() {
 
 export async function deleteGuruById(id) {
   const response = await fetch(`${url}/guru/delete/${id}`);
+  const res = await response.json();
+  if (res.status) {
+    return true;
+  } else {
+    throw res;
+  }
+}
+
+export async function deleteGuruRecords(ids) {
+  const response = await fetch(`${url}/guru/delete-all`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ids }),
+  });
   const res = await response.json();
   if (res.status) {
     return true;
@@ -373,6 +405,22 @@ export async function getKasByStatus(status) {
 
 export async function deleteKasById(id) {
   const response = await fetch(`${url}/kas/delete/${id}`);
+  const res = await response.json();
+  if (res.status) {
+    return true;
+  } else {
+    throw res;
+  }
+}
+
+export async function deleteKasRecords(ids) {
+  const response = await fetch(`${url}/kas/delete-all`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ ids }),
+  });
   const res = await response.json();
   if (res.status) {
     return true;

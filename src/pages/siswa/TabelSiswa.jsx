@@ -15,14 +15,15 @@ import Alert from "../../components/alert/alert";
 import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
+import InputCheckbox from "../../components/checkbox/InputCheckbox";
 
 export default function TabelSiswa() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
 
-  const [dataSearchSiswa] = useAppStore(
-    useShallow((state) => [state.dataSearchSiswa])
+  const [dataSearchSiswa, isDelete] = useAppStore(
+    useShallow((state) => [state.dataSearchSiswa, state.isDelete])
   );
 
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
@@ -63,7 +64,7 @@ export default function TabelSiswa() {
     if (id == user.id) {
       navigate("/edit-profile");
     } else {
-      navigate(`/tambah-siswa/${id}`);
+      navigate(`/edit-siswa/${id}`);
     }
   };
 
@@ -90,6 +91,7 @@ export default function TabelSiswa() {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
+                  <InputCheckbox id={row.id} />
                   {i + 1}
                 </th>
                 <td className="px-6 py-4 capitalize">{row.name}</td>
@@ -144,6 +146,13 @@ export default function TabelSiswa() {
                     user.jabatan === "sekretaris" ? (
                       <div className="flex gap-2 text-white">
                         <button
+                          className="bg-[#dca714] py-1 px-4 rounded-md hover:bg-[#af8936] cursor-pointer"
+                          title="detail"
+                          onClick={() => navigate(`/detail-siswa/${row.id}`)}
+                        >
+                          <FaRegEye size={20} />
+                        </button>
+                        <button
                           className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
                           onClick={() => handleNavigateEdit(row.id)}
                           title="edit"
@@ -151,19 +160,12 @@ export default function TabelSiswa() {
                           <LuPencilLine size={20} />
                         </button>
                         <button
-                          className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]"
+                          className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e] disabled:bg-red-300 disabled:cursor-not-allowed"
                           onClick={() => showModal(row.id, row.name)}
-                          disabled={user.jabatan === "member"}
+                          disabled={isDelete}
                           title="delete"
                         >
                           <MdDeleteSweep size={20} />
-                        </button>
-                        <button
-                          className="bg-[#dca714] py-1 px-4 rounded-md hover:bg-[#af8936] cursor-pointer"
-                          title="detail"
-                          onClick={() => navigate(`/detail-siswa/${row.id}`)}
-                        >
-                          <FaRegEye size={20} />
                         </button>
                       </div>
                     ) : (

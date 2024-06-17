@@ -16,7 +16,7 @@ import TambahMapel from "./pages/mapel/TambahMapel.jsx";
 import UangKas from "./pages/kas/UangKas.jsx";
 import BuatTransaksi from "./pages/kas/BuatTransaksi.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import EditProfile from "./pages/setting/edit-profile/EditProfile.jsx";
 import GantiPassword from "./pages/setting/ganti-password/gantiPassword.jsx";
 
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/tambah-siswa/:id",
+    path: "/edit-siswa/:id",
     element: (
       <AuthPage>
         <TambahSiswa />

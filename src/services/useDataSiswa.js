@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   addSiswa,
   deleteSiswaById,
+  deleteSiswaRecords,
   getAllSiswa,
   updateSiswa,
 } from "../utils/api";
@@ -51,4 +52,17 @@ export const useDeleteSiswa = () => {
   });
 
   return deleteSiswa;
+};
+
+export const useDeleteSiswaRecords = () => {
+  const deleteSiswaIds = useMutation({
+    mutationFn: (ids) => {
+      return deleteSiswaRecords(ids);
+    },
+    onError: (error) => {
+      return error;
+    },
+  });
+
+  return deleteSiswaIds;
 };

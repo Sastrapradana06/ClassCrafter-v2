@@ -14,14 +14,15 @@ import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import { formatIndonesianDate } from "../../utils/function";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
+import InputCheckbox from "../../components/checkbox/InputCheckbox";
 
 export default function TabelKas() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
 
-  const [dataSearchKas] = useAppStore(
-    useShallow((state) => [state.dataSearchKas])
+  const [dataSearchKas, isDelete] = useAppStore(
+    useShallow((state) => [state.dataSearchKas, state.isDelete])
   );
 
   const { invalidateListQuery } = useInvalidate();
@@ -81,6 +82,7 @@ export default function TabelKas() {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
+                  <InputCheckbox id={row.id} />
                   {i + 1}
                 </th>
                 <td className="px-6 py-4 capitalize">
@@ -122,11 +124,11 @@ export default function TabelKas() {
                         <LuPencilLine size={20} />
                       </button>
                       <button
-                        className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e]"
+                        className="bg-[crimson] py-1 px-4 rounded-md hover:bg-[#af364e] disabled:bg-red-400 disabled:cursor-not-allowed"
                         onClick={() =>
                           showModal(row.id, row.nominal.toLocaleString("id-ID"))
                         }
-                        disabled={user.jabatan === "member"}
+                        disabled={isDelete}
                         title="delete"
                       >
                         <MdDeleteSweep size={20} />

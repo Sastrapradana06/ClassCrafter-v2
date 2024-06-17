@@ -54,6 +54,32 @@ export default function TabelAcara() {
     return `${jam}:${menit}`;
   };
 
+  function hitungSelisihWaktu(waktuAwal, waktuAkhir) {
+    let jamAwal = Math.floor(waktuAwal / 100);
+    let menitAwal = waktuAwal % 100;
+
+    let jamAkhir = Math.floor(waktuAkhir / 100);
+    let menitAkhir = waktuAkhir % 100;
+
+    let totalMenitAwal = jamAwal * 60 + menitAwal;
+    let totalMenitAkhir = jamAkhir * 60 + menitAkhir;
+
+    if (totalMenitAkhir < totalMenitAwal) {
+      totalMenitAkhir += 24 * 60;
+    }
+
+    let selisihMenit = totalMenitAkhir - totalMenitAwal;
+
+    let selisihJam = Math.floor(selisihMenit / 60);
+    let sisaMenit = selisihMenit % 60;
+
+    if (selisihJam == 0) {
+      return `${sisaMenit} menit mendatang`;
+    }
+
+    return `${selisihJam} jam ${sisaMenit} menit mendatang`;
+  }
+
   const TableAcara = ({ columns, dataTable }) => {
     return (
       <div className="relative w-full h-max overflow-x-auto shadow-md sm:rounded-lg ">
@@ -112,9 +138,11 @@ export default function TabelAcara() {
                     ) : replaceAndParse(row.jam) < getHoursMinutes() ? (
                       <p className="text-sky-500 font-semibold">Selesai</p>
                     ) : (
-                      <p className="text-gray-500 font-semibold">
-                        {replaceAndParse(row.jam) - getHoursMinutes()} Menit
-                        lagi
+                      <p className="text-red-500 font-semibold">
+                        {hitungSelisihWaktu(
+                          getHoursMinutes(),
+                          replaceAndParse(row.jam)
+                        )}
                       </p>
                     )}
                   </td>
