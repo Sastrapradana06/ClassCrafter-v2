@@ -20,8 +20,10 @@ Teknologi yang Digunakan
 
 Catatan Penting
 
-Harap diperhatikan bahwa website ini menggunakan layanan hosting gratis untuk backend (BE). Meskipun layanan ini sangat membantu untuk pengembangan dan pengujian, namun mungkin menyebabkan website berjalan sedikit lambat saat pertama kali diakses. Hal ini disebabkan oleh waktu yang dibutuhkan untuk "membangunkan" server hosting gratis dari mode tidur.
+    Jika ingin login menggunakan akun lain, gunakan email siswa sebagai email dan jabatan sebagai password.
 
-Saya menyarankan untuk menunggu beberapa detik jika website terasa lambat saat pertama kali diakses. Setelah server aktif, performa akan meningkat dan pengalaman pengguna akan lebih lancar.
+    Harap diperhatikan bahwa website ini menggunakan layanan hosting gratis untuk backend (BE). Meskipun layanan ini sangat membantu untuk pengembangan dan pengujian, namun mungkin menyebabkan website berjalan sedikit lambat saat pertama kali diakses. Hal ini disebabkan oleh waktu yang dibutuhkan untuk "membangunkan" server hosting gratis dari mode tidur.
 
-Saya sangat menghargai pengertian Anda dan terima kasih atas kesabarannya.
+    Saya menyarankan untuk menunggu beberapa detik jika website terasa lambat saat pertama kali diakses. Setelah server aktif, performa akan meningkat dan pengalaman pengguna akan lebih lancar.
+
+    Saya sangat menghargai pengertian Anda dan terima kasih atas kesabarannya.
