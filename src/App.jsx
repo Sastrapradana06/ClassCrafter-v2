@@ -4,15 +4,15 @@ import "./App.css";
 import image2 from "/student2.svg";
 import { useNavigate } from "react-router-dom";
 
-import { setCookies } from "./utils/function";
 import { handleLoginSiswa } from "./utils/api";
-
+import useSignIn from "react-auth-kit/hooks/useSignIn";
 import Loading from "./components/loading/Loading";
 import Alert from "./components/alert/alert";
 import useHandleAlert from "./hooks/useHandleAlert";
-import { useInvalidate } from "./services/useCustomQuery";
 import { BsEmojiHeartEyesFill } from "react-icons/bs";
 import { PiSmileyXEyesFill } from "react-icons/pi";
+import { useInvalidate } from "./services/useCustomQuery";
+import { setCookies } from "./utils/function";
 
 function App() {
   const [email, setEmail] = useState("zoe@gmail.com");
@@ -20,26 +20,43 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { invalidateListQuery } = useInvalidate();
   const { status, data, handleAlert } = useHandleAlert();
+  const { invalidateListQuery } = useInvalidate();
 
   const navigate = useNavigate();
-
+  const signIn = useSignIn();
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     try {
       const res = await handleLoginSiswa(email, password);
-      if (res.status) {
-        handleAlert("success", "Login Berhasil");
+
+      if (!res.status) {
+        setIsLoading(false);
+        return handleAlert("error", res.message);
+      }
+
+      const { token, data } = res;
+
+      if (
+        signIn({
+          auth: {
+            token: token,
+            type: "Bearer",
+          },
+          userState: data,
+        })
+      ) {
+        setCookies("idUser", data.id);
         invalidateListQuery("userLogin");
-        setCookies("token", res.token);
-        setCookies("idUser", res.data.id);
+        handleAlert("success", "Login berhasil");
+        setIsLoading(false);
         navigate("/dashboard");
         setEmail("");
         setPassword("");
       } else {
-        handleAlert("error", res.message);
+        setIsLoading(false);
+        return handleAlert("error", "Login gagal");
       }
     } catch (error) {
       console.log(error);

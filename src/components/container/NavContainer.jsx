@@ -9,14 +9,14 @@ import { useNavigate } from "react-router-dom";
 
 import { useShallow } from "zustand/react/shallow";
 import useAppStore from "../../store/store";
-import { deleteCookies } from "../../utils/function";
 import ShowModal from "../modal/ShowModal";
 import { useState } from "react";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
 import { useUserLogin } from "../../services/useCustomQuery";
 
 export default function NavContainer() {
   const [isModal, setIsModal] = useState(false);
-
+  const signOut = useSignOut();
   const navigate = useNavigate();
   const { data: user } = useUserLogin();
 
@@ -25,7 +25,7 @@ export default function NavContainer() {
   );
 
   const logoutUser = () => {
-    deleteCookies();
+    signOut();
     navigate("/");
   };
 
