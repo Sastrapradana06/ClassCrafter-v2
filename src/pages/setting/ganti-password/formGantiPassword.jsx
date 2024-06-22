@@ -2,7 +2,6 @@ import { PiSmileyXEyesFill } from "react-icons/pi";
 import { BsEmojiHeartEyesFill } from "react-icons/bs";
 import { useState } from "react";
 import {
-  useInvalidate,
   useUpdatePassword,
   useUserLogin,
 } from "../../../services/useCustomQuery";
@@ -10,7 +9,8 @@ import Loading from "../../../components/loading/Loading";
 import useHandleAlert from "../../../hooks/useHandleAlert";
 import useHandleInput from "../../../hooks/useHandleInput";
 import Alert from "../../../components/alert/alert";
-
+import { useNavigate } from "react-router-dom";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
 export default function FormGantiPassword() {
   const { data, handleChange, clearInput } = useHandleInput({
     password_lama: "",
@@ -18,10 +18,12 @@ export default function FormGantiPassword() {
     confirmasi_password: "",
   });
 
+  const navigate = useNavigate();
+  const signOut = useSignOut();
+
   const { status, data: alert, handleAlert } = useHandleAlert();
   const { data: user } = useUserLogin();
   const { mutate, isPending } = useUpdatePassword();
-  const { invalidateListQuery } = useInvalidate();
 
   const [showPassword, setShowPassword] = useState({
     password_lama: false,
@@ -52,7 +54,8 @@ export default function FormGantiPassword() {
     };
     mutate(dataBody, {
       onSuccess: () => {
-        invalidateListQuery("userLogin");
+        signOut();
+        navigate("/");
         handleAlert("success", "Password Berhasil Dirubah");
         clearInput();
       },

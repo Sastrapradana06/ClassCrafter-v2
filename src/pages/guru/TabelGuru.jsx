@@ -16,7 +16,6 @@ import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
 import { dayColors } from "../../utils/function";
 import InputCheckbox from "../../components/checkbox/InputCheckbox";
-
 export default function TabelGuru() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);

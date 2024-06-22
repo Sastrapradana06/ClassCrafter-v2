@@ -1,6 +1,3 @@
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Bounce } from "react-toastify";
 import Cookies from "js-cookie";
 import { format } from "date-fns";
 import id from "date-fns/locale/id";
@@ -45,58 +42,6 @@ export const convertDateString = (data) => {
   const day = ("0" + dateObject.getDate()).slice(-2);
   const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
-};
-
-export const handleToast = (message, status) => {
-  if (status === "success") {
-    toast(message, {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-  } else if (status === "info") {
-    toast.info(message, {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-  } else if (status === "warning") {
-    toast.warn(message, {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-  } else {
-    toast.error(message, {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-    });
-  }
 };
 
 export const setCookies = (name, data) => {

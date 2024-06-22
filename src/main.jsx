@@ -2,12 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/error/Error.jsx";
 import Home from "./pages/home/Home.jsx";
 import Siswa from "./pages/siswa/Siswa.jsx";
 import TambahSiswa from "./pages/siswa/TambahSiswa.jsx";
-import AuthPage from "./middleware/AuthPage.jsx";
 import DetailSiswa from "./pages/siswa/DetailSiswa.jsx";
 import Guru from "./pages/guru/Guru.jsx";
 import TambahGuru from "./pages/guru/TambahGuru.jsx";
@@ -19,186 +17,67 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import EditProfile from "./pages/setting/edit-profile/EditProfile.jsx";
 import GantiPassword from "./pages/setting/ganti-password/gantiPassword.jsx";
+import createStore from "react-auth-kit/createStore";
+import AuthProvider from "react-auth-kit";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
+import PrivateRoute from "./middleware/PrivateRoute.jsx";
 
-const router = createBrowserRouter([
-  // + Home
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/dashboard",
-    element: (
-      <AuthPage>
-        <Home />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-
-  // + Siswa
-  {
-    path: "/siswa",
-    element: (
-      <AuthPage>
-        <Siswa />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/detail-siswa",
-    element: (
-      <AuthPage>
-        <DetailSiswa />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/detail-siswa/:id",
-    element: (
-      <AuthPage>
-        <DetailSiswa />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/edit-siswa/:id",
-    element: (
-      <AuthPage>
-        <TambahSiswa />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/tambah-siswa",
-    element: (
-      <AuthPage>
-        <TambahSiswa />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-
-  // + Guru
-  {
-    path: "/guru",
-    element: (
-      <AuthPage>
-        <Guru />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/tambah-guru",
-    element: (
-      <AuthPage>
-        <TambahGuru />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/edit-guru/:id",
-    element: (
-      <AuthPage>
-        <TambahGuru />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-
-  // + Mapel
-  {
-    path: "/mapel",
-    element: (
-      <AuthPage>
-        <Mapel />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/tambah-mapel",
-    element: (
-      <AuthPage>
-        <TambahMapel />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/edit-mapel/:id",
-    element: (
-      <AuthPage>
-        <TambahMapel />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-
-  // + Uang Kas
-  {
-    path: "/kas",
-    element: (
-      <AuthPage>
-        <UangKas />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/buat-transaksi",
-    element: (
-      <AuthPage>
-        <BuatTransaksi />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/edit-transaksi/:id",
-    element: (
-      <AuthPage>
-        <BuatTransaksi />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-
-  // + Setting
-  {
-    path: "/ganti-password",
-    element: (
-      <AuthPage>
-        <GantiPassword />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/edit-profile",
-    element: (
-      <AuthPage>
-        <EditProfile />
-      </AuthPage>
-    ),
-    errorElement: <ErrorPage />,
-  },
-]);
+export const store = createStore({
+  authName: "_auth",
+  authType: "cookie",
+  cookieDomain: window.location.hostname,
+  cookieSecure: window.location.protocol === "https:",
+});
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-    {/* <ReactQueryDevtools /> */}
-  </QueryClientProvider>
+  <AuthProvider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <React.StrictMode>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="*" element={<ErrorPage />} />
+
+            <Route element={<AuthOutlet fallbackPath="/" />}>
+              <Route path="/dashboard" element={<Home />} />
+              <Route path="/siswa" element={<Siswa />} />
+              <Route path="/guru" element={<Guru />} />
+              <Route path="/mapel" element={<Mapel />} />
+              <Route path="/kas" element={<UangKas />} />
+              <Route path="/ganti-password" element={<GantiPassword />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
+              <Route path="/detail-siswa" element={<DetailSiswa />} />
+              <Route path="/detail-siswa/:id" element={<DetailSiswa />} />
+            </Route>
+
+            <Route
+              element={
+                <PrivateRoute allowedJabatan={["ketua kelas", "sekretaris"]} />
+              }
+            >
+              <Route path="/tambah-siswa" element={<TambahSiswa />} />
+              <Route path="/tambah-guru" element={<TambahGuru />} />
+              <Route path="/edit-guru/:id" element={<TambahGuru />} />
+
+              <Route path="/tambah-mapel" element={<TambahMapel />} />
+              <Route path="/edit-mapel/:id" element={<TambahMapel />} />
+            </Route>
+
+            <Route
+              element={
+                <PrivateRoute allowedJabatan={["ketua kelas", "bendahara"]} />
+              }
+            >
+              <Route path="/buat-transaksi" element={<BuatTransaksi />} />
+              <Route path="/edit-transaksi/:id" element={<BuatTransaksi />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        {/* <RouterProvider router={router} /> */}
+      </React.StrictMode>
+    </QueryClientProvider>
+  </AuthProvider>
 );

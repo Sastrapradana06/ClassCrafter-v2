@@ -16,7 +16,6 @@ import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
 import InputCheckbox from "../../components/checkbox/InputCheckbox";
-
 export default function TabelSiswa() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
@@ -31,8 +30,8 @@ export default function TabelSiswa() {
   const { data, isFetching } = useDataSiswa();
   const { isPending, mutate } = useDeleteSiswa();
   const { invalidateListQuery } = useInvalidate();
-  const { data: user } = useUserLogin();
   const navigate = useNavigate();
+  const { data: user } = useUserLogin();
 
   const deleteSiswa = async () => {
     mutate(idDelete, {
@@ -65,6 +64,14 @@ export default function TabelSiswa() {
       navigate("/edit-profile");
     } else {
       navigate(`/edit-siswa/${id}`);
+    }
+  };
+
+  const handleNavigateDetail = (id) => {
+    if (id == user.id) {
+      navigate("/detail-siswa");
+    } else {
+      navigate(`/detail-siswa/${id}`);
     }
   };
 
@@ -148,7 +155,7 @@ export default function TabelSiswa() {
                         <button
                           className="bg-[#dca714] py-1 px-4 rounded-md hover:bg-[#af8936] cursor-pointer"
                           title="detail"
-                          onClick={() => navigate(`/detail-siswa/${row.id}`)}
+                          onClick={() => handleNavigateDetail(row.id)}
                         >
                           <FaRegEye size={20} />
                         </button>
@@ -173,7 +180,7 @@ export default function TabelSiswa() {
                         <button
                           className="bg-[#dca714] py-1 px-4 rounded-md hover:bg-[#af8936] cursor-pointer"
                           title="detail"
-                          onClick={() => navigate(`/detail-siswa/${row.id}`)}
+                          onClick={() => handleNavigateDetail(row.id)}
                         >
                           <FaRegEye size={20} />
                         </button>
