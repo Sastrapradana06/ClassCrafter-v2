@@ -65,7 +65,7 @@ export default function HeaderAction({
           Data {page}
         </h1>
         {(user?.jabatan == "ketua kelas" || user?.jabatan == "sekretaris") && (
-          <div className="w-max flex gap-3 items-center">
+          <div className="w-max flex gap-1 lg:gap-3 items-center">
             <button
               className="p-2 bg-purple-500 text-white text-[.9rem] rounded-md flex gap-2 items-center hover:bg-purple-700"
               title="delete data"
