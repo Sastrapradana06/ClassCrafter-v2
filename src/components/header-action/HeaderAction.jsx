@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { CiCirclePlus } from "react-icons/ci";
 import { IoClose } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
@@ -9,11 +10,16 @@ import ImportCsvGuru from "../../pages/guru/ImportCsvGuru";
 import ImportCsvMapel from "../../pages/mapel/ImportCsv";
 
 import Loading from "../loading/Loading";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ImportCsvSiswa from "../../pages/siswa/ImportCsvSiswa";
-
-// eslint-disable-next-line react/prop-types
-export default function HeaderAction({ page, isPending, funcDelete }) {
+import { FaFileExport } from "react-icons/fa6";
+export default function HeaderAction({
+  page,
+  isPending,
+  funcDelete,
+  funcExport,
+}) {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { data: user } = useUserLogin();
   const [isDelete, setIsDelete, selectedId, deleteSelectedId] = useAppStore(
@@ -24,8 +30,6 @@ export default function HeaderAction({ page, isPending, funcDelete }) {
       state.deleteSelectedId,
     ])
   );
-
-  //   console.log({ selectedId, page });
 
   const handleDelete = async () => {
     if (selectedId.length > 0) {
@@ -41,6 +45,12 @@ export default function HeaderAction({ page, isPending, funcDelete }) {
     siswa: <ImportCsvSiswa />,
   };
 
+  const handleExportFile = async () => {
+    setIsLoading(true);
+    await funcExport();
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     deleteSelectedId();
     setIsDelete(false);
@@ -48,7 +58,7 @@ export default function HeaderAction({ page, isPending, funcDelete }) {
 
   return (
     <>
-      {isPending && <Loading />}
+      {isPending || (isLoading && <Loading />)}
 
       <div className="w-full h-max  flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
         <h1 className="text-[1.2rem] text-black font-semibold tracking-[2px] capitalize">
@@ -56,6 +66,14 @@ export default function HeaderAction({ page, isPending, funcDelete }) {
         </h1>
         {(user?.jabatan == "ketua kelas" || user?.jabatan == "sekretaris") && (
           <div className="w-max flex gap-3 items-center">
+            <button
+              className="p-2 bg-purple-500 text-white text-[.9rem] rounded-md flex gap-2 items-center hover:bg-purple-700"
+              title="delete data"
+              onClick={() => handleExportFile()}
+            >
+              <FaFileExport size={20} className="text-purple-200" />
+              <p>Cetak</p>
+            </button>
             {page != "kas" && componentImportCsv[page]}
             {isDelete ? (
               <button
@@ -76,6 +94,7 @@ export default function HeaderAction({ page, isPending, funcDelete }) {
                 <p>Delete</p>
               </button>
             )}
+
             <button
               className="p-2 bg-sky-500 rounded-xl"
               title={isDelete ? "close" : "tambahkan data"}

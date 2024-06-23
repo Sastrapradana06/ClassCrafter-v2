@@ -3,9 +3,14 @@ import { useInvalidate } from "../../services/useCustomQuery";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import Alert from "../../components/alert/alert";
 import HeaderAction from "../../components/header-action/HeaderAction";
-import { useDeleteSiswaRecords } from "../../services/useDataSiswa";
+import {
+  useDataSiswa,
+  useDeleteSiswaRecords,
+} from "../../services/useDataSiswa";
+import { exportToPDF } from "../../utils/function";
 
 export default function HeaderActionsSiswa() {
+  const { data: siswa } = useDataSiswa();
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { mutate, isPending } = useDeleteSiswaRecords();
   const { invalidateListQuery } = useInvalidate();
@@ -26,6 +31,31 @@ export default function HeaderActionsSiswa() {
     });
   };
 
+  const columnsTable = [
+    "Nama Siswa",
+    "Email",
+    "No Hp/Wa",
+    "Tgl Lahir",
+    "Jekel",
+    "Alamat",
+    "Orang Tua",
+  ];
+  const columnsData = [
+    "name",
+    "email",
+    "notel",
+    "tanggal_lahir",
+    "jekel",
+    "alamat",
+    "nama_ortu",
+  ];
+
+  const handleExportExel = async () => {
+    if (!siswa || siswa.length == 0)
+      return handleAlert("info", "Tidak ada data mata pelajaran");
+    await exportToPDF(columnsTable, columnsData, siswa, "Data siswa");
+  };
+
   return (
     <>
       <Alert
@@ -37,6 +67,7 @@ export default function HeaderActionsSiswa() {
         page={"siswa"}
         isPending={isPending}
         funcDelete={deleteMapel}
+        funcExport={handleExportExel}
       />
     </>
   );

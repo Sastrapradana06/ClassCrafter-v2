@@ -2,9 +2,11 @@ import Alert from "../../components/alert/alert";
 import HeaderAction from "../../components/header-action/HeaderAction";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import { useInvalidate } from "../../services/useCustomQuery";
-import { useDeleteGuruRecords } from "../../services/useGuruQuery";
+import { useDataGuru, useDeleteGuruRecords } from "../../services/useGuruQuery";
+import { exportToPDF } from "../../utils/function";
 
 export default function HeaderActionGuru() {
+  const { data: guru } = useDataGuru();
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { mutate, isPending } = useDeleteGuruRecords();
   const { invalidateListQuery } = useInvalidate();
@@ -25,6 +27,15 @@ export default function HeaderActionGuru() {
     });
   };
 
+  const columnsTable = ["Nama Guru", "Mata Pelajaran", "Jekel", "Jadwal"];
+  const columnsData = ["Name", "Mapel", "Jekel", "Jadwal"];
+
+  const handleExportExel = async () => {
+    if (!guru || guru.length == 0)
+      return handleAlert("info", "Tidak ada data guru");
+    await exportToPDF(columnsTable, columnsData, guru, "Data Guru");
+  };
+
   return (
     <>
       <Alert
@@ -36,6 +47,7 @@ export default function HeaderActionGuru() {
         page={"guru"}
         isPending={isPending}
         funcDelete={deleteGuru}
+        funcExport={handleExportExel}
       />
     </>
   );
