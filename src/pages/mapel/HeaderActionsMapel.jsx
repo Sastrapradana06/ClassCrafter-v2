@@ -7,7 +7,6 @@ import {
   useDeleteMapelRecords,
 } from "../../services/useMapelQuery";
 import HeaderAction from "../../components/header-action/HeaderAction";
-import { exportToPDF } from "../../utils/function";
 
 export default function HeaderActionsMapel() {
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
@@ -39,12 +38,6 @@ export default function HeaderActionsMapel() {
   ];
   const columnsData = ["Mapel", "Jam", "Durasi", "Hari", "Nama_Guru"];
 
-  const handleExportExel = async () => {
-    if (!mapel || mapel.length == 0)
-      return handleAlert("info", "Tidak ada data mata pelajaran");
-    await exportToPDF(columnsTable, columnsData, mapel, "Data Mapel");
-  };
-
   return (
     <>
       <Alert
@@ -56,7 +49,9 @@ export default function HeaderActionsMapel() {
         page={"mapel"}
         isPending={isPending}
         funcDelete={deleteMapel}
-        funcExport={handleExportExel}
+        columnsData={columnsData}
+        columnsTable={columnsTable}
+        data={mapel ? mapel : []}
       />
     </>
   );

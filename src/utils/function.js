@@ -19,9 +19,9 @@ export const exportToPDF = async (
   element.classList.add("pb-[50px]");
 
   element.innerHTML = `
-  <div class="w-full h-max flex flex-col justify-center items-center gap-8  m-auto">
+  <div class="w-full h-max flex flex-col justify-center items-center gap-8 m-auto">
     <h2 class="text-center text-black font-bold text-[1.3rem] uppercase">${fileName}</h2>
-    <table border="1" style="border-collapse: collapse;" class="m-auto max-w-[90%] min-w-[90%]" >
+    <table border="1" style="border-collapse: collapse;" class="m-auto max-w-[90%] min-w-[90%]">
       <thead>
         <tr>
           <th class="bg-lime-500 text-white p-[5px] text-center border border-black">No</th>
@@ -38,16 +38,14 @@ export const exportToPDF = async (
           .map(
             (item, index) => `
             <tr class="border-b border-gray-700">
-              <td  class="border border-black text-black p-1">
-                      <p class=" flex justify-center items-center">${
-                        index + 1
-                      }</p>
-                    </td>
+              <td class="border border-black text-black p-1">
+                <p class="flex justify-center items-center">${index + 1}</p>
+              </td>
               ${columnsData
                 .map(
                   (column) =>
-                    `<td  class="border border-black text-black p-1">
-                      <p class=" flex justify-center items-center w-max text-[.8rem]">${
+                    `<td class="border border-black text-black p-1">
+                      <p class="flex justify-center items-center w-max text-[.9rem]">${
                         item[column.toLowerCase()]
                       }</p>
                     </td>`
@@ -64,10 +62,17 @@ export const exportToPDF = async (
   document.body.appendChild(element);
 
   try {
+    // Adjust the scale based on the device's screen width
+    const scale = window.innerWidth < 768 ? 1.5 : 2;
+
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const canvas = await html2canvas(element, {
-      scale: 2,
+      scale: scale,
+      width: element.scrollWidth,
+      height: element.scrollHeight,
+      windowWidth: element.scrollWidth,
+      windowHeight: element.scrollHeight,
     });
     const imgData = canvas.toDataURL("image/png");
 
@@ -84,6 +89,7 @@ export const exportToPDF = async (
     document.body.removeChild(element);
   }
 };
+
 export const exportToExcel = (data, fileName) => {
   console.log({ data, fileName });
   const worksheet = XLSX.utils.json_to_sheet(data);
