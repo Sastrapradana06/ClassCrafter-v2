@@ -10,16 +10,19 @@ import ImportCsvGuru from "../../pages/guru/ImportCsvGuru";
 import ImportCsvMapel from "../../pages/mapel/ImportCsv";
 
 import Loading from "../loading/Loading";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ImportCsvSiswa from "../../pages/siswa/ImportCsvSiswa";
 import { FaFileExport } from "react-icons/fa6";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ExportPdf from "../react-pdf/ExportPdf";
 export default function HeaderAction({
   page,
   isPending,
   funcDelete,
-  funcExport,
+  columnsTable,
+  columnsData,
+  data,
 }) {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { data: user } = useUserLogin();
   const [isDelete, setIsDelete, selectedId, deleteSelectedId] = useAppStore(
@@ -45,12 +48,6 @@ export default function HeaderAction({
     siswa: <ImportCsvSiswa />,
   };
 
-  const handleExportFile = async () => {
-    setIsLoading(true);
-    await funcExport();
-    setIsLoading(false);
-  };
-
   useEffect(() => {
     deleteSelectedId();
     setIsDelete(false);
@@ -58,7 +55,7 @@ export default function HeaderAction({
 
   return (
     <>
-      {isPending || (isLoading && <Loading />)}
+      {isPending && <Loading />}
 
       <div className="w-full h-max  flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
         <h1 className="text-[1.2rem] text-black font-semibold tracking-[2px] capitalize">
@@ -66,14 +63,51 @@ export default function HeaderAction({
         </h1>
         {(user?.jabatan == "ketua kelas" || user?.jabatan == "sekretaris") && (
           <div className="w-max flex gap-1 lg:gap-3 items-center">
-            <button
-              className="p-2 bg-purple-500 text-white text-[.9rem] rounded-md flex gap-2 items-center hover:bg-purple-700"
-              title="delete data"
-              onClick={() => handleExportFile()}
-            >
-              <FaFileExport size={20} className="text-purple-200" />
-              <p>Cetak</p>
-            </button>
+            <div>
+              <PDFDownloadLink
+                document={
+                  <ExportPdf
+                    columnsTable={columnsTable}
+                    columnsData={columnsData}
+                    data={data}
+                    page={page}
+                  />
+                }
+                fileName={page}
+              >
+                <button
+                  className="p-2 bg-purple-500 text-white text-[.9rem] rounded-md flex gap-2 items-center hover:bg-purple-700"
+                  title="donwload pdf"
+                >
+                  <FaFileExport size={20} className="text-purple-200" />
+                  <p>Cetak</p>
+                </button>
+                {/* {({ loading }) =>
+                  loading ? (
+                    <button
+                      type="button"
+                      className="p-2 bg-purple-500 text-white text-[.9rem] rounded-md flex gap-2 items-center hover:bg-purple-700"
+                      disabled
+                    >
+                      <FaSpinner
+                        className="animate-spin"
+                        size={18}
+                        fill="white"
+                      />
+                    </button>
+                  ) : (
+                    <button
+                      className="p-2 bg-purple-500 text-white text-[.9rem] rounded-md flex gap-2 items-center hover:bg-purple-700"
+                      title="donwload pdf"
+                    >
+                      <FaFileExport size={20} className="text-purple-200" />
+                      <p>Cetak</p>
+                    </button>
+                  )
+                } */}
+              </PDFDownloadLink>
+            </div>
+
             {page != "kas" && componentImportCsv[page]}
             {isDelete ? (
               <button

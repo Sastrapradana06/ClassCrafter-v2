@@ -67,7 +67,9 @@ export default function HeaderActionsSiswa() {
         page={"siswa"}
         isPending={isPending}
         funcDelete={deleteMapel}
-        funcExport={handleExportExel}
+        columnsData={columnsData}
+        columnsTable={columnsTable}
+        data={siswa ? siswa : []}
       />
     </>
   );
