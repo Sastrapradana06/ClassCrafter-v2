@@ -9,24 +9,20 @@ import useSignIn from "react-auth-kit/hooks/useSignIn";
 import Loading from "./components/loading/Loading";
 import Alert from "./components/alert/alert";
 import useHandleAlert from "./hooks/useHandleAlert";
-import { BsEmojiHeartEyesFill } from "react-icons/bs";
-import { PiSmileyXEyesFill } from "react-icons/pi";
+
 import { useInvalidate } from "./services/useCustomQuery";
 import { setCookies } from "./utils/function";
+import FormLogin from "./components/form/form-login";
 
 function App() {
-  const [email, setEmail] = useState("zoe@gmail.com");
-  const [password, setPassword] = useState("ketuakelas");
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const { status, data, handleAlert } = useHandleAlert();
   const { invalidateListQuery } = useInvalidate();
 
   const navigate = useNavigate();
   const signIn = useSignIn();
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (email, password) => {
     setIsLoading(true);
     try {
       const res = await handleLoginSiswa(email, password);
@@ -50,10 +46,8 @@ function App() {
         setCookies("idUser", data.id);
         invalidateListQuery("userLogin");
         handleAlert("success", "Login berhasil");
-        setIsLoading(false);
         navigate("/dashboard");
-        setEmail("");
-        setPassword("");
+        setIsLoading(false);
       } else {
         setIsLoading(false);
         return handleAlert("error", "Login gagal");
@@ -77,7 +71,8 @@ function App() {
             <p className="font-medium text-violet-600">ClassCrafter.com</p>
           </div>
 
-          <form className=" mt-3 w-[85%] lg:w-[90%]" onSubmit={handleLogin}>
+          <FormLogin handleLogin={handleLogin} />
+          {/* <form className=" mt-3 w-[85%] lg:w-[90%]" onSubmit={handleLogin}>
             <div className="mb-5">
               <label
                 htmlFor="email"
@@ -135,7 +130,7 @@ function App() {
             >
               Masuk
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
     </div>

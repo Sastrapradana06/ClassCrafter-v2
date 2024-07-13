@@ -15,12 +15,13 @@ import { useShallow } from "zustand/react/shallow";
 import useAppStore from "../../store/store";
 import { useUserLogin } from "../../services/useCustomQuery";
 // eslint-disable-next-line react/prop-types
-export default function Sidebar({ idSidebar }) {
+export default function Sidebar() {
   const navigate = useNavigate();
 
-  const [setSidebar] = useAppStore(useShallow((state) => [state.setSidebar]));
+  const [sidebar, setSidebar] = useAppStore(
+    useShallow((state) => [state.sidebar, state.setSidebar])
+  );
   const { data: user } = useUserLogin();
-
   const [dropdownStates, setDropdownStates] = useState({
     Home: "hidden",
     Siswa: "hidden",
@@ -145,9 +146,10 @@ export default function Sidebar({ idSidebar }) {
   ];
 
   return (
-    <div
-      className="top-[50px] h-[100vh] fixed w-[60%] lg:top-0 lg:h-[100vh] lg:w-[20%] p-4 bg-[#4D44B5] text-[#BDB9E3] flex flex-col gap-3"
-      id={idSidebar}
+    <nav
+      className={`top-[50px] h-[100vh] fixed w-[60%] lg:top-0 lg:h-[100vh] lg:w-[20%] p-4 bg-[#4D44B5] text-[#BDB9E3] flex flex-col gap-3 z-10  lg:translate-x-0 transition-transform duration-300 ${
+        sidebar == "sidebar_non" ? "translate-x-[-100%]" : "translate-x-0"
+      }`}
     >
       <div className="flex items-center gap-2 ml-4 lg:ml-0 lg:justify-center lg:gap-4 mt-1">
         <img src={image2} alt="" width={30} className="" />
@@ -197,6 +199,6 @@ export default function Sidebar({ idSidebar }) {
           );
         })}
       </div>
-    </div>
+    </nav>
   );
 }

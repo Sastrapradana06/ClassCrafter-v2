@@ -107,7 +107,7 @@ export default function NavContainer() {
           </div>
         </div>
       </nav>
-      <Sidebar idSidebar={sidebar} />
+      <Sidebar />
     </>
   );
 }
