@@ -2,51 +2,6 @@ body {
   background-color: #e6ebee;
 }
 
-#sidebar_aktif {
-  left: 0px;
-  z-index: 10;
-  animation: animateSidebar_aktif 0.4s;
-  animation-timing-function: ease-in-out;
-}
-
-#sidebar_non {
-  left: -500px;
-  z-index: 10;
-  /* animation: animateSidebar_non 0.4s; */
-  animation-timing-function: ease-in-out;
-}
-
-@keyframes animateSidebar_aktif {
-  0% {
-    left: -500px;
-  }
-  100% {
-    left: 0;
-  }
-}
-@keyframes animateSidebar_non {
-  0% {
-    left: 0;
-  }
-  100% {
-    left: -500px;
-  }
-}
-
 .group:hover .absolute {
   display: block;
-}
-
-@media (min-width: 1024px) {
-  #sidebar_aktif {
-    left: 0px;
-    animation: none;
-    animation-timing-function: none;
-  }
-
-  #sidebar_non {
-    left: 0px;
-    animation: none;
-    animation-timing-function: none;
-  }
 }
