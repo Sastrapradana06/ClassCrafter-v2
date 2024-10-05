@@ -1,26 +1,28 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { useSearchParams } from "react-router-dom";
 
-export default function InputSearch({ func, placeholder, setState }) {
-  const [prevCari, setPrevCari] = useState("");
+export default function InputSearch({ placeholder }) {
   const [cari, setCari] = useState("");
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
 
   const handleSearch = () => {
-    func(cari);
-    setPrevCari(cari);
-    setState(cari);
-    setIsSubmit(true);
+    searchParams.set("q", cari);
+    setSearchParams(searchParams);
   };
 
-  const tes = () => {
-    setState("");
+  const reset = () => {
     setCari("");
-    setPrevCari("");
-    setIsSubmit(false);
+    searchParams.delete("q");
+    setSearchParams(searchParams);
   };
+
+  useEffect(() => {
+    setCari(query);
+  }, [query]);
 
   return (
     <div className="w-full h-max flex flex-col rounded-md items-center py-3 gap-2">
@@ -33,11 +35,11 @@ export default function InputSearch({ func, placeholder, setState }) {
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3 ">
-            {isSubmit && cari.length > 0 ? (
+            {query ? (
               <IoClose
                 size={20}
                 fill="white"
-                onClick={tes}
+                onClick={reset}
                 className="cursor-pointer"
               />
             ) : (
@@ -56,7 +58,7 @@ export default function InputSearch({ func, placeholder, setState }) {
           <button
             type="button"
             onClick={handleSearch}
-            disabled={cari.length < 3 || prevCari === cari}
+            disabled={!cari}
             className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
           >
             Search

@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { IoManSharp, IoWoman } from "react-icons/io5";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
@@ -20,18 +20,32 @@ export default function TabelSiswa() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
+  const [dataSiswa, setDataSiswa] = useState([]);
 
-  const [dataSearchSiswa, isDelete] = useAppStore(
-    useShallow((state) => [state.dataSearchSiswa, state.isDelete])
-  );
-
-  const { status, data: dataAlert, handleAlert } = useHandleAlert();
-
-  const { data, isFetching } = useDataSiswa();
+  const { data } = useDataSiswa();
   const { isPending, mutate } = useDeleteSiswa();
   const { invalidateListQuery } = useInvalidate();
   const navigate = useNavigate();
   const { data: user } = useUserLogin();
+
+  const [isDelete] = useAppStore(useShallow((state) => [state.isDelete]));
+  const { status, data: dataAlert, handleAlert } = useHandleAlert();
+
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
+
+  const cariSiswa = (input) => {
+    if (data) {
+      const dataSiswa = data.filter((siswa) =>
+        siswa.name.toLowerCase().includes(input.toLowerCase())
+      );
+      if (dataSiswa.length > 0) {
+        setDataSiswa(dataSiswa);
+      } else {
+        handleAlert("info", "Nama siswa tidak ditemukan");
+      }
+    }
+  };
 
   const deleteSiswa = async () => {
     mutate(idDelete, {
@@ -74,6 +88,14 @@ export default function TabelSiswa() {
       navigate(`/detail-siswa/${id}`);
     }
   };
+
+  useEffect(() => {
+    if (query) {
+      cariSiswa(query);
+    } else {
+      setDataSiswa(data);
+    }
+  }, [query, data]);
 
   const TableSiswa = ({ columns, dataTable }) => {
     return (
@@ -227,9 +249,7 @@ export default function TabelSiswa() {
           "Kota",
           "Aksi",
         ]}
-        dataTable={
-          isFetching ? [] : dataSearchSiswa.length > 0 ? dataSearchSiswa : data
-        }
+        dataTable={dataSiswa && dataSiswa.length > 0 ? dataSiswa : []}
       />
     </div>
   );
