@@ -61,7 +61,6 @@ export default function ImportCsv({ page, mutate, isPending }) {
   });
 
   const pilihFile = () => {
-    console.log("di klik");
     refFile.current.click();
   };
 
@@ -102,7 +101,7 @@ export default function ImportCsv({ page, mutate, isPending }) {
               className="p-2 rounded-md bg-blue-500 font-semibold  text-[.8rem] hover:bg-blue-600"
               onClick={donwloadContohFile}
             >
-              Donwload contoh file
+              Lihat contoh file
             </button>
             <button
               className="p-2 rounded-md bg-red-500 font-semibold  text-[.8rem] hover:bg-red-600 flex gap-2"
@@ -129,8 +128,8 @@ export default function ImportCsv({ page, mutate, isPending }) {
                   </p>
                 ) : (
                   <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Click to upload</span> or
-                    drag and drop
+                    <span className="font-semibold">Klik tombol upload</span>{" "}
+                    atau drop file disini
                   </p>
                 )}
               </div>

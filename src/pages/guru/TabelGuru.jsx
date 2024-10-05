@@ -1,35 +1,48 @@
 /* eslint-disable react/prop-types */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
 import { IoManSharp, IoWoman } from "react-icons/io5";
 
 import ModalDelete from "../../components/modal-delete/ModalDelete";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import { useDataGuru, useDeleteGuruQuery } from "../../services/useGuruQuery";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import Alert from "../../components/alert/alert";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
-import { dayColors } from "../../utils/function";
 import InputCheckbox from "../../components/checkbox/InputCheckbox";
 export default function TabelGuru() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
-
-  const [dataSearchGuru, isDelete] = useAppStore(
-    useShallow((state) => [state.dataSearchGuru, state.isDelete])
-  );
+  const [dataGuru, setDataGuru] = useState([]);
 
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
-  const { data, isFetching } = useDataGuru();
+  const { data } = useDataGuru();
   const { mutate, isPending } = useDeleteGuruQuery();
   const { invalidateListQuery } = useInvalidate();
   const { data: user } = useUserLogin();
+  const [isDelete] = useAppStore(useShallow((state) => [state.isDelete]));
+
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
+
+  const cariGuru = (input) => {
+    if (data) {
+      const dataGuru = data.filter((guru) =>
+        guru.name.toLowerCase().includes(input.toLowerCase())
+      );
+      if (dataGuru.length > 0) {
+        setDataGuru(dataGuru);
+      } else {
+        handleAlert("info", "Nama guru tidak ditemukan");
+      }
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -108,17 +121,13 @@ export default function TabelGuru() {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <p className={`capitalize text-[#dda15e] font-semibold`}>
-                    {row.mapel}
-                  </p>
+                  <p className={` text-amber-300`}>{row.email}</p>
                 </td>
                 <td className="px-6 py-4">
                   <p
-                    className={`capitalize ${
-                      dayColors[row.jadwal]
-                    } p-2 text-white rounded-md max-w-[170px] text-center`}
+                    className={`capitalize  p-2 text-white rounded-md max-w-[170px] text-center`}
                   >
-                    {row.jadwal}
+                    {row.notel}
                   </p>
                 </td>
                 {user?.jabatan == "ketua kelas" ||
@@ -156,10 +165,18 @@ export default function TabelGuru() {
     "Nama Guru",
     "Foto",
     "Jenis Kelamin",
-    "Mata Pelajaran",
-    "Jadwal",
+    "Email",
+    "Notel",
     "Aksi",
   ];
+
+  useEffect(() => {
+    if (query) {
+      cariGuru(query);
+    } else {
+      setDataGuru(data);
+    }
+  }, [query, data]);
 
   return (
     <div className="pb-[21%] lg:pb-[10%]">
@@ -184,9 +201,7 @@ export default function TabelGuru() {
             ? column
             : column.slice(0, 6)
         }
-        dataTable={
-          isFetching ? [] : dataSearchGuru.length > 0 ? dataSearchGuru : data
-        }
+        dataTable={dataGuru && dataGuru.length > 0 ? dataGuru : []}
       />
     </div>
   );

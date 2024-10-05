@@ -7,6 +7,11 @@ import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
+export function isNumeric(input) {
+  const regex = /^[0-9]+$/;
+  return regex.test(String(input)); //
+}
+
 export const exportToPDF = async (
   columnsTable,
   columnsData,

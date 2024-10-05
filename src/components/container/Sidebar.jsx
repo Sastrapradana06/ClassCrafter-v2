@@ -23,7 +23,6 @@ export default function Sidebar() {
   );
   const { data: user } = useUserLogin();
   const [dropdownStates, setDropdownStates] = useState({
-    Home: "hidden",
     Siswa: "hidden",
     Guru: "hidden",
     Setting: "hidden",
@@ -32,6 +31,8 @@ export default function Sidebar() {
   });
 
   const showDropdown = (nama) => {
+    console.log({ nama });
+
     setDropdownStates((prev) => ({
       ...prev,
       [nama]: prev[nama] === "hidden" ? "block" : "hidden",
@@ -42,25 +43,14 @@ export default function Sidebar() {
     {
       nama_link: "Home",
       icons: <TiHome size={20} />,
-      parent_link: [
-        {
-          nama_link: "Dashboard",
-          url: "/dashboard",
-        },
-      ],
+      url: "/dashboard",
+      parent_link: [],
     },
     {
       nama_link: "Siswa",
       icons: <PiStudentFill size={20} />,
+      url: "/siswa",
       parent_link: [
-        {
-          nama_link: "Daftar Siswa",
-          url: "/siswa",
-        },
-        {
-          nama_link: "Detail Siswa",
-          url: "/detail-siswa",
-        },
         ...(user &&
         (user.jabatan === "ketua kelas" || user.jabatan === "sekretaris")
           ? [
@@ -70,16 +60,17 @@ export default function Sidebar() {
               },
             ]
           : []),
+        {
+          nama_link: "Detail Siswa",
+          url: "/detail-siswa",
+        },
       ],
     },
     {
       nama_link: "Guru",
       icons: <FaChalkboardTeacher size={20} />,
+      url: "/guru",
       parent_link: [
-        {
-          nama_link: "Daftar Guru",
-          url: "/guru",
-        },
         ...(user &&
         (user.jabatan === "ketua kelas" || user.jabatan === "sekretaris")
           ? [
@@ -94,11 +85,8 @@ export default function Sidebar() {
     {
       nama_link: "Mapel",
       icons: <FaBook size={20} />,
+      url: "/mapel",
       parent_link: [
-        {
-          nama_link: "Daftar Mapel",
-          url: "/mapel",
-        },
         ...(user &&
         (user.jabatan === "ketua kelas" || user.jabatan === "sekretaris")
           ? [
@@ -113,11 +101,8 @@ export default function Sidebar() {
     {
       nama_link: "Transaksi",
       icons: <RiMoneyDollarCircleFill size={20} />,
+      url: "/kas",
       parent_link: [
-        {
-          nama_link: "Uang Kas",
-          url: "/kas",
-        },
         ...(user &&
         (user.jabatan === "ketua kelas" || user.jabatan === "bendahara")
           ? [
@@ -132,11 +117,8 @@ export default function Sidebar() {
     {
       nama_link: "Setting",
       icons: <RiLockPasswordLine size={20} />,
+      url: "/edit-profile",
       parent_link: [
-        {
-          nama_link: "Edit Profile",
-          url: "/edit-profile",
-        },
         {
           nama_link: "Ganti Password",
           url: "/ganti-password",
@@ -161,19 +143,27 @@ export default function Sidebar() {
         {listLink.map((item, i) => {
           return (
             <div className="w-full flex-col  " key={i}>
-              <div
-                className="flex items-center w-[95%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2  lg:w-[80%]"
-                onClick={() => showDropdown(item.nama_link)}
-              >
-                <div className="flex gap-4 items-center">
+              <div className="flex items-center w-[95%] ml-2  gap-1 justify-between text-[.9rem] lg:text-[1rem] rounded-md cursor-pointer hover:bg-[#ede9f13f] py-2  lg:w-[80%]">
+                <div
+                  className="flex gap-4 items-center"
+                  onClick={() => {
+                    navigate(item.url);
+                    setSidebar();
+                  }}
+                >
                   {item.icons}
                   <p className="font-semibold mt-1">{item.nama_link}</p>
                 </div>
-                <div className="">
-                  <button className="ml-[30px] group">
-                    <IoIosArrowDown size={16} />
-                  </button>
-                </div>
+                {item.parent_link.length > 0 && (
+                  <div className="">
+                    <button
+                      className="ml-[30px] group"
+                      onClick={() => showDropdown(item.nama_link, item.url)}
+                    >
+                      <IoIosArrowDown size={16} />
+                    </button>
+                  </div>
+                )}
               </div>
               <div
                 className={`${

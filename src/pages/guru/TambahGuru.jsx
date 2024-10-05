@@ -12,6 +12,7 @@ import { useInvalidate } from "../../services/useCustomQuery";
 import Alert from "../../components/alert/alert";
 import useHandleAlert from "../../hooks/useHandleAlert";
 import { getGuruById } from "../../utils/api";
+import { isNumeric } from "../../utils/function";
 
 export default function TambahGuru() {
   const {
@@ -22,8 +23,8 @@ export default function TambahGuru() {
   } = useHandleInput({
     name: "",
     jekel: "laki-laki",
-    mapel: "",
-    jadwal: "",
+    email: "",
+    notel: "",
   });
 
   const { invalidateListQuery } = useInvalidate();
@@ -45,14 +46,20 @@ export default function TambahGuru() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isNumeric(dataGuru.notel)) {
+      handleAlert("info", "Nomor telepon hanya boleh angka");
+      return;
+    }
     const newDataGuru = dataGuru;
-    console.log({ newDataGuru });
     if (dataGuru.id) {
       updateGuru.mutate(newDataGuru, {
         onSuccess: () => {
+          handleAlert("success", "Berhasil mengubah guru");
           invalidateListQuery("dataGuru");
           clearInput();
-          navigate("/guru");
+          setTimeout(() => {
+            navigate("/guru");
+          }, 1500);
         },
         onError: (error) => {
           console.log({ error });
@@ -62,9 +69,12 @@ export default function TambahGuru() {
     } else {
       mutate(newDataGuru, {
         onSuccess: () => {
+          handleAlert("success", "Berhasil menambahkan data guru");
           invalidateListQuery("dataGuru");
           clearInput();
-          navigate("/guru");
+          setTimeout(() => {
+            navigate("/guru");
+          }, 1500);
         },
         onError: (error) => {
           console.log({ error });
@@ -118,44 +128,6 @@ export default function TambahGuru() {
                 />
               </div>
               <div className="w-full flex flex-col gap-2 text-[.9rem]">
-                <label htmlFor="mapel">
-                  Mata Pelajaran <span className="text-[crimson]">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="mapel"
-                  required
-                  value={dataGuru.mapel}
-                  onChange={handleChange}
-                  placeholder="Bahasa Indonesia"
-                  className="w-full border p-3 outline-[#4D44B5] rounded-lg"
-                />
-              </div>
-
-              <div className="w-full flex flex-col gap-2 text-[.9rem]">
-                <div className="w-full flex flex-col gap-2 text-[.9rem]">
-                  <label htmlFor="hari">
-                    Hari <span className="text-[crimson]">*</span>
-                  </label>
-                  <select
-                    name="jadwal"
-                    required
-                    value={dataGuru.jadwal}
-                    onChange={handleChange}
-                    className="w-full border p-3 outline-[#4D44B5] rounded-lg"
-                  >
-                    <option value="none">Pilih Hari</option>
-                    <option value="senin">Senin</option>
-                    <option value="selasa">Selasa</option>
-                    <option value="rabu">Rabu</option>
-                    <option value="kamis">Kamis</option>
-                    <option value="jumat">Jumat</option>
-                    <option value="sabtu">Sabtu</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="w-full flex flex-col gap-2 text-[.9rem]">
                 <label htmlFor="jekel">
                   Jenis Kelamin <span className="text-[crimson]">*</span>
                 </label>
@@ -173,6 +145,35 @@ export default function TambahGuru() {
                   <option value="perempuan">Perempuan</option>
                 </select>
               </div>
+              <div className="w-full flex flex-col gap-2 text-[.9rem]">
+                <label htmlFor="email">
+                  Email<span className="text-[crimson] ml-1">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={dataGuru.email}
+                  onChange={handleChange}
+                  placeholder="JUkzP@example.com"
+                  className="w-full border p-3 outline-[#4D44B5] rounded-lg"
+                />
+              </div>
+              <div className="w-full flex flex-col gap-2 text-[.9rem]">
+                <label htmlFor="notel">
+                  Nomor Telepon/Wa<span className="text-[crimson] ml-1">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="notel"
+                  required
+                  value={dataGuru.notel}
+                  onChange={handleChange}
+                  placeholder="08xxxxxxxxxx"
+                  className="w-full border p-3 outline-[#4D44B5] rounded-lg"
+                />
+              </div>
+
               <div className="w-full">
                 {id ? (
                   <>
