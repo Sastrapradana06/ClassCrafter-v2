@@ -9,7 +9,7 @@ import { RiLockPasswordLine, RiMoneyDollarCircleFill } from "react-icons/ri";
 import { FaBook } from "react-icons/fa6";
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useShallow } from "zustand/react/shallow";
 import useAppStore from "../../store/store";
@@ -17,6 +17,7 @@ import { useUserLogin } from "../../services/useCustomQuery";
 // eslint-disable-next-line react/prop-types
 export default function Sidebar() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [sidebar, setSidebar] = useAppStore(
     useShallow((state) => [state.sidebar, state.setSidebar])
@@ -31,8 +32,6 @@ export default function Sidebar() {
   });
 
   const showDropdown = (nama) => {
-    console.log({ nama });
-
     setDropdownStates((prev) => ({
       ...prev,
       [nama]: prev[nama] === "hidden" ? "block" : "hidden",
@@ -56,13 +55,13 @@ export default function Sidebar() {
           ? [
               {
                 nama_link: "Tambah Siswa",
-                url: "/tambah-siswa",
+                url: "/siswa/tambah-siswa",
               },
             ]
           : []),
         {
           nama_link: "Detail Siswa",
-          url: "/detail-siswa",
+          url: "/siswa/detail-siswa",
         },
       ],
     },
@@ -76,7 +75,7 @@ export default function Sidebar() {
           ? [
               {
                 nama_link: "Tambah Guru",
-                url: "/tambah-guru",
+                url: "/guru/tambah-guru",
               },
             ]
           : []),
@@ -92,7 +91,7 @@ export default function Sidebar() {
           ? [
               {
                 nama_link: "Tambah Mapel",
-                url: "/tambah-mapel",
+                url: "/mapel/tambah-mapel",
               },
             ]
           : []),
@@ -108,7 +107,7 @@ export default function Sidebar() {
           ? [
               {
                 nama_link: "Buat Transaksi",
-                url: "/buat-transaksi",
+                url: "/kas/buat-transaksi",
               },
             ]
           : []),
@@ -117,11 +116,11 @@ export default function Sidebar() {
     {
       nama_link: "Setting",
       icons: <RiLockPasswordLine size={20} />,
-      url: "/edit-profile",
+      url: "/setting",
       parent_link: [
         {
           nama_link: "Ganti Password",
-          url: "/ganti-password",
+          url: "/setting/ganti-password",
         },
       ],
     },
@@ -152,7 +151,15 @@ export default function Sidebar() {
                   }}
                 >
                   {item.icons}
-                  <p className="font-semibold mt-1">{item.nama_link}</p>
+                  <p
+                    className={`font-semibold mt-1 ${
+                      pathname.includes(item.url)
+                        ? "text-white"
+                        : "text-[#BDB9E3]"
+                    }`}
+                  >
+                    {item.nama_link}
+                  </p>
                 </div>
                 {item.parent_link.length > 0 && (
                   <div className="">

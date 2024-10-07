@@ -47,10 +47,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route path="/guru" element={<Guru />} />
               <Route path="/mapel" element={<Mapel />} />
               <Route path="/kas" element={<UangKas />} />
-              <Route path="/ganti-password" element={<GantiPassword />} />
-              <Route path="/edit-profile" element={<EditProfile />} />
-              <Route path="/detail-siswa" element={<DetailSiswa />} />
-              <Route path="/detail-siswa/:id" element={<DetailSiswa />} />
+              <Route path="/setting" element={<EditProfile />} />
+              <Route
+                path="/setting/ganti-password"
+                element={<GantiPassword />}
+              />
+              <Route path="/siswa/detail-siswa" element={<DetailSiswa />} />
+              <Route path="/siswa/detail-siswa/:id" element={<DetailSiswa />} />
             </Route>
 
             <Route
@@ -58,12 +61,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <PrivateRoute allowedJabatan={["ketua kelas", "sekretaris"]} />
               }
             >
-              <Route path="/tambah-siswa" element={<TambahSiswa />} />
-              <Route path="/tambah-guru" element={<TambahGuru />} />
-              <Route path="/edit-guru/:id" element={<TambahGuru />} />
+              <Route path="/siswa/tambah-siswa" element={<TambahSiswa />} />
+              <Route path="/guru/tambah-guru" element={<TambahGuru />} />
+              <Route path="/guru/edit-guru/:id" element={<TambahGuru />} />
 
-              <Route path="/tambah-mapel" element={<TambahMapel />} />
-              <Route path="/edit-mapel/:id" element={<TambahMapel />} />
+              <Route path="/mapel/tambah-mapel" element={<TambahMapel />} />
+              <Route path="/mapel/edit-mapel/:id" element={<TambahMapel />} />
             </Route>
 
             <Route
@@ -71,8 +74,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <PrivateRoute allowedJabatan={["ketua kelas", "bendahara"]} />
               }
             >
-              <Route path="/buat-transaksi" element={<BuatTransaksi />} />
-              <Route path="/edit-transaksi/:id" element={<BuatTransaksi />} />
+              <Route path="/kas/buat-transaksi" element={<BuatTransaksi />} />
+              <Route
+                path="/kas/edit-transaksi/:id"
+                element={<BuatTransaksi />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>
