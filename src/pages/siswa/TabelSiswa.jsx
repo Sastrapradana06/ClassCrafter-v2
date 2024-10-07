@@ -16,13 +16,14 @@ import { useInvalidate, useUserLogin } from "../../services/useCustomQuery";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
 import InputCheckbox from "../../components/checkbox/InputCheckbox";
+import Loading from "../../components/loading/Loading";
 export default function TabelSiswa() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
   const [dataSiswa, setDataSiswa] = useState([]);
 
-  const { data } = useDataSiswa();
+  const { data, isFetching } = useDataSiswa();
   const { isPending, mutate } = useDeleteSiswa();
   const { invalidateListQuery } = useInvalidate();
   const navigate = useNavigate();
@@ -36,9 +37,12 @@ export default function TabelSiswa() {
 
   const cariSiswa = (input) => {
     if (data) {
-      const dataSiswa = data.filter((siswa) =>
-        siswa.name.toLowerCase().includes(input.toLowerCase())
-      );
+      const dataSiswa = data.filter((siswa) => {
+        const nama = siswa.name.toLowerCase().includes(input.toLowerCase());
+        const jekel = siswa.jekel.toLowerCase() == input.toLowerCase();
+
+        return nama || jekel;
+      });
       if (dataSiswa.length > 0) {
         setDataSiswa(dataSiswa);
       } else {
@@ -83,9 +87,9 @@ export default function TabelSiswa() {
 
   const handleNavigateDetail = (id) => {
     if (id == user.id) {
-      navigate("/detail-siswa");
+      navigate("/siswa/detail-siswa");
     } else {
-      navigate(`/detail-siswa/${id}`);
+      navigate(`/siswa/detail-siswa/${id}`);
     }
   };
 
@@ -219,16 +223,19 @@ export default function TabelSiswa() {
 
   return (
     <div className="pb-[21%] lg:pb-[10%]">
-      {isModal ? (
-        <ModalDelete
-          modalData={{
-            delete: deleteSiswa,
-            close: removeModal,
-            data: nameDelete,
-            loading: isPending,
-          }}
-        />
-      ) : null}
+      <>
+        {isModal ? (
+          <ModalDelete
+            modalData={{
+              delete: deleteSiswa,
+              close: removeModal,
+              data: nameDelete,
+              loading: isPending,
+            }}
+          />
+        ) : null}
+        {isFetching && <Loading />}
+      </>
       <Alert
         status={status}
         type={dataAlert.type}

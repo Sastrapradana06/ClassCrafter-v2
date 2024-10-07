@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
 import ModalDelete from "../../components/modal-delete/ModalDelete";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDataKas, useDeleteKas } from "../../services/useKasQuery";
 import Alert from "../../components/alert/alert";
 import useHandleAlert from "../../hooks/useHandleAlert";
@@ -15,23 +15,44 @@ import { formatIndonesianDate } from "../../utils/function";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
 import InputCheckbox from "../../components/checkbox/InputCheckbox";
+import Loading from "../../components/loading/Loading";
 
 export default function TabelKas() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
-
-  const [dataSearchKas, isDelete] = useAppStore(
-    useShallow((state) => [state.dataSearchKas, state.isDelete])
-  );
+  const [dataKas, setDataKas] = useState([]);
 
   const { invalidateListQuery } = useInvalidate();
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { data, isFetching } = useDataKas();
   const { mutate, isPending } = useDeleteKas();
   const { data: user } = useUserLogin();
-
   const navigate = useNavigate();
+
+  const [isDelete] = useAppStore(useShallow((state) => [state.isDelete]));
+
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
+
+  const cariKas = (input) => {
+    if (data) {
+      const dataKas = data.filter((kas) => {
+        const byStatus = kas.status == input.toLowerCase();
+        const byUser = kas.user == input.toLowerCase();
+        const byTanggal = formatIndonesianDate(kas.tgl_transaksi)
+          .toLowerCase()
+          .includes(input.toLowerCase());
+
+        return byStatus || byUser || byTanggal;
+      });
+      if (dataKas.length > 0) {
+        setDataKas(dataKas);
+      } else {
+        handleAlert("info", "Data Kas tidak ditemukan");
+      }
+    }
+  };
 
   const deleteKas = async () => {
     mutate(idDelete, {
@@ -119,7 +140,9 @@ export default function TabelKas() {
                       <button
                         className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
                         title="edit"
-                        onClick={() => navigate(`/edit-transaksi/${row.id}`)}
+                        onClick={() =>
+                          navigate(`/kas/edit-transaksi/${row.id}`)
+                        }
                       >
                         <LuPencilLine size={20} />
                       </button>
@@ -154,8 +177,24 @@ export default function TabelKas() {
     "Aksi",
   ];
 
+  useEffect(() => {
+    if (query) {
+      cariKas(query);
+    } else {
+      setDataKas(data);
+    }
+  }, [query, data]);
+
   return (
     <div className="pb-[21%] lg:pb-[10%]">
+      <>
+        <Alert
+          status={status}
+          type={dataAlert.type}
+          message={dataAlert.message}
+        />
+        {isFetching && <Loading />}
+      </>
       {isModal ? (
         <ModalDelete
           modalData={{
@@ -166,20 +205,13 @@ export default function TabelKas() {
           }}
         />
       ) : null}
-      <Alert
-        status={status}
-        type={dataAlert.type}
-        message={dataAlert.message}
-      />
       <TableKas
         columns={
           user?.jabatan == "ketua kelas" || user?.jabatan == "bendahara"
             ? columns
             : columns.slice(0, 6)
         }
-        dataTable={
-          isFetching ? [] : dataSearchKas.length > 0 ? dataSearchKas : data
-        }
+        dataTable={dataKas && dataKas.length > 0 ? dataKas : []}
       />
     </div>
   );

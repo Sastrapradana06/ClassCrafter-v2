@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { LuPencilLine } from "react-icons/lu";
 import { MdDeleteSweep } from "react-icons/md";
@@ -15,23 +15,40 @@ import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
 import { dayColors } from "../../utils/function";
 import InputCheckbox from "../../components/checkbox/InputCheckbox";
+import Loading from "../../components/loading/Loading";
 
 export default function TabelMapel() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
   const [nameDelete, setNameDelete] = useState(undefined);
-  const navigate = useNavigate();
-
-  const { data: user } = useUserLogin();
-
-  const [dataSearchMapel, isDelete] = useAppStore(
-    useShallow((state) => [state.dataSearchMapel, state.isDelete])
-  );
+  const [dataMapel, setDataMapel] = useState([]);
 
   const { data, isFetching } = useDataMapel();
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
   const { mutate, isPending } = useDeleteMapel();
   const { invalidateListQuery } = useInvalidate();
+
+  const navigate = useNavigate();
+
+  const { data: user } = useUserLogin();
+
+  const [isDelete] = useAppStore(useShallow((state) => [state.isDelete]));
+
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
+
+  const cariMapel = (input) => {
+    if (data) {
+      const dataMapel = data.filter((mapel) =>
+        mapel.mapel.toLowerCase().includes(input.toLowerCase())
+      );
+      if (dataMapel.length > 0) {
+        setDataMapel(dataMapel);
+      } else {
+        handleAlert("info", "Mata pelajaran tidak ditemukan");
+      }
+    }
+  };
 
   const deleteMapel = async () => {
     mutate(idDelete, {
@@ -58,6 +75,14 @@ export default function TabelMapel() {
     setIdDelete(id);
     setNameDelete(namaGuru);
   };
+
+  useEffect(() => {
+    if (query) {
+      cariMapel(query);
+    } else {
+      setDataMapel(data);
+    }
+  }, [query, data]);
 
   const TableMapel = ({ columns, dataTable }) => {
     return (
@@ -109,7 +134,7 @@ export default function TabelMapel() {
                     <div className="flex gap-2 text-white">
                       <button
                         className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
-                        onClick={() => navigate(`/edit-mapel/${row.id}`)}
+                        onClick={() => navigate(`/mapel/edit-mapel/${row.id}`)}
                         title="edit"
                       >
                         <LuPencilLine size={20} />
@@ -145,17 +170,20 @@ export default function TabelMapel() {
 
   return (
     <div className="pb-[21%] lg:pb-[10%]">
-      {isModal ? (
-        <ModalDelete
-          modalData={{
-            delete: deleteMapel,
-            close: removeModal,
-            data: nameDelete,
-            loading: isPending,
-          }}
-          setIsModal={setIsModal}
-        />
-      ) : null}
+      <>
+        {isModal ? (
+          <ModalDelete
+            modalData={{
+              delete: deleteMapel,
+              close: removeModal,
+              data: nameDelete,
+              loading: isPending,
+            }}
+            setIsModal={setIsModal}
+          />
+        ) : null}
+        {isFetching && <Loading />}
+      </>
       <Alert
         status={status}
         type={dataAlert.type}
@@ -167,9 +195,7 @@ export default function TabelMapel() {
             ? columns
             : columns.slice(0, 6)
         }
-        dataTable={
-          isFetching ? [] : dataSearchMapel.length ? dataSearchMapel : data
-        }
+        dataTable={dataMapel && dataMapel.length > 0 ? dataMapel : []}
       />
     </div>
   );

@@ -15,6 +15,7 @@ import Alert from "../../components/alert/alert";
 import useAppStore from "../../store/store";
 import { useShallow } from "zustand/react/shallow";
 import InputCheckbox from "../../components/checkbox/InputCheckbox";
+import Loading from "../../components/loading/Loading";
 export default function TabelGuru() {
   const [isModal, setIsModal] = useState(false);
   const [idDelete, setIdDelete] = useState(undefined);
@@ -22,7 +23,7 @@ export default function TabelGuru() {
   const [dataGuru, setDataGuru] = useState([]);
 
   const { status, data: dataAlert, handleAlert } = useHandleAlert();
-  const { data } = useDataGuru();
+  const { data, isFetching } = useDataGuru();
   const { mutate, isPending } = useDeleteGuruQuery();
   const { invalidateListQuery } = useInvalidate();
   const { data: user } = useUserLogin();
@@ -136,7 +137,7 @@ export default function TabelGuru() {
                     <div className="flex gap-2 text-white">
                       <button
                         className="bg-sky-400 py-1 px-4 rounded-md hover:bg-sky-500"
-                        onClick={() => navigate(`/edit-guru/${row.id}`)}
+                        onClick={() => navigate(`/guru/edit-guru/${row.id}`)}
                         title="edit"
                       >
                         <LuPencilLine size={20} />
@@ -180,16 +181,19 @@ export default function TabelGuru() {
 
   return (
     <div className="pb-[21%] lg:pb-[10%]">
-      {isModal ? (
-        <ModalDelete
-          modalData={{
-            delete: deleteGuru,
-            close: removeModal,
-            data: nameDelete,
-            loading: isPending,
-          }}
-        />
-      ) : null}
+      <>
+        {isModal ? (
+          <ModalDelete
+            modalData={{
+              delete: deleteGuru,
+              close: removeModal,
+              data: nameDelete,
+              loading: isPending,
+            }}
+          />
+        ) : null}
+        {isFetching && <Loading />}
+      </>
       <Alert
         status={status}
         type={dataAlert.type}

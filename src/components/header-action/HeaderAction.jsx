@@ -140,8 +140,8 @@ export default function HeaderAction({
                     }
                   : () => {
                       page != "kas"
-                        ? navigate(`/tambah-${page}`)
-                        : navigate(`/buat-transaksi`);
+                        ? navigate(`/${page}/tambah-${page}`)
+                        : navigate(`/kas/buat-transaksi`);
                     }
               }
             >
