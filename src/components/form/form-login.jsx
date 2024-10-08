@@ -23,7 +23,7 @@ export default function FormLogin({ handleLogin }) {
       onSubmit={(values) => handleLogin(values.email, values.password)}
     >
       {({ values, errors, touched, handleChange, handleBlur }) => (
-        <Form className=" mt-3 w-[85%] lg:w-[90%]">
+        <Form className=" mt-3 w-full lg:w-[90%] ">
           <div className="mb-5">
             <label
               htmlFor="email"
@@ -69,9 +69,9 @@ export default function FormLogin({ handleLogin }) {
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <BsEmojiHeartEyesFill className="text-violet-500" size={20} />
+                  <BsEmojiHeartEyesFill className="text-red-400" size={20} />
                 ) : (
-                  <PiSmileyXEyesFill size={23} className="text-violet-500" />
+                  <PiSmileyXEyesFill size={23} className="text-red-400" />
                 )}
               </div>
               {errors.password && touched.password && (
@@ -84,9 +84,9 @@ export default function FormLogin({ handleLogin }) {
 
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 mt-5 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center "
+            className="w-full py-3 bg-blue-500 hover:bg-blue-600 rounded-lg mt-6 font-semibold tracking-[1px]"
           >
-            Masuk
+            Submit
           </button>
         </Form>
       )}
