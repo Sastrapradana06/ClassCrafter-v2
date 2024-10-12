@@ -23,6 +23,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
 import PrivateRoute from "./middleware/PrivateRoute.jsx";
 
+import Notifikasi from "./pages/notifikasi/Index.jsx";
+import AddNotif from "./pages/notifikasi/Add-Notif.jsx";
+
 export const store = createStore({
   authName: "_auth",
   authType: "cookie",
@@ -67,6 +70,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
               <Route path="/mapel/tambah-mapel" element={<TambahMapel />} />
               <Route path="/mapel/edit-mapel/:id" element={<TambahMapel />} />
+
+              <Route path="/notifikasi" element={<Notifikasi />} />
+              <Route
+                path="/notifikasi/buat-notifikasi"
+                element={<AddNotif />}
+              />
             </Route>
 
             <Route

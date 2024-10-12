@@ -73,7 +73,7 @@ function App() {
             <h1 className="text-[1.3rem] text-black mb-1 font-semibold tracking-[2px] text-center">
               Login Siswa
             </h1>
-            <p className="text-gray-500 text-[.9rem] w-[400px] text-center">
+            <p className="text-gray-500 text-[.9rem] w-[300px] lg:w-[400px] text-center">
               Masuk ke akun anda, dengan mengisi email dan password
             </p>
           </div>

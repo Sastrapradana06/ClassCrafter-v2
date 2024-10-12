@@ -7,6 +7,7 @@ import { TiHome } from "react-icons/ti";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { RiLockPasswordLine, RiMoneyDollarCircleFill } from "react-icons/ri";
 import { FaBook } from "react-icons/fa6";
+import { MdNotificationsActive } from "react-icons/md";
 
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -98,6 +99,17 @@ export default function Sidebar() {
       ],
     },
     {
+      nama_link: "Notifikasi",
+      icons: <MdNotificationsActive size={20} />,
+      url: "/notifikasi",
+      parent_link: [
+        {
+          nama_link: "Buat Notifikasi",
+          url: "/notifikasi/buat-notifikasi",
+        },
+      ],
+    },
+    {
       nama_link: "Transaksi",
       icons: <RiMoneyDollarCircleFill size={20} />,
       url: "/kas",
@@ -125,7 +137,6 @@ export default function Sidebar() {
       ],
     },
   ];
-
   return (
     <nav
       className={`top-[50px] h-[100vh] fixed w-[60%] lg:top-0 lg:h-[100vh] lg:w-[20%] p-4 bg-[#4D44B5] text-[#BDB9E3] flex flex-col gap-3 z-10  lg:translate-x-0 transition-transform duration-300 ${
