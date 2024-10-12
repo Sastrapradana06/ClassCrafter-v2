@@ -1,7 +1,6 @@
 import { getToken } from "./function";
 
-const url = "http://localhost:3000";
-// const url = "https://api-classcrafter-vfwt.onrender.com";
+const url = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // + FILE
 export async function uploadFile(data) {
