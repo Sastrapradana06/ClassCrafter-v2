@@ -1,6 +1,27 @@
 import { getToken } from "./function";
 
-const url = import.meta.env.VITE_API_URL || "http://localhost:3000";
+// const url = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const url = "http://localhost:3000";
+
+// + NOTIF
+export async function sendNotif(data) {
+  console.log({ data }, ";dari api");
+
+  const response = await fetch(`${url}/notif/send-notif`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  const res = await response.json();
+  if (res.status) {
+    return res;
+  } else {
+    throw res;
+  }
+}
 
 // + FILE
 export async function uploadFile(data) {
