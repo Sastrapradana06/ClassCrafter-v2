@@ -102,12 +102,7 @@ export default function Sidebar() {
       nama_link: "Notifikasi",
       icons: <MdNotificationsActive size={20} />,
       url: "/notifikasi",
-      parent_link: [
-        {
-          nama_link: "Buat Notifikasi",
-          url: "/notifikasi/buat-notifikasi",
-        },
-      ],
+      parent_link: [],
     },
     {
       nama_link: "Transaksi",
@@ -186,7 +181,7 @@ export default function Sidebar() {
               <div
                 className={`${
                   dropdownStates[item.nama_link]
-                } pl-8 text-[.8rem] pt-2 flex flex-col gap-3  lg:text-[.9rem]`}
+                } pl-8 text-[.8rem] flex flex-col gap-3  lg:text-[.9rem]`}
               >
                 {item.parent_link.map((items, index) => {
                   return (

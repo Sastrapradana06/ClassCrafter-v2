@@ -79,9 +79,9 @@ export default function TabelSiswa() {
 
   const handleNavigateEdit = (id) => {
     if (id == user.id) {
-      navigate("/edit-profile");
+      navigate("/setting");
     } else {
-      navigate(`/edit-siswa/${id}`);
+      navigate(`/siswa/edit-siswa/${id}`);
     }
   };
 
