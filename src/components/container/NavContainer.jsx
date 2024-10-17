@@ -87,7 +87,7 @@ export default function NavContainer() {
             >
               <IoLogOutOutline className="size-6 lg:size-8" />
             </button>
-            <button onClick={() => navigate("/detail-siswa")}>
+            <button onClick={() => navigate("/siswa/detail-siswa")}>
               {user ? (
                 <img
                   src={

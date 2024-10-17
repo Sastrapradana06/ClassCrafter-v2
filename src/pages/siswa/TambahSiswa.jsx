@@ -137,7 +137,8 @@ export default function TambahSiswa() {
                   value={data.email}
                   onChange={handleChange}
                   placeholder="halo@example.com"
-                  className="w-full border p-3 outline-[#4D44B5] rounded-lg"
+                  disabled={id}
+                  className={`w-full border p-3 outline-[#4D44B5] rounded-lg disabled:cursor-not-allowed disabled:bg-gray-200`}
                 />
               </div>
               <div className="w-full flex flex-col gap-2 text-[.9rem]">

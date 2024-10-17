@@ -2,11 +2,44 @@
 import { useEffect, useState } from "react";
 import { useDataMapel } from "../../services/useMapelQuery";
 import { getDate, getToday } from "../../utils/function";
+import useAppStore from "../../store/store";
+import { useShallow } from "zustand/react/shallow";
 
 export default function TabelAcara() {
-  const dateNow = getDate();
   const [data, setData] = useState([]);
+  const [isHariLibur, setIsHariLibur] = useState(false);
+  const [keteranganLibur, setKeteranganLibur] = useState("");
+
+  const dateNow = getDate();
   const { data: dataMapel } = useDataMapel();
+
+  const [nationalHolidays] = useAppStore(
+    useShallow((state) => [state.nationalHolidays])
+  );
+
+  const getHariLibur = () => {
+    const today = new Date();
+    const todayFormatted = today.toISOString().split("T")[0];
+    const hariIni = today.getDay();
+
+    console.log({
+      todayFormatted,
+      hariIni,
+    });
+
+    if (hariIni !== 0) {
+      const libur = nationalHolidays.find(
+        (libur) => libur.tanggal === todayFormatted
+      );
+
+      if (libur) {
+        setIsHariLibur(true);
+        setKeteranganLibur(libur.keterangan);
+      }
+    }
+  };
+
+  console.log({ isHariLibur, keteranganLibur });
 
   const getDataMapel = () => {
     if (dataMapel) {
@@ -93,7 +126,19 @@ export default function TabelAcara() {
               ))}
             </tr>
           </thead>
-          {dataTable.length == 0 ? (
+          {isHariLibur ? (
+            <tbody>
+              <tr>
+                <td
+                  colSpan={5}
+                  className="px-6 py-4 font-medium text-amber-500 lg:text-center  whitespace-nowrap bg-gray-600 text-center"
+                >
+                  Hari libur nasional,{" "}
+                  <span className="text-red-500">{keteranganLibur}</span>
+                </td>
+              </tr>
+            </tbody>
+          ) : dataTable.length == 0 ? (
             <tbody>
               <tr>
                 <td
@@ -159,13 +204,18 @@ export default function TabelAcara() {
 
   useEffect(() => {
     getDataMapel();
+    getHariLibur();
   }, [dataMapel]);
 
   return (
     <div>
       <div className="p-2 w-full h-max ">
         <p className="text-[1.1rem] font-bold text-gray-600">Jadwal Hari Ini</p>
-        <p className="text-[.9rem] text-red-600 font-semibold">
+        <p
+          className={`text-[.9rem]  font-semibold ${
+            isHariLibur ? "text-red-500 animate-pulse" : "text-green-500"
+          }`}
+        >
           {dateNow.day}, <span>{dateNow.date}</span>
         </p>
       </div>

@@ -1,3 +1,4 @@
+import { IoIosSend } from "react-icons/io";
 import Alert from "../../components/alert/alert";
 import Container from "../../components/container/Container";
 import Loading from "../../components/loading/Loading";
@@ -101,10 +102,11 @@ export default function Notifikasi() {
               </div>
               <div className="w-full">
                 <button
-                  className="py-[6px] px-4 text-[.8rem] bg-[#4D44B5] text-white rounded-lg hover:bg-[#383085]"
+                  className="py-[8px] px-5 text-[.9rem] bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 hover:shadow-lg flex items-center gap-1 tracking-[1px]"
                   type="submit"
                 >
-                  Simpan
+                  <IoIosSend size={20} color="white" />
+                  Kirim
                 </button>
               </div>
             </div>

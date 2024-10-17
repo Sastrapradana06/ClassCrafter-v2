@@ -1,6 +1,6 @@
 import { getToken } from "./function";
 
-const url = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const url = import.meta.env.VITE_API_URL;
 // const url = "http://localhost:3000";
 
 // + NOTIF

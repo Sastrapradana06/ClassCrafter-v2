@@ -47,6 +47,12 @@ export default function Sidebar() {
       parent_link: [],
     },
     {
+      nama_link: "Notifikasi",
+      icons: <MdNotificationsActive size={20} />,
+      url: "/notifikasi",
+      parent_link: [],
+    },
+    {
       nama_link: "Siswa",
       icons: <PiStudentFill size={20} />,
       url: "/siswa",
@@ -97,12 +103,6 @@ export default function Sidebar() {
             ]
           : []),
       ],
-    },
-    {
-      nama_link: "Notifikasi",
-      icons: <MdNotificationsActive size={20} />,
-      url: "/notifikasi",
-      parent_link: [],
     },
     {
       nama_link: "Transaksi",
